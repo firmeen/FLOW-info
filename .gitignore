@@ -306,7 +306,7 @@ $RECYCLE.BIN/
 # Custom rules (everything added below won't be overriden by 'Generate .gitignore File' if you use 'Update' option)
 
 .hintrc
-FM/
+# FM/
 FN/
 Git/
 Hybrid_Flood_AI/
@@ -326,7 +326,7 @@ chromedriver.exe
 company-linkage-viewer/
 config.py
 dhipaya-ai-team-git-policy-summary.md
-egp/
+# egp/
 firecrawl/
 flood.py
 flood.zip
@@ -339,7 +339,7 @@ jsPDF/
 latest_images/
 login/
 main.py
-main/
+# main/
 map-linkage/
 next-demo/
 oracle_cloud/
