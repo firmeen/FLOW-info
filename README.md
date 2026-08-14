@@ -49,6 +49,22 @@ src/
 
 The default architecture keeps pages and layouts as Server Components. Client Components are introduced only where interaction or Motion requires browser-side JavaScript.
 
+## Brand assets
+
+The current FLOW asset set is stored under `public/assets/`:
+
+- `flow-logo.png`
+- `flow-wordmark.png`
+- `flow-compact.png`
+- `flow-dark.png`
+- `flow-icon.png`
+- `flow-icon-dark.png`
+- `flow-favicon.png`
+- `flow-og.png`
+- `foodflow-menu-sprite.png`
+
+The Phase 1 shared layout intentionally uses a small wordmark adapter instead of coupling navigation structure to a raster canvas. The committed brand assets are preserved as the source set for later page composition, social previews, and product presentation. A transparent/vector web master can replace the adapter later without changing the navigation architecture.
+
 ## Development
 
 ```bash
@@ -94,5 +110,3 @@ The public website follows the FLOW identity:
 - large typography and whitespace
 - business-first product communication
 - controlled motion that explains flow rather than decorating every element
-
-The final FLOW image/vector asset pack should live under a dedicated brand asset path when committed. Until then, layout components use a text wordmark adapter so the final asset can be swapped in without changing navigation or footer architecture.
