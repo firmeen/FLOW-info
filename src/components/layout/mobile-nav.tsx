@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { RiMenuLine } from "@remixicon/react";
 
+import { FlowBrand } from "@/components/brand/flow-brand";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -34,12 +35,16 @@ export function MobileNav() {
         </SheetTrigger>
         <SheetContent
           side="right"
-          className="w-full max-w-none border-l border-border bg-background p-0 sm:max-w-[30rem]"
+          className="w-full max-w-none border-l border-border bg-[#f8f8f8] p-0 sm:max-w-[30rem]"
         >
-          <SheetHeader className="border-b border-border px-6 py-5 pr-16 text-left">
-            <SheetTitle className="text-sm font-semibold tracking-[-0.03em]">
-              FLOW
-            </SheetTitle>
+          <SheetHeader className="flex min-h-[72px] justify-center border-b border-border px-6 py-4 pr-16 text-left">
+            <FlowBrand
+              variant="compact"
+              decorative
+              loading="eager"
+              className="w-[7.35rem]"
+            />
+            <SheetTitle className="sr-only">FLOW navigation</SheetTitle>
             <SheetDescription className="sr-only">
               Main navigation for the FLOW representation website.
             </SheetDescription>
