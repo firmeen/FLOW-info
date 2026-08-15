@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { brand } from "@/content/brand";
+import { flowBrandAssets } from "@/lib/brand-assets";
 
 const defaultSiteUrl = "https://firmeen.github.io/FLOW-info";
 
@@ -17,7 +18,8 @@ export function absoluteSiteUrl(path: string) {
 }
 
 const defaultTitle = `${brand.platform} — ${brand.tagline}`;
-const socialImage = absoluteSiteUrl("assets/flow-og.png");
+const socialAsset = flowBrandAssets.og;
+const socialImage = absoluteSiteUrl(socialAsset.path);
 
 export const rootMetadata: Metadata = {
   metadataBase: siteUrl,
@@ -41,6 +43,8 @@ export const rootMetadata: Metadata = {
     images: [
       {
         url: socialImage,
+        width: socialAsset.width,
+        height: socialAsset.height,
         alt: `${brand.platform} — ${brand.tagline}`,
       },
     ],
@@ -79,6 +83,8 @@ export function createPageMetadata({
       images: [
         {
           url: socialImage,
+          width: socialAsset.width,
+          height: socialAsset.height,
           alt: `${brand.platform} — ${brand.tagline}`,
         },
       ],
