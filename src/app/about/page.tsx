@@ -89,7 +89,7 @@ export default function AboutPage() {
       <Section tone="dark">
         <Container>
           <SectionHeading
-            tone="dark"
+            inverse
             eyebrow={aboutStory.direction.eyebrow}
             title={aboutStory.direction.title}
             description={aboutStory.direction.description}
