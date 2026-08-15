@@ -1,7 +1,13 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
+import {
+  motion,
+  type MotionValue,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+} from "motion/react";
 
 import { Container } from "@/components/primitives/container";
 import { cn } from "@/lib/utils";
@@ -15,7 +21,7 @@ function StoryNode({
   eyebrow: string;
   title: string;
   className?: string;
-  opacity: number | ReturnType<typeof useTransform>;
+  opacity: number | MotionValue<number>;
 }) {
   return (
     <motion.div
@@ -48,7 +54,7 @@ export function FlowStory() {
   const data = useTransform(scrollYProgress, [0.68, 0.84], [0.18, 1]);
   const dashboard = useTransform(scrollYProgress, [0.84, 1], [0.18, 1]);
 
-  const visible = (value: ReturnType<typeof useTransform>) =>
+  const visible = (value: MotionValue<number>): number | MotionValue<number> =>
     reduceMotion ? 1 : value;
 
   return (
