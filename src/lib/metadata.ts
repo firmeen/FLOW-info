@@ -8,7 +8,7 @@ export const siteUrl = new URL(
   process.env.NEXT_PUBLIC_SITE_URL ?? defaultSiteUrl,
 );
 
-function absoluteSiteUrl(path: string) {
+export function absoluteSiteUrl(path: string) {
   const base = siteUrl.toString().endsWith("/")
     ? siteUrl.toString()
     : `${siteUrl.toString()}/`;
@@ -16,21 +16,40 @@ function absoluteSiteUrl(path: string) {
   return new URL(path.replace(/^\//, ""), base).toString();
 }
 
+const defaultTitle = `${brand.platform} — ${brand.tagline}`;
+const socialImage = absoluteSiteUrl("assets/flow-og.png");
+
 export const rootMetadata: Metadata = {
   metadataBase: siteUrl,
   title: {
-    default: `${brand.platform} — ${brand.tagline}`,
+    default: defaultTitle,
     template: `%s | ${brand.platform}`,
   },
   description: brand.description,
   applicationName: brand.platform,
   creator: brand.company,
   publisher: brand.company,
+  alternates: {
+    canonical: absoluteSiteUrl("/"),
+  },
   openGraph: {
     type: "website",
+    url: absoluteSiteUrl("/"),
     siteName: brand.platform,
-    title: `${brand.platform} — ${brand.tagline}`,
+    title: defaultTitle,
     description: brand.description,
+    images: [
+      {
+        url: socialImage,
+        alt: `${brand.platform} — ${brand.tagline}`,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: defaultTitle,
+    description: brand.description,
+    images: [socialImage],
   },
 };
 
@@ -43,6 +62,8 @@ export function createPageMetadata({
   description: string;
   path: string;
 }): Metadata {
+  const socialTitle = `${title} | ${brand.platform}`;
+
   return {
     title,
     description,
@@ -50,11 +71,23 @@ export function createPageMetadata({
       canonical: absoluteSiteUrl(path),
     },
     openGraph: {
-      title,
+      title: socialTitle,
       description,
       url: absoluteSiteUrl(path),
       type: "website",
       siteName: brand.platform,
+      images: [
+        {
+          url: socialImage,
+          alt: `${brand.platform} — ${brand.tagline}`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: socialTitle,
+      description,
+      images: [socialImage],
     },
   };
 }

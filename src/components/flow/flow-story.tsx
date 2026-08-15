@@ -61,9 +61,17 @@ export function FlowStory() {
     <section
       ref={sectionRef}
       aria-labelledby="flow-story-title"
-      className="relative min-h-[180svh] bg-foreground text-background"
+      className={cn(
+        "relative bg-foreground text-background",
+        reduceMotion ? "py-24 sm:py-32" : "min-h-[180svh]",
+      )}
     >
-      <div className="sticky top-[72px] flex min-h-[calc(100svh-72px)] items-center overflow-hidden py-10 sm:py-14">
+      <div
+        className={cn(
+          "flex items-center overflow-hidden py-10 sm:py-14",
+          reduceMotion ? "min-h-0" : "sticky top-[72px] min-h-[calc(100svh-72px)]",
+        )}
+      >
         <Container>
           <div className="mb-8 flex flex-col gap-3 sm:mb-10 lg:flex-row lg:items-end lg:justify-between">
             <div>
@@ -78,7 +86,9 @@ export function FlowStory() {
               </h2>
             </div>
             <p className="max-w-md text-sm leading-6 text-background/50">
-              Scroll to follow one action from customer intent to operational visibility.
+              {reduceMotion
+                ? "Follow one action from customer intent to operational visibility."
+                : "Scroll to follow one action from customer intent to operational visibility."}
             </p>
           </div>
 
