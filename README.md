@@ -39,7 +39,7 @@ The static export also includes `/sitemap.xml`, `/robots.txt`, the FLOW app icon
 src/
 ├── app/                 Route entry points, metadata routes, and page composition
 ├── components/
-│   ├── brand/           FLOW brand rendering adapters
+│   ├── brand/           FLOW brand system and responsive lockups
 │   ├── flow/            Workflow, architecture, and story components
 │   ├── layout/          Header, navigation, footer
 │   ├── motion/          Reusable motion behavior
@@ -48,26 +48,39 @@ src/
 │   ├── solutions/       Reusable solution-page system
 │   └── ui/              shadcn / Base UI components
 ├── content/             Brand, navigation, platform, company, and solution content
-└── lib/                 Shared utilities, metadata, and motion tokens
+└── lib/                 Shared utilities, metadata, motion tokens, and brand asset registry
 ```
 
 Pages and layouts remain Server Components by default. Client Components are limited to navigation interaction and Motion-driven storytelling where browser-side behavior is required.
 
 ## Brand assets
 
-The FLOW source asset set is stored under `public/assets/`:
+The original FLOW source asset set is preserved under `public/assets/`:
 
-- `flow-logo.png`
-- `flow-wordmark.png`
-- `flow-compact.png`
-- `flow-dark.png`
-- `flow-icon.png`
-- `flow-icon-dark.png`
-- `flow-favicon.png`
-- `flow-og.png`
-- `foodflow-menu-sprite.png`
+- `flow-logo.png` — primary full website logo
+- `flow-icon.png` — standalone FLOW symbol
+- `flow-compact.png` — compact brand lockup
+- `flow-dark.png` — reverse logo for dark surfaces
+- `flow-favicon.png` — browser/site identity source
+- `flow-wordmark.png` — FLOW wordmark only
+- `flow-icon-dark.png` — self-contained dark app/avatar icon
+- `flow-og.png` — social sharing cover
+- `foodflow-menu-sprite.png` — retained FoodFlow product source asset
 
-`flow-og.png` is used as the shared Open Graph / Twitter social preview image. The large FoodFlow sprite remains a retained source asset and is not loaded by the representation website until a verified product presentation requires it.
+The uploaded logo files are JPEG-encoded images even though their source filenames end in `.png`. To preserve the artwork byte-for-byte while serving the correct MIME type, `public/assets/web/` contains `.jpg` delivery aliases that point to the exact same Git blobs. The production brand components use those aliases; the original uploads remain untouched.
+
+`src/lib/brand-assets.ts` is the single registry for logo roles, native dimensions, audited outer-canvas crop values, and GitHub Pages-safe public asset paths. The crop values remove only the large source canvas whitespace at render time; the FLOW symbol and wordmark geometry are not redrawn, distorted, recolored, or filtered.
+
+Production placement rules:
+
+- Desktop / wide website header: primary `flow-logo` lockup
+- Constrained / mobile header and mobile navigation: `flow-compact`
+- Dark Home hero and footer: reverse `flow-dark`
+- Browser icon: official `flow-favicon` source through the App Router icon convention
+- Open Graph / Twitter preview: official `flow-og` artwork
+- `flow-icon`, `flow-wordmark`, and `flow-icon-dark` remain available for contexts that actually require those variants; they are not shown merely to use every asset
+
+The large FoodFlow sprite remains a retained source asset and is not loaded by the representation website until a verified product presentation requires it.
 
 The representation site does not invent product screenshots, customer metrics, testimonials, or product readiness claims. Product captures should only be presented after a verified asset has been selected for that surface.
 
@@ -136,8 +149,11 @@ The workflow runs:
 2. `npm run lint`
 3. `npm run typecheck`
 4. `npm run build`
-5. uploads `out/`
-6. deploys the Pages artifact when the event is not a pull request
+5. verifies the production logo paths and App Router icon in `out/`
+6. uploads `out/`
+7. deploys the Pages artifact when the event is not a pull request
+
+The build receives `NEXT_PUBLIC_BASE_PATH` from `actions/configure-pages`, so public brand image URLs resolve under the `/FLOW-info` project path in production while remaining root-relative during local development.
 
 ## Brand direction
 
@@ -148,3 +164,4 @@ The public website follows the FLOW identity:
 - large typography and whitespace
 - business-first product communication
 - controlled motion that explains flow rather than decorating every element
+- official FLOW lockups selected by surface contrast and available space
