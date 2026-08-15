@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { FlowBrand } from "@/components/brand/flow-brand";
 import { FadeIn } from "@/components/motion/fade-in";
 import { RevealText } from "@/components/motion/reveal-text";
 import { Container } from "@/components/primitives/container";
@@ -7,11 +8,22 @@ import { brand } from "@/content/brand";
 
 export function HomeHero() {
   return (
-    <section className="min-h-[calc(100svh-72px)] bg-foreground text-background">
+    <section className="min-h-[calc(100svh-72px)] bg-[#050507] text-background">
       <Container className="flex min-h-[calc(100svh-72px)] flex-col justify-between py-12 sm:py-16 lg:py-20">
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-background/50">
-          {brand.company} / {brand.platform} platform
-        </p>
+        <div className="flex flex-wrap items-center justify-between gap-5">
+          <FadeIn>
+            <FlowBrand
+              variant="reverse"
+              className="w-[8.5rem] sm:w-[9.75rem]"
+              alt="FLOW"
+              loading="eager"
+              fetchPriority="high"
+            />
+          </FadeIn>
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-background/45">
+            {brand.company} / SME operations platform
+          </p>
+        </div>
 
         <div className="max-w-6xl py-20">
           <h1 className="text-balance text-[clamp(3.5rem,9.5vw,8.6rem)] font-semibold leading-[0.88] tracking-[-0.075em]">

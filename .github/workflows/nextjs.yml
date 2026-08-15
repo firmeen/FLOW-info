@@ -46,6 +46,22 @@ jobs:
 
       - name: Build static export
         run: npm run build
+        env:
+          NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+
+      - name: Verify production brand asset paths
+        env:
+          PAGES_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+        run: |
+          test -f out/assets/web/flow-logo.jpg
+          test -f out/assets/web/flow-compact.jpg
+          test -f out/assets/web/flow-dark.jpg
+          test -f out/assets/web/flow-og.jpg
+          test -f out/icon.jpg
+          grep -Fq "${PAGES_BASE_PATH}/assets/web/flow-logo.jpg" out/index.html
+          grep -Fq "${PAGES_BASE_PATH}/assets/web/flow-compact.jpg" out/index.html
+          grep -Fq "${PAGES_BASE_PATH}/assets/web/flow-dark.jpg" out/index.html
+          grep -Fq "https://firmeen.github.io/FLOW-info/assets/web/flow-og.jpg" out/index.html
 
       - name: Upload Pages artifact
         if: github.event_name != 'pull_request'
