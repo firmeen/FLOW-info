@@ -17,7 +17,7 @@ This repository is intentionally separate from the operational FLOW application.
 - Remix Icon
 - GitHub Pages static export
 
-## Current route architecture
+## Route architecture
 
 ```text
 /
@@ -38,20 +38,21 @@ src/
 ├── app/                 Route entry points and metadata
 ├── components/
 │   ├── brand/           FLOW brand rendering adapters
+│   ├── flow/            Workflow, architecture, and story components
 │   ├── layout/          Header, navigation, footer
 │   ├── motion/          Reusable motion behavior
 │   ├── primitives/      Layout and typography primitives
 │   ├── sections/        Reusable website sections
 │   └── ui/              shadcn / Base UI components
-├── content/             Brand, navigation, page, and solution copy/data
+├── content/             Brand, navigation, page, platform, and solution content
 └── lib/                 Shared utilities, metadata, and motion tokens
 ```
 
-The default architecture keeps pages and layouts as Server Components. Client Components are introduced only where interaction or Motion requires browser-side JavaScript.
+Pages and layouts remain Server Components by default. Client Components are limited to navigation interaction and Motion-driven storytelling where browser-side behavior is required.
 
 ## Brand assets
 
-The current FLOW asset set is stored under `public/assets/`:
+The FLOW source asset set is stored under `public/assets/`:
 
 - `flow-logo.png`
 - `flow-wordmark.png`
@@ -63,7 +64,31 @@ The current FLOW asset set is stored under `public/assets/`:
 - `flow-og.png`
 - `foodflow-menu-sprite.png`
 
-The Phase 1 shared layout intentionally uses a small wordmark adapter instead of coupling navigation structure to a raster canvas. The committed brand assets are preserved as the source set for later page composition, social previews, and product presentation. A transparent/vector web master can replace the adapter later without changing the navigation architecture.
+The current representation site does not invent product screenshots or operational metrics. Product captures should only be presented after a verified asset has been selected for that surface.
+
+## Current implementation phases
+
+### Phase 1 — Foundation & System
+
+Completed foundation includes the design tokens, global layout, navigation, route shells, metadata helpers, static export, GitHub Pages CI, content separation, and reusable motion primitives.
+
+### Phase 2 — Core Story & Product Experience
+
+Current Phase 2 work adds:
+
+- complete Home storytelling flow
+- signature scroll-driven FLOW story
+- core capability presentation
+- FoodFlow / JobFlow / CareFlow overview
+- product-surface presentation without fake screenshots
+- animated workflow timeline with reduced-motion fallback
+- detailed Platform architecture and layers
+- deeper How FLOW Works journey
+- shared solution-core and operational comparison views
+
+### Phase 3 — Solution Ecosystem & Production Polish
+
+Reserved for the deeper FoodFlow, JobFlow, CareFlow page system, About, Contact completion, final social/contact data, SEO surface completion, performance/accessibility QA, and production polish.
 
 ## Development
 
