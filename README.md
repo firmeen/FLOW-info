@@ -1,36 +1,112 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# FLOW Official Representation Website
 
-## Getting Started
+Public representation website for **FLOW**, the SME operations platform being developed by **FIMIN FLOW**.
 
-First, run the development server:
+> **Systems that flow. Businesses that grow.**
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+This repository is intentionally separate from the operational FLOW application. It contains the public product/company website used to explain the platform, its business solutions, and the way FLOW connects customer actions with day-to-day operations and business information.
+
+## Stack
+
+- Next.js 16 / App Router
+- React 19
+- TypeScript
+- Tailwind CSS 4
+- shadcn + Base UI primitives
+- Motion
+- Remix Icon
+- GitHub Pages static export
+
+## Current route architecture
+
+```text
+/
+├── /platform
+├── /solutions
+│   ├── /foodflow
+│   ├── /jobflow
+│   └── /careflow
+├── /how-it-works
+├── /about
+└── /contact
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Project structure
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```text
+src/
+├── app/                 Route entry points and metadata
+├── components/
+│   ├── brand/           FLOW brand rendering adapters
+│   ├── layout/          Header, navigation, footer
+│   ├── motion/          Reusable motion behavior
+│   ├── primitives/      Layout and typography primitives
+│   ├── sections/        Reusable website sections
+│   └── ui/              shadcn / Base UI components
+├── content/             Brand, navigation, page, and solution copy/data
+└── lib/                 Shared utilities, metadata, and motion tokens
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The default architecture keeps pages and layouts as Server Components. Client Components are introduced only where interaction or Motion requires browser-side JavaScript.
 
-## Learn More
+## Brand assets
 
-To learn more about Next.js, take a look at the following resources:
+The current FLOW asset set is stored under `public/assets/`:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `flow-logo.png`
+- `flow-wordmark.png`
+- `flow-compact.png`
+- `flow-dark.png`
+- `flow-icon.png`
+- `flow-icon-dark.png`
+- `flow-favicon.png`
+- `flow-og.png`
+- `foodflow-menu-sprite.png`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The Phase 1 shared layout intentionally uses a small wordmark adapter instead of coupling navigation structure to a raster canvas. The committed brand assets are preserved as the source set for later page composition, social previews, and product presentation. A transparent/vector web master can replace the adapter later without changing the navigation architecture.
 
-## Deploy on Vercel
+## Development
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npm ci
+npm run dev
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Validation:
+
+```bash
+npm run lint
+npm run typecheck
+npm run build
+```
+
+Or run all checks:
+
+```bash
+npm run check
+```
+
+`next.config.ts` uses `output: "export"`, so successful production builds generate the static website in `out/`.
+
+## Deployment
+
+`.github/workflows/nextjs.yml` validates pull requests and deploys `main` to GitHub Pages.
+
+The workflow runs:
+
+1. `npm ci`
+2. `npm run lint`
+3. `npm run typecheck`
+4. `npm run build`
+5. uploads `out/`
+6. deploys the Pages artifact when the event is not a pull request
+
+## Brand direction
+
+The public website follows the FLOW identity:
+
+- monochrome / near-black / zinc / off-white
+- minimal geometric composition
+- large typography and whitespace
+- business-first product communication
+- controlled motion that explains flow rather than decorating every element

@@ -1,69 +1,100 @@
-import Image from "next/image";
+import Link from "next/link";
+
+import { FadeIn } from "@/components/motion/fade-in";
+import { RevealText } from "@/components/motion/reveal-text";
+import { Container } from "@/components/primitives/container";
+import { Section } from "@/components/primitives/section";
+import { SectionHeading } from "@/components/primitives/section-heading";
+import { brand } from "@/content/brand";
+
+const foundationLinks = [
+  {
+    title: "Platform",
+    href: "/platform",
+    description: "Understand the shared operational foundation behind FLOW.",
+  },
+  {
+    title: "Solutions",
+    href: "/solutions",
+    description: "See how FoodFlow, JobFlow, and CareFlow adapt the core platform.",
+  },
+  {
+    title: "How FLOW Works",
+    href: "/how-it-works",
+    description: "Follow the movement from customer action to useful business data.",
+  },
+] as const;
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <>
+      <section className="min-h-[calc(100svh-72px)] bg-foreground text-background">
+        <Container className="flex min-h-[calc(100svh-72px)] flex-col justify-between py-12 sm:py-16 lg:py-20">
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-background/50">
+            {brand.company} / {brand.platform} platform
           </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+
+          <div className="max-w-5xl py-20">
+            <h1 className="text-balance text-[clamp(3.4rem,9vw,8rem)] font-semibold leading-[0.9] tracking-[-0.07em]">
+              <RevealText>Systems that flow.</RevealText>
+              <RevealText delay={0.08}>Businesses that grow.</RevealText>
+            </h1>
+            <FadeIn delay={0.18} className="mt-10 max-w-2xl">
+              <p className="text-base leading-7 text-background/65 sm:text-xl sm:leading-8">
+                {brand.description}
+              </p>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Link
+                  href="/platform"
+                  className="inline-flex min-h-11 items-center justify-center rounded-full bg-background px-5 text-sm font-medium text-foreground transition-opacity hover:opacity-85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-background"
+                >
+                  Explore Platform
+                </Link>
+                <Link
+                  href="/solutions"
+                  className="inline-flex min-h-11 items-center justify-center rounded-full border border-background/25 px-5 text-sm font-medium text-background transition-colors hover:border-background/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-background"
+                >
+                  View Solutions →
+                </Link>
+              </div>
+            </FadeIn>
+          </div>
+
+          <p className="text-xs uppercase tracking-[0.16em] text-background/40">
+            Scroll to explore
+          </p>
+        </Container>
+      </section>
+
+      <Section>
+        <Container>
+          <SectionHeading
+            eyebrow="FLOW FOUNDATION"
+            title="Your business has a flow."
+            description="Every customer action starts something — an order, a booking, a job, or a payment. FLOW is designed to connect what happens next through one operational foundation."
+          />
+
+          <div className="mt-12 grid gap-px overflow-hidden rounded-2xl border border-border bg-border lg:grid-cols-3">
+            {foundationLinks.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="group bg-background p-7 transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring sm:p-8"
+              >
+                <h2 className="text-xl font-medium tracking-[-0.035em]">
+                  {item.title}
+                </h2>
+                <p className="mt-3 text-sm leading-6 text-muted-foreground">
+                  {item.description}
+                </p>
+                <span className="mt-8 inline-block text-sm font-medium transition-transform duration-200 group-hover:translate-x-1">
+                  Explore →
+                </span>
+              </Link>
+            ))}
+          </div>
+        </Container>
+      </Section>
+    </>
   );
 }
