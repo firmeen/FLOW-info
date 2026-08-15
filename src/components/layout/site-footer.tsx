@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { RiGithubLine } from "@remixicon/react";
 
-import { FlowWordmark } from "@/components/brand/flow-wordmark";
+import { FlowBrand } from "@/components/brand/flow-brand";
 import { Container } from "@/components/primitives/container";
 import { brand } from "@/content/brand";
 import { footerNavigation } from "@/content/navigation";
@@ -14,12 +14,16 @@ const footerGroups = [
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-white/10 bg-foreground text-background">
+    <footer className="border-t border-white/10 bg-[#050507] text-background">
       <Container className="py-16 sm:py-20">
         <div className="grid gap-12 lg:grid-cols-[1.2fr_2fr] lg:gap-20">
           <div>
-            <FlowWordmark className="text-background" />
-            <p className="mt-5 max-w-xs text-sm leading-6 text-background/60">
+            <FlowBrand
+              variant="reverse"
+              className="w-[9rem] sm:w-[10rem]"
+              alt="FLOW"
+            />
+            <p className="mt-6 max-w-xs text-sm leading-6 text-background/60">
               {brand.tagline}
             </p>
           </div>
