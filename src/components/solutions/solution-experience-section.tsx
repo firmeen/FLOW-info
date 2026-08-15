@@ -8,7 +8,7 @@ export function SolutionExperienceSection({ experiences }: { experiences: readon
     <Section tone="dark">
       <Container>
         <SectionHeading
-          tone="dark"
+          inverse
           eyebrow="ONE FLOW / THREE VIEWS"
           title="The same operation looks different to each person involved."
           description="The product experience should preserve one connected workflow while giving customers, staff, and owners the context appropriate to their role."
