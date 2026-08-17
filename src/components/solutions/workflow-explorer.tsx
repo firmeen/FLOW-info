@@ -4,7 +4,8 @@ import { useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 
 import { Badge } from "@/components/ui/badge";
-import type { SolutionWorkflowStage } from "@/content/solutions";
+import type { SiteCopy } from "@/i18n/copy";
+import type { SolutionWorkflowStage } from "@/i18n/schema";
 import { flowEase, motionDuration } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
@@ -12,11 +13,13 @@ export function WorkflowExplorer({
   stages,
   solutionName,
   audience,
+  copy,
   compact = false,
 }: {
   stages: readonly SolutionWorkflowStage[];
   solutionName: string;
   audience?: string;
+  copy: SiteCopy["solutionDetail"]["workflow"];
   compact?: boolean;
 }) {
   const [activeKey, setActiveKey] = useState(stages[0]?.key ?? "");
@@ -45,7 +48,7 @@ export function WorkflowExplorer({
       <div className="border-b border-border px-5 py-5 sm:px-7">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">{solutionName} / OPERATING PATTERN</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">{solutionName} / {copy.operatingPattern}</p>
             {audience ? <p className="mt-2 text-sm text-muted-foreground">{audience}</p> : null}
           </div>
           <Badge variant="outline">{activeIndex + 1} / {stages.length}</Badge>
@@ -55,7 +58,7 @@ export function WorkflowExplorer({
       <div className="relative border-b border-border">
         <div
           className="overflow-x-auto overscroll-x-contain px-4 py-4 [scrollbar-width:none] sm:px-6 [&::-webkit-scrollbar]:hidden"
-          aria-label={`${solutionName} workflow stages`}
+          aria-label={`${solutionName} ${copy.stagesAriaSuffix}`}
         >
           <div className="relative flex min-w-max snap-x snap-mandatory items-center gap-2 scroll-px-4">
             <div className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-border" aria-hidden="true" />
@@ -104,20 +107,20 @@ export function WorkflowExplorer({
           className="grid gap-7 p-5 sm:p-7 lg:grid-cols-12"
         >
           <div className="lg:col-span-7">
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">ACTIVE STEP / {active.actor}</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">{copy.activeStep} / {active.actor}</p>
             <h3 className="mt-4 text-2xl font-bold tracking-[-0.045em] sm:text-3xl">{active.label}</h3>
             <p className="mt-4 text-lg font-semibold tracking-[-0.025em]">{active.purpose}</p>
             <p className="mt-4 max-w-2xl text-sm leading-7 text-muted-foreground sm:text-base">{active.operation}</p>
           </div>
           <div className="lg:col-span-4 lg:col-start-9">
-            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">FLOW CORE IN THIS STEP</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">{copy.coreInStep}</p>
             <div className="mt-4 flex flex-wrap gap-2">
               {active.sharedCore.map((item) => <Badge key={item} variant="outline">{item}</Badge>)}
             </div>
             <div className="mt-6 rounded-xl bg-muted/50 p-4">
-              <p className="text-xs uppercase tracking-[0.14em] text-muted-foreground">NEXT</p>
+              <p className="text-xs uppercase tracking-[0.14em] text-muted-foreground">{copy.next}</p>
               <p className="mt-2 text-sm font-semibold">
-                {stages[activeIndex + 1]?.label ?? "Business visibility"}
+                {stages[activeIndex + 1]?.label ?? copy.fallbackNext}
               </p>
             </div>
           </div>
@@ -131,7 +134,7 @@ export function WorkflowExplorer({
           onClick={() => selectStage(activeIndex - 1)}
           className="min-h-11 rounded-full border border-border px-4 text-sm font-semibold disabled:opacity-35"
         >
-          ← Previous
+          {copy.previous}
         </button>
         <button
           type="button"
@@ -139,7 +142,7 @@ export function WorkflowExplorer({
           onClick={() => selectStage(activeIndex + 1)}
           className="min-h-11 rounded-full border border-border px-4 text-sm font-semibold disabled:opacity-35"
         >
-          Next →
+          {copy.nextButton}
         </button>
       </div>
     </div>

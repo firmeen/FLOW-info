@@ -49,7 +49,7 @@ jobs:
         env:
           NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
 
-      - name: Verify production brand asset paths
+      - name: Verify production brand and localized routes
         env:
           PAGES_BASE_PATH: ${{ steps.pages.outputs.base_path }}
         run: |
@@ -62,6 +62,22 @@ jobs:
           grep -Fq "${PAGES_BASE_PATH}/assets/web/flow-compact.jpg" out/index.html
           grep -Fq "${PAGES_BASE_PATH}/assets/web/flow-dark.jpg" out/index.html
           grep -Fq "https://firmeen.github.io/FLOW-info/assets/web/flow-og.jpg" out/index.html
+
+          test -f out/th/index.html
+          test -f out/th/platform/index.html
+          test -f out/th/solutions/index.html
+          test -f out/th/solutions/foodflow/index.html
+          test -f out/th/solutions/jobflow/index.html
+          test -f out/th/solutions/careflow/index.html
+          test -f out/th/how-it-works/index.html
+          test -f out/th/about/index.html
+          test -f out/th/contact/index.html
+
+          grep -Fq 'lang="en"' out/index.html
+          grep -Fq 'lang="th"' out/th/index.html
+          grep -Fq 'hreflang="th"' out/index.html
+          grep -Fq 'hreflang="en"' out/th/index.html
+          grep -Fq 'https://firmeen.github.io/FLOW-info/th' out/sitemap.xml
 
       - name: Upload Pages artifact
         if: github.event_name != 'pull_request'

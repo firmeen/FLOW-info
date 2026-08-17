@@ -10,6 +10,7 @@ import {
 } from "motion/react";
 
 import { Container } from "@/components/primitives/container";
+import type { SiteCopy } from "@/i18n/copy";
 import { cn } from "@/lib/utils";
 
 function StoryNode({
@@ -39,7 +40,7 @@ function StoryNode({
   );
 }
 
-export function FlowStory() {
+export function FlowStory({ copy }: { copy: SiteCopy["home"]["flowStory"] }) {
   const sectionRef = useRef<HTMLElement | null>(null);
   const reduceMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({
@@ -56,6 +57,12 @@ export function FlowStory() {
 
   const visible = (value: MotionValue<number>): number | MotionValue<number> =>
     reduceMotion ? 1 : value;
+
+  const operationNodes = [
+    [copy.operate, copy.staff],
+    [copy.complete, copy.payment],
+    [copy.record, copy.customerRecord],
+  ] as const;
 
   return (
     <section
@@ -78,17 +85,17 @@ export function FlowStory() {
           <div className="mb-8 flex flex-col gap-3 sm:mb-10 lg:flex-row lg:items-end lg:justify-between">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-background/45">
-                SIGNATURE FLOW STORY
+                {copy.eyebrow}
               </p>
               <h2
                 id="flow-story-title"
                 className="mt-3 max-w-3xl text-balance text-3xl font-semibold tracking-[-0.05em] sm:text-4xl lg:text-5xl"
               >
-                See the work move through the system.
+                {copy.title}
               </h2>
             </div>
             <p className="max-w-md text-sm leading-6 text-background/50">
-              Follow one action from customer intent to operational visibility.
+              {copy.description}
             </p>
           </div>
 
@@ -101,27 +108,23 @@ export function FlowStory() {
             </div>
 
             <div className="relative grid gap-4 sm:gap-5">
-              <StoryNode eyebrow="CUSTOMER" title="A customer enters" opacity={visible(customer)} className="mx-auto w-full max-w-[260px]" />
-              <StoryNode eyebrow="CUSTOMER ACTION" title="Order · Book · Queue · Request" opacity={visible(action)} className="mx-auto w-full max-w-[360px]" />
+              <StoryNode eyebrow={copy.customer} title={copy.customerTitle} opacity={visible(customer)} className="mx-auto w-full max-w-[260px]" />
+              <StoryNode eyebrow={copy.customerAction} title={copy.customerActionTitle} opacity={visible(action)} className="mx-auto w-full max-w-[360px]" />
               <motion.div
                 style={{ opacity: visible(core) }}
                 className="relative z-10 mx-auto w-full max-w-[430px] rounded-[1.75rem] border border-background/45 bg-background px-6 py-6 text-center text-foreground sm:py-8"
               >
-                <p className="text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-foreground/45">CORE</p>
+                <p className="text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-foreground/45">{copy.core}</p>
                 <p className="mt-2 text-2xl font-semibold tracking-[-0.05em] sm:text-3xl">FLOW</p>
-                <p className="mt-2 text-xs text-foreground/55 sm:text-sm">Route the action into the right workflow.</p>
+                <p className="mt-2 text-xs text-foreground/55 sm:text-sm">{copy.coreDescription}</p>
               </motion.div>
 
               <motion.div
                 style={{ opacity: visible(operation) }}
                 className="relative z-10 mx-auto grid w-full max-w-[430px] gap-3 sm:max-w-none sm:grid-cols-3 sm:gap-4"
               >
-                {[
-                  ["OPERATE", "Staff"],
-                  ["COMPLETE", "Payment"],
-                  ["RECORD", "Customer"],
-                ].map(([eyebrow, title], index) => (
-                  <div key={title} className="relative rounded-2xl border border-background/20 bg-foreground px-4 py-4 text-center sm:px-4 sm:py-5">
+                {operationNodes.map(([eyebrow, title], index) => (
+                  <div key={`${eyebrow}-${title}`} className="relative rounded-2xl border border-background/20 bg-foreground px-4 py-4 text-center sm:px-4 sm:py-5">
                     <p className="text-[0.6rem] font-semibold uppercase tracking-[0.12em] text-background/35 sm:text-[0.65rem]">{eyebrow}</p>
                     <p className="mt-2 text-sm font-medium sm:text-base">{title}</p>
                     {index < 2 ? (
@@ -131,8 +134,8 @@ export function FlowStory() {
                 ))}
               </motion.div>
 
-              <StoryNode eyebrow="BUSINESS DATA" title="Operational activity stays connected" opacity={visible(data)} className="mx-auto w-full max-w-[360px]" />
-              <StoryNode eyebrow="BUSINESS VISIBILITY" title="Dashboard · Reports · Decisions" opacity={visible(dashboard)} className="mx-auto w-full max-w-[400px]" />
+              <StoryNode eyebrow={copy.businessData} title={copy.businessDataTitle} opacity={visible(data)} className="mx-auto w-full max-w-[360px]" />
+              <StoryNode eyebrow={copy.businessVisibility} title={copy.businessVisibilityTitle} opacity={visible(dashboard)} className="mx-auto w-full max-w-[400px]" />
             </div>
           </div>
         </Container>

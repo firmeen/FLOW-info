@@ -8,11 +8,12 @@ import { EmphasisText } from "@/components/primitives/emphasis-text";
 import { Section } from "@/components/primitives/section";
 import { SectionHeading } from "@/components/primitives/section-heading";
 import { Badge } from "@/components/ui/badge";
-import type { SolutionDefinition } from "@/content/solutions";
+import type { SiteCopy } from "@/i18n/copy";
+import type { SolutionDefinition } from "@/i18n/schema";
 import { flowEase, motionDuration } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
-export function SolutionCapabilitiesSection({ solution }: { solution: SolutionDefinition }) {
+export function SolutionCapabilitiesSection({ solution, copy }: { solution: SolutionDefinition; copy: SiteCopy["solutionDetail"]["capabilities"] }) {
   const [activeStageKey, setActiveStageKey] = useState(solution.workflowStages[0]?.key ?? "");
   const reduceMotion = useReducedMotion();
   const visibleCapabilities = useMemo(
@@ -25,14 +26,14 @@ export function SolutionCapabilitiesSection({ solution }: { solution: SolutionDe
     <Section>
       <Container>
         <SectionHeading
-          eyebrow="CORE CAPABILITIES"
-          title={<>Capabilities mapped to <EmphasisText tone="outcome">where the work happens.</EmphasisText></>}
-          description="Instead of presenting a disconnected feature wall, this view shows which FLOW capabilities support each stage of the operating journey."
+          eyebrow={copy.eyebrow}
+          title={<>{copy.titleLead}<EmphasisText tone="outcome">{copy.titleOutcome}</EmphasisText></>}
+          description={copy.description}
         />
 
         <div className="mt-14 grid gap-5 lg:grid-cols-12">
           <div className="rounded-[1.75rem] border border-border bg-muted/35 p-5 lg:col-span-4">
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">SELECT WORKFLOW STAGE</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">{copy.selectStage}</p>
             <div className="-mx-1 mt-5 flex gap-2 overflow-x-auto overscroll-x-contain px-1 pb-2 [scrollbar-width:none] lg:mx-0 lg:grid lg:overflow-visible lg:px-0 lg:pb-0 [&::-webkit-scrollbar]:hidden">
               {solution.workflowStages.map((stage, index) => {
                 const selected = stage.key === activeStageKey;
@@ -60,7 +61,7 @@ export function SolutionCapabilitiesSection({ solution }: { solution: SolutionDe
               <div className="rounded-[1.75rem] border border-border p-5 sm:p-7">
                 <div className="flex flex-wrap items-start justify-between gap-5 border-b border-border pb-6">
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">ACTIVE STAGE / {activeStage.actor}</p>
+                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">{copy.activeStage} / {activeStage.actor}</p>
                     <h3 className="mt-3 text-3xl font-bold tracking-[-0.05em]">{activeStage.label}</h3>
                   </div>
                   <div className="flex flex-wrap gap-2">
@@ -83,7 +84,7 @@ export function SolutionCapabilitiesSection({ solution }: { solution: SolutionDe
                     </motion.article>
                   )) : (
                     <div className="rounded-xl border border-dashed border-border p-5 text-sm leading-6 text-muted-foreground sm:col-span-2">
-                      This stage relies primarily on shared FLOW core context rather than a solution-specific capability block.
+                      {copy.noSpecificCapability}
                     </div>
                   )}
                 </div>

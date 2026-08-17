@@ -15,10 +15,11 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
-import type { ContactChannel } from "@/content/contact";
+import type { SiteCopy } from "@/i18n/copy";
+import type { ContactChannel } from "@/i18n/schema";
 import { flowEase, motionDuration } from "@/lib/motion";
 
-export function ContactChannels({ channels }: { channels: readonly ContactChannel[] }) {
+export function ContactChannels({ channels, copy }: { channels: readonly ContactChannel[]; copy: SiteCopy["contact"] }) {
   const [copied, setCopied] = useState<string | null>(null);
   const reduceMotion = useReducedMotion();
 
@@ -28,7 +29,7 @@ export function ContactChannels({ channels }: { channels: readonly ContactChanne
     return () => window.clearTimeout(timeout);
   }, [copied]);
 
-  const copy = async (channel: ContactChannel) => {
+  const copyValue = async (channel: ContactChannel) => {
     if (!channel.copyValue) return;
     try {
       await navigator.clipboard.writeText(channel.copyValue);
@@ -76,7 +77,7 @@ export function ContactChannels({ channels }: { channels: readonly ContactChanne
                   </Button>
                 ) : null}
                 {channel.copyValue ? (
-                  <Button type="button" variant="ghost" size="sm" className="min-h-11 px-4" onClick={() => copy(channel)} aria-live="polite">
+                  <Button type="button" variant="ghost" size="sm" className="min-h-11 px-4" onClick={() => copyValue(channel)} aria-live="polite">
                     <AnimatePresence mode="wait" initial={false}>
                       <motion.span
                         key={isCopied ? "copied" : "copy"}
@@ -87,7 +88,7 @@ export function ContactChannels({ channels }: { channels: readonly ContactChanne
                         className="inline-flex items-center gap-1.5"
                       >
                         {isCopied ? <RiCheckLine /> : <RiFileCopyLine />}
-                        {isCopied ? "Copied" : channel.href ? "Copy" : channel.action}
+                        {isCopied ? copy.copied : channel.href ? copy.copy : channel.action}
                       </motion.span>
                     </AnimatePresence>
                   </Button>

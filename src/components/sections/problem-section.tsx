@@ -1,27 +1,35 @@
 import { ProblemExperience } from "@/components/home/problem-experience";
-import { EmphasisText } from "@/components/primitives/emphasis-text";
 import { Container } from "@/components/primitives/container";
+import { EmphasisText } from "@/components/primitives/emphasis-text";
 import { Section } from "@/components/primitives/section";
 import { SectionHeading } from "@/components/primitives/section-heading";
+import type { SiteCopy } from "@/i18n/copy";
+import type { ProblemGroup } from "@/i18n/schema";
 
-export function ProblemSection() {
+export function ProblemSection({
+  groups,
+  copy,
+}: {
+  groups: readonly ProblemGroup[];
+  copy: SiteCopy["home"]["problem"];
+}) {
   return (
     <Section tone="muted">
       <Container>
         <SectionHeading
-          eyebrow="THE PROBLEM"
+          eyebrow={copy.eyebrow}
           title={
             <>
-              Business operations shouldn’t feel <EmphasisText>disconnected.</EmphasisText>
+              {copy.titleLead}<EmphasisText>{copy.titleEmphasis}</EmphasisText>
             </>
           }
           description={
             <p>
-              Customers, staff, and owners often experience the same business through different tools and fragments of information. The real cost is the <EmphasisText className="font-semibold">context lost between actions.</EmphasisText>
+              {copy.descriptionLead}<EmphasisText className="font-semibold">{copy.descriptionEmphasis}</EmphasisText>
             </p>
           }
         />
-        <ProblemExperience />
+        <ProblemExperience groups={groups} copy={copy} />
       </Container>
     </Section>
   );

@@ -4,22 +4,29 @@ import { motion, useReducedMotion } from "motion/react";
 
 import { StaggerGroup, StaggerItem } from "@/components/motion/stagger-group";
 import { Badge } from "@/components/ui/badge";
-import { problemGroups } from "@/content/home";
+import type { SiteCopy } from "@/i18n/copy";
+import type { ProblemGroup } from "@/i18n/schema";
 import { flowEase, motionDuration } from "@/lib/motion";
 
-export function ProblemExperience() {
+export function ProblemExperience({
+  groups,
+  copy,
+}: {
+  groups: readonly ProblemGroup[];
+  copy: SiteCopy["home"]["problem"];
+}) {
   const reduceMotion = useReducedMotion();
 
   return (
     <div className="relative mt-14 overflow-hidden rounded-[2rem] border border-border bg-background p-5 sm:p-8 lg:p-10">
       <StaggerGroup className="relative z-10 grid gap-0 lg:grid-cols-3 lg:gap-5" stagger={0.1}>
-        {problemGroups.map((group, groupIndex) => (
+        {groups.map((group, groupIndex) => (
           <StaggerItem key={group.label}>
             <div className="h-full rounded-2xl border border-border bg-background/95 p-6 sm:p-7">
               <div className="flex items-center justify-between gap-4">
                 <Badge variant="outline">{group.label}</Badge>
                 <span className="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-                  Separate view
+                  {copy.separateView}
                 </span>
               </div>
               <ul className="mt-8 grid gap-3">
@@ -38,11 +45,11 @@ export function ProblemExperience() {
                 ))}
               </ul>
             </div>
-            {groupIndex < problemGroups.length - 1 ? (
+            {groupIndex < groups.length - 1 ? (
               <div className="flex h-16 flex-col items-center justify-center lg:hidden" aria-hidden="true">
                 <BrokenSignalVertical delay={0.08 + groupIndex * 0.14} />
                 <span className="mt-1 text-[0.6rem] font-semibold uppercase tracking-[0.15em] text-muted-foreground">
-                  context stops
+                  {copy.contextStops}
                 </span>
               </div>
             ) : null}
@@ -52,9 +59,9 @@ export function ProblemExperience() {
 
       <div className="relative z-10 mt-8 hidden items-center gap-5 lg:grid lg:grid-cols-[1fr_auto_1fr_auto_1fr]" aria-hidden="true">
         <BrokenSignal delay={0.05} />
-        <span className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">context stops</span>
+        <span className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">{copy.contextStops}</span>
         <BrokenSignal delay={0.18} />
-        <span className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">context stops</span>
+        <span className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">{copy.contextStops}</span>
         <BrokenSignal delay={0.31} />
       </div>
 
@@ -65,9 +72,9 @@ export function ProblemExperience() {
         transition={{ duration: motionDuration.reveal, delay: 0.24, ease: flowEase }}
         className="relative z-10 mt-8 flex flex-col gap-4 border-t border-border pt-6 sm:mt-10 sm:flex-row sm:items-center sm:justify-between"
       >
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">THE GAP</p>
+        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">{copy.gap}</p>
         <p className="max-w-2xl text-balance text-xl font-semibold tracking-[-0.035em] sm:text-2xl">
-          The problem is not a lack of software. It is the context lost between the work.
+          {copy.gapStatement}
         </p>
       </motion.div>
     </div>

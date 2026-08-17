@@ -95,6 +95,23 @@
     text-rendering: optimizeLegibility;
   }
 
+  html[lang="th"] {
+    line-break: loose;
+  }
+
+  html[lang="th"] body {
+    word-break: normal;
+    overflow-wrap: break-word;
+  }
+
+  html[lang="th"] .uppercase {
+    text-transform: none;
+  }
+
+  html[lang="th"] [class*="tracking-"] {
+    letter-spacing: 0 !important;
+  }
+
   ::selection {
     background: var(--foreground);
     color: var(--background);

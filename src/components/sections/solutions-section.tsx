@@ -3,25 +3,40 @@ import { Container } from "@/components/primitives/container";
 import { EmphasisText } from "@/components/primitives/emphasis-text";
 import { Section } from "@/components/primitives/section";
 import { SectionHeading } from "@/components/primitives/section-heading";
+import type { Locale } from "@/i18n/config";
+import type { SiteCopy } from "@/i18n/copy";
+import type { SolutionsContent } from "@/i18n/schema";
 
-export function SolutionsSection({ compact = false }: { compact?: boolean }) {
+export function SolutionsSection({
+  locale,
+  solutions,
+  copy,
+  workflowCopy,
+  compact = false,
+}: {
+  locale: Locale;
+  solutions: SolutionsContent;
+  copy: SiteCopy["home"]["solutions"];
+  workflowCopy: SiteCopy["solutionDetail"]["workflow"];
+  compact?: boolean;
+}) {
   return (
     <Section tone={compact ? "muted" : "light"}>
       <Container>
         <SectionHeading
-          eyebrow="BUSINESS SOLUTIONS"
+          eyebrow={copy.eyebrow}
           title={
             <>
-              <EmphasisText tone="product">One core.</EmphasisText> Different business flows.
+              <EmphasisText tone="product">{copy.titleProduct}</EmphasisText>{copy.titleRest}
             </>
           }
           description={
             <p>
-              FoodFlow, JobFlow, and CareFlow adapt the same FLOW core around different ways a business <EmphasisText>receives, performs, completes, and understands work.</EmphasisText>
+              {copy.descriptionLead}<EmphasisText>{copy.descriptionEmphasis}</EmphasisText>
             </p>
           }
         />
-        <SolutionsExperience />
+        <SolutionsExperience locale={locale} solutions={solutions} copy={copy} workflowCopy={workflowCopy} />
       </Container>
     </Section>
   );

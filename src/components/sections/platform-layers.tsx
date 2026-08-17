@@ -3,21 +3,23 @@ import { Container } from "@/components/primitives/container";
 import { EmphasisText } from "@/components/primitives/emphasis-text";
 import { Section } from "@/components/primitives/section";
 import { SectionHeading } from "@/components/primitives/section-heading";
+import type { SiteCopy } from "@/i18n/copy";
+import type { PlatformLayer } from "@/i18n/schema";
 
-export function PlatformLayers() {
+export function PlatformLayers({ layers, copy }: { layers: readonly PlatformLayer[]; copy: SiteCopy["platform"]["layers"] }) {
   return (
     <Section>
       <Container>
         <SectionHeading
-          eyebrow="PLATFORM LAYERS"
+          eyebrow={copy.eyebrow}
           title={
             <>
-              Separate the responsibilities. <EmphasisText tone="outcome">Keep the context moving.</EmphasisText>
+              {copy.titleLead}<EmphasisText tone="outcome">{copy.titleOutcome}</EmphasisText>
             </>
           }
-          description="FLOW gives every layer a clear job without breaking the operational context between customer action, staff execution, completion, and business visibility."
+          description={copy.description}
         />
-        <PlatformLayersExperience />
+        <PlatformLayersExperience layers={layers} copy={copy} />
       </Container>
     </Section>
   );

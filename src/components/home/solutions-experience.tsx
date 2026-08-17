@@ -6,13 +6,24 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 
 import { WorkflowExplorer } from "@/components/solutions/workflow-explorer";
 import { Badge } from "@/components/ui/badge";
-import { solutions, type SolutionKey } from "@/content/solutions";
+import { localizedPath, type Locale } from "@/i18n/config";
+import type { SiteCopy } from "@/i18n/copy";
+import type { SolutionKey, SolutionsContent } from "@/i18n/schema";
 import { flowEase, motionDuration } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
-const solutionEntries = Object.entries(solutions) as [SolutionKey, (typeof solutions)[SolutionKey]][];
-
-export function SolutionsExperience() {
+export function SolutionsExperience({
+  locale,
+  solutions,
+  copy,
+  workflowCopy,
+}: {
+  locale: Locale;
+  solutions: SolutionsContent;
+  copy: SiteCopy["home"]["solutions"];
+  workflowCopy: SiteCopy["solutionDetail"]["workflow"];
+}) {
+  const solutionEntries = Object.entries(solutions) as [SolutionKey, SolutionsContent[SolutionKey]][];
   const [activeKey, setActiveKey] = useState<SolutionKey>("foodflow");
   const reduceMotion = useReducedMotion();
   const active = solutions[activeKey];
@@ -21,10 +32,10 @@ export function SolutionsExperience() {
     <div className="mt-14">
       <div className="relative overflow-hidden rounded-[2rem] border border-border bg-[#09090b] p-5 text-background sm:p-8 lg:p-10">
         <div className="mx-auto flex max-w-md flex-col items-center text-center">
-          <Badge variant="outline" className="border-background/20 bg-transparent text-background/65">SHARED PLATFORM</Badge>
+          <Badge variant="outline" className="border-background/20 bg-transparent text-background/65">{copy.sharedPlatform}</Badge>
           <div className="mt-4 rounded-[1.75rem] border border-background/20 bg-background px-8 py-5 text-foreground">
             <p className="text-3xl font-bold tracking-[-0.06em]">FLOW</p>
-            <p className="mt-1 text-xs text-foreground/55">One operational core</p>
+            <p className="mt-1 text-xs text-foreground/55">{copy.coreDescription}</p>
           </div>
         </div>
 
@@ -54,7 +65,7 @@ export function SolutionsExperience() {
           ))}
         </div>
 
-        <div className="mt-2 grid gap-3 lg:grid-cols-3" role="group" aria-label="FLOW business solutions">
+        <div className="mt-2 grid gap-3 lg:grid-cols-3" role="group" aria-label={copy.groupAria}>
           {solutionEntries.map(([key, solution]) => {
             const selected = key === activeKey;
             return (
@@ -93,10 +104,10 @@ export function SolutionsExperience() {
           transition={{ duration: motionDuration.normal, ease: flowEase }}
           className="mt-5"
         >
-          <WorkflowExplorer stages={active.workflowStages} solutionName={active.name} audience={active.audience} compact />
+          <WorkflowExplorer stages={active.workflowStages} solutionName={active.name} audience={active.audience} compact copy={workflowCopy} />
           <div className="mt-4 flex justify-end">
-            <Link href={`/solutions/${activeKey}`} className="inline-flex min-h-11 items-center text-sm font-semibold underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
-              Explore {active.name} in depth →
+            <Link href={localizedPath(locale, `/solutions/${activeKey}`)} className="inline-flex min-h-11 items-center text-sm font-semibold underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+              {copy.explorePrefix} {active.name} {copy.exploreSuffix}
             </Link>
           </div>
         </motion.div>

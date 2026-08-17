@@ -3,26 +3,34 @@ import { Container } from "@/components/primitives/container";
 import { EmphasisText } from "@/components/primitives/emphasis-text";
 import { Section } from "@/components/primitives/section";
 import { SectionHeading } from "@/components/primitives/section-heading";
+import type { SiteCopy } from "@/i18n/copy";
+import type { ProductSurface } from "@/i18n/schema";
 
-export function ProductSurfacesSection() {
+export function ProductSurfacesSection({
+  surfaces,
+  copy,
+}: {
+  surfaces: readonly ProductSurface[];
+  copy: SiteCopy["home"]["product"];
+}) {
   return (
     <Section tone="dark">
       <Container>
         <SectionHeading
-          eyebrow="PRODUCT EXPERIENCE"
+          eyebrow={copy.eyebrow}
           title={
             <>
-              <EmphasisText tone="inverse">One operation.</EmphasisText> Three working views.
+              <EmphasisText tone="inverse">{copy.titleProduct}</EmphasisText>{copy.titleRest}
             </>
           }
           description={
             <p>
-              Customers need the next action. Teams need the next responsibility. Owners need the operating picture. <EmphasisText tone="inverse">FLOW keeps each view connected to the same underlying work.</EmphasisText>
+              {copy.descriptionLead}<EmphasisText tone="inverse">{copy.descriptionEmphasis}</EmphasisText>
             </p>
           }
           inverse
         />
-        <ProductExperience />
+        <ProductExperience surfaces={surfaces} copy={copy} />
       </Container>
     </Section>
   );
