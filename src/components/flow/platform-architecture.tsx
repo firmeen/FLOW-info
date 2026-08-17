@@ -5,10 +5,17 @@ import { motion, useReducedMotion, useScroll, useTransform } from "motion/react"
 
 import { Container } from "@/components/primitives/container";
 import { Section } from "@/components/primitives/section";
-import { platformArchitectureStages } from "@/content/platform";
+import type { SiteCopy } from "@/i18n/copy";
+import type { PlatformArchitectureStage } from "@/i18n/schema";
 import { flowEase, motionDuration } from "@/lib/motion";
 
-export function PlatformArchitecture() {
+export function PlatformArchitecture({
+  stages,
+  copy,
+}: {
+  stages: readonly PlatformArchitectureStage[];
+  copy: SiteCopy["platform"]["architecture"];
+}) {
   const ref = useRef<HTMLDivElement | null>(null);
   const reduceMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start 70%", "end 70%"] });
@@ -19,13 +26,11 @@ export function PlatformArchitecture() {
       <Container>
         <div ref={ref} className="grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-4 lg:sticky lg:top-32 lg:self-start">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-background/45">PLATFORM ARCHITECTURE</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-background/45">{copy.eyebrow}</p>
             <h2 id="platform-architecture-title" className="mt-5 text-balance text-4xl font-semibold tracking-[-0.05em] sm:text-5xl">
-              One connected path from <span className="font-bold text-background">entry</span> to <span className="font-bold text-background underline decoration-background/20 decoration-[0.08em] underline-offset-[0.16em]">visibility.</span>
+              {copy.titleLead}<span className="font-bold text-background">{copy.titleEntry}</span>{copy.titleMiddle}<span className="font-bold text-background underline decoration-background/20 decoration-[0.08em] underline-offset-[0.16em]">{copy.titleVisibility}</span>
             </h2>
-            <p className="mt-6 max-w-lg text-base leading-7 text-background/60">
-              Customer intent becomes operational work, completion becomes a record, and the record becomes useful business visibility without breaking the context between those steps.
-            </p>
+            <p className="mt-6 max-w-lg text-base leading-7 text-background/60">{copy.description}</p>
           </div>
 
           <div className="relative lg:col-span-7 lg:col-start-6">
@@ -36,9 +41,9 @@ export function PlatformArchitecture() {
               style={reduceMotion ? undefined : { scaleY }}
             />
             <ol>
-              {platformArchitectureStages.map((stage) => (
+              {stages.map((stage) => (
                 <motion.li
-                  key={stage.label}
+                  key={stage.index}
                   initial={reduceMotion ? false : { opacity: 0.35, x: 10 }}
                   whileInView={reduceMotion ? undefined : { opacity: 1, x: 0 }}
                   viewport={{ amount: 0.55, once: false }}

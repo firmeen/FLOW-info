@@ -8,11 +8,12 @@ import { EmphasisText } from "@/components/primitives/emphasis-text";
 import { Section } from "@/components/primitives/section";
 import { SectionHeading } from "@/components/primitives/section-heading";
 import { Badge } from "@/components/ui/badge";
-import type { SolutionExperience } from "@/content/solutions";
+import type { SiteCopy } from "@/i18n/copy";
+import type { SolutionExperience } from "@/i18n/schema";
 import { flowEase, motionDuration } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
-export function SolutionExperienceSection({ experiences }: { experiences: readonly SolutionExperience[] }) {
+export function SolutionExperienceSection({ experiences, copy }: { experiences: readonly SolutionExperience[]; copy: SiteCopy["solutionDetail"]["experience"] }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const reduceMotion = useReducedMotion();
   const active = experiences[activeIndex] ?? experiences[0];
@@ -24,9 +25,9 @@ export function SolutionExperienceSection({ experiences }: { experiences: readon
       <Container>
         <SectionHeading
           inverse
-          eyebrow="ONE FLOW / THREE VIEWS"
-          title={<>One operation. <EmphasisText tone="inverse">The right context for each role.</EmphasisText></>}
-          description="Customer, staff, and owner views should not become three disconnected systems. They are different lenses on the same underlying operation."
+          eyebrow={copy.eyebrow}
+          title={<>{copy.titleLead}<EmphasisText tone="inverse">{copy.titleOutcome}</EmphasisText></>}
+          description={copy.description}
         />
 
         <div className="mt-14 grid gap-4 lg:grid-cols-12">
@@ -65,8 +66,8 @@ export function SolutionExperienceSection({ experiences }: { experiences: readon
                 className="p-5 sm:p-8"
               >
                 <div className="flex flex-wrap items-center justify-between gap-4">
-                  <Badge variant="outline">{active.label} LENS</Badge>
-                  <span className="text-[0.65rem] font-semibold uppercase tracking-[0.12em] text-muted-foreground sm:text-xs sm:tracking-[0.14em]">SAME OPERATION / DIFFERENT PRIORITY</span>
+                  <Badge variant="outline">{active.label} {copy.lens}</Badge>
+                  <span className="text-[0.65rem] font-semibold uppercase tracking-[0.12em] text-muted-foreground sm:text-xs sm:tracking-[0.14em]">{copy.sameOperation}</span>
                 </div>
                 <h3 className="mt-6 max-w-2xl text-3xl font-bold tracking-[-0.05em] sm:text-4xl">{active.title}</h3>
                 <p className="mt-5 max-w-2xl text-sm leading-7 text-muted-foreground sm:text-base">{active.description}</p>

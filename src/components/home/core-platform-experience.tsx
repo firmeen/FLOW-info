@@ -6,26 +6,27 @@ import { motion, useReducedMotion } from "motion/react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { AnimatedBeam } from "@/components/ui/animated-beam";
 import { Badge } from "@/components/ui/badge";
-import { coreCapabilityFamilies } from "@/content/home";
+import type { SiteCopy } from "@/i18n/copy";
+import type { CoreCapability, CoreCapabilityFamily } from "@/i18n/schema";
 import { flowEase, motionDuration } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
-type FamilyKey = (typeof coreCapabilityFamilies)[number]["key"];
-type Capability = {
-  key: string;
-  label: string;
-  description: string;
-  touches: readonly string[];
-  feeds: string;
-  solutions: readonly string[];
-};
+type FamilyKey = CoreCapabilityFamily["key"];
 
-const allCapabilities = coreCapabilityFamilies.reduce<Capability[]>((items, family) => {
-  items.push(...(family.items as readonly Capability[]));
-  return items;
-}, []);
-
-export function CorePlatformExperience() {
+export function CorePlatformExperience({
+  families,
+  copy,
+}: {
+  families: readonly CoreCapabilityFamily[];
+  copy: SiteCopy["home"]["core"];
+}) {
+  const allCapabilities = useMemo(
+    () => families.reduce<CoreCapability[]>((items, family) => {
+      items.push(...family.items);
+      return items;
+    }, []),
+    [families],
+  );
   const containerRef = useRef<HTMLDivElement | null>(null);
   const captureRef = useRef<HTMLDivElement | null>(null);
   const coordinateRef = useRef<HTMLDivElement | null>(null);
@@ -36,27 +37,28 @@ export function CorePlatformExperience() {
   const reduceMotion = useReducedMotion();
 
   const active = allCapabilities.find((capability) => capability.key === activeKey) ?? allCapabilities[0];
-  const activeFamily = coreCapabilityFamilies.find((family) => family.items.some((item) => item.key === activeKey));
+  const activeFamily = families.find((family) => family.items.some((item) => item.key === activeKey));
 
   const relatedFamilies = useMemo(() => {
     if (!active) return new Set<FamilyKey>();
     const touches = new Set<string>(active.touches);
     return new Set(
-      coreCapabilityFamilies
+      families
         .filter((family) => family.key === activeFamily?.key || family.items.some((item) => touches.has(item.label)))
         .map((family) => family.key),
     );
-  }, [active, activeFamily?.key]);
+  }, [active, activeFamily?.key, families]);
 
   const beamActive = (key: FamilyKey) => relatedFamilies.has(key);
+  const familyByKey = (key: FamilyKey) => families.find((family) => family.key === key);
 
   return (
     <>
       <div ref={containerRef} className="relative mt-14 hidden overflow-hidden rounded-[2rem] border border-border bg-[#09090b] p-8 text-background lg:block xl:p-10">
         <div className="relative z-10 grid min-h-[650px] grid-cols-12 gap-6">
           <div className="col-span-8 grid grid-cols-3 grid-rows-3 items-center gap-6">
-            <FamilyNode familyKey="capture" ref={captureRef} className="col-start-2 row-start-1" activeKey={activeKey} related={beamActive("capture")} onSelect={setActiveKey} />
-            <FamilyNode familyKey="coordinate" ref={coordinateRef} className="col-start-1 row-start-2" activeKey={activeKey} related={beamActive("coordinate")} onSelect={setActiveKey} />
+            {familyByKey("capture") ? <FamilyNode family={familyByKey("capture")!} ref={captureRef} className="col-start-2 row-start-1" activeKey={activeKey} related={beamActive("capture")} onSelect={setActiveKey} /> : null}
+            {familyByKey("coordinate") ? <FamilyNode family={familyByKey("coordinate")!} ref={coordinateRef} className="col-start-1 row-start-2" activeKey={activeKey} related={beamActive("coordinate")} onSelect={setActiveKey} /> : null}
 
             <motion.div
               ref={coreRef}
@@ -66,17 +68,17 @@ export function CorePlatformExperience() {
               transition={{ duration: motionDuration.reveal, ease: flowEase }}
               className="relative col-start-2 row-start-2 mx-auto flex size-48 flex-col items-center justify-center rounded-[2.5rem] border border-background/25 bg-background text-center text-foreground shadow-[0_24px_80px_rgba(0,0,0,0.35)]"
             >
-              <Badge variant="outline" className="border-foreground/15 bg-transparent text-foreground/60">SHARED CORE</Badge>
+              <Badge variant="outline" className="border-foreground/15 bg-transparent text-foreground/60">{copy.sharedCore}</Badge>
               <p className="mt-4 text-5xl font-bold tracking-[-0.07em]">FLOW</p>
-              <p className="mt-3 max-w-[10rem] text-xs leading-5 text-foreground/55">Capabilities become more useful when their context stays connected.</p>
+              <p className="mt-3 max-w-[10rem] text-xs leading-5 text-foreground/55">{copy.sharedCoreDesktopDescription}</p>
             </motion.div>
 
-            <FamilyNode familyKey="complete" ref={completeRef} className="col-start-3 row-start-2" activeKey={activeKey} related={beamActive("complete")} onSelect={setActiveKey} />
-            <FamilyNode familyKey="understand" ref={understandRef} className="col-start-2 row-start-3" activeKey={activeKey} related={beamActive("understand")} onSelect={setActiveKey} />
+            {familyByKey("complete") ? <FamilyNode family={familyByKey("complete")!} ref={completeRef} className="col-start-3 row-start-2" activeKey={activeKey} related={beamActive("complete")} onSelect={setActiveKey} /> : null}
+            {familyByKey("understand") ? <FamilyNode family={familyByKey("understand")!} ref={understandRef} className="col-start-2 row-start-3" activeKey={activeKey} related={beamActive("understand")} onSelect={setActiveKey} /> : null}
           </div>
 
           <div className="col-span-4 flex items-center">
-            {active ? <CapabilityInspector capability={active} familyLabel={activeFamily?.label ?? "FLOW CORE"} /> : null}
+            {active ? <CapabilityInspector capability={active} familyLabel={activeFamily?.label ?? "FLOW CORE"} copy={copy} /> : null}
           </div>
         </div>
 
@@ -88,12 +90,12 @@ export function CorePlatformExperience() {
 
       <div className="mt-12 lg:hidden">
         <div className="mb-5 rounded-2xl border border-border bg-foreground p-6 text-background">
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-background/45">SHARED CORE</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-background/45">{copy.sharedCore}</p>
           <p className="mt-2 text-3xl font-bold tracking-[-0.05em]">FLOW</p>
-          <p className="mt-2 text-sm leading-6 text-background/60">Select a capability to see what it touches, what it feeds, and which business solutions depend on it.</p>
+          <p className="mt-2 text-sm leading-6 text-background/60">{copy.sharedCoreMobileDescription}</p>
         </div>
         <Accordion>
-          {coreCapabilityFamilies.map((family) => (
+          {families.map((family) => (
             <AccordionItem key={family.key} value={family.key}>
               <AccordionTrigger className="px-5 py-5">
                 <span>
@@ -120,7 +122,7 @@ export function CorePlatformExperience() {
                 </div>
                 {active && activeFamily?.key === family.key ? (
                   <div className="mt-4">
-                    <CapabilityInspector capability={active} familyLabel={family.label} light />
+                    <CapabilityInspector capability={active} familyLabel={family.label} light copy={copy} />
                   </div>
                 ) : null}
               </AccordionContent>
@@ -133,14 +135,12 @@ export function CorePlatformExperience() {
 }
 
 const FamilyNode = forwardRef<HTMLDivElement, {
-  familyKey: FamilyKey;
+  family: CoreCapabilityFamily;
   className?: string;
   activeKey: string;
   related: boolean;
   onSelect: (key: string) => void;
-}>(function FamilyNode({ familyKey, className, activeKey, related, onSelect }, ref) {
-  const family = coreCapabilityFamilies.find((entry) => entry.key === familyKey)!;
-
+}>(function FamilyNode({ family, className, activeKey, related, onSelect }, ref) {
   return (
     <motion.div
       ref={ref}
@@ -170,7 +170,7 @@ const FamilyNode = forwardRef<HTMLDivElement, {
   );
 });
 
-function CapabilityInspector({ capability, familyLabel, light = false }: { capability: Capability; familyLabel: string; light?: boolean }) {
+function CapabilityInspector({ capability, familyLabel, copy, light = false }: { capability: CoreCapability; familyLabel: string; copy: SiteCopy["home"]["core"]; light?: boolean }) {
   return (
     <motion.aside
       key={capability.key}
@@ -179,22 +179,22 @@ function CapabilityInspector({ capability, familyLabel, light = false }: { capab
       transition={{ duration: motionDuration.normal, ease: flowEase }}
       className={cn("w-full rounded-2xl border p-5 sm:p-6", light ? "border-border bg-muted/35 text-foreground" : "border-background/15 bg-background/[0.05] text-background")}
     >
-      <p className={cn("text-xs font-semibold uppercase tracking-[0.16em]", light ? "text-muted-foreground" : "text-background/40")}>ACTIVE CAPABILITY / {familyLabel}</p>
+      <p className={cn("text-xs font-semibold uppercase tracking-[0.16em]", light ? "text-muted-foreground" : "text-background/40")}>{copy.activeCapability} / {familyLabel}</p>
       <h3 className="mt-4 text-3xl font-bold tracking-[-0.05em]">{capability.label}</h3>
       <p className={cn("mt-4 text-sm leading-7", light ? "text-muted-foreground" : "text-background/60")}>{capability.description}</p>
 
       <div className={cn("mt-6 border-t pt-5", light ? "border-border" : "border-background/15")}>
-        <p className={cn("text-xs font-semibold uppercase tracking-[0.14em]", light ? "text-muted-foreground" : "text-background/40")}>TOUCHES</p>
+        <p className={cn("text-xs font-semibold uppercase tracking-[0.14em]", light ? "text-muted-foreground" : "text-background/40")}>{copy.touches}</p>
         <div className="mt-3 flex flex-wrap gap-2">
           {capability.touches.map((item) => <Badge key={item} variant="outline" className={light ? undefined : "border-background/15 bg-transparent text-background/75"}>{item}</Badge>)}
         </div>
       </div>
       <div className="mt-5">
-        <p className={cn("text-xs font-semibold uppercase tracking-[0.14em]", light ? "text-muted-foreground" : "text-background/40")}>FEEDS</p>
+        <p className={cn("text-xs font-semibold uppercase tracking-[0.14em]", light ? "text-muted-foreground" : "text-background/40")}>{copy.feeds}</p>
         <p className="mt-2 text-sm font-semibold">{capability.feeds}</p>
       </div>
       <div className="mt-5">
-        <p className={cn("text-xs font-semibold uppercase tracking-[0.14em]", light ? "text-muted-foreground" : "text-background/40")}>USED BY</p>
+        <p className={cn("text-xs font-semibold uppercase tracking-[0.14em]", light ? "text-muted-foreground" : "text-background/40")}>{copy.usedBy}</p>
         <div className="mt-3 flex flex-wrap gap-2">
           {capability.solutions.map((solution) => <Badge key={solution} variant="secondary">{solution}</Badge>)}
         </div>

@@ -5,20 +5,32 @@ import { Container } from "@/components/primitives/container";
 import { EmphasisText } from "@/components/primitives/emphasis-text";
 import { Section } from "@/components/primitives/section";
 import { SectionHeading } from "@/components/primitives/section-heading";
-import { solutions } from "@/content/solutions";
+import { localizedPath, type Locale } from "@/i18n/config";
+import type { SiteCopy } from "@/i18n/copy";
+import type { SolutionKey, SolutionsContent } from "@/i18n/schema";
 
-export function SolutionComparisonSection() {
+export function SolutionComparisonSection({
+  locale,
+  solutions,
+  copy,
+}: {
+  locale: Locale;
+  solutions: SolutionsContent;
+  copy: SiteCopy["solutionsPage"];
+}) {
+  const entries = Object.entries(solutions) as [SolutionKey, SolutionsContent[SolutionKey]][];
+
   return (
     <Section>
       <Container>
         <SectionHeading
-          eyebrow="COMPARE THE WORKFLOW"
-          title={<>Choose by <EmphasisText tone="outcome">operational pattern</EmphasisText>, not by a long feature checklist.</>}
-          description="Each solution starts from a different kind of work. The shared FLOW core stays consistent while the journey, roles, and operational emphasis change."
+          eyebrow={copy.compareEyebrow}
+          title={<>{copy.compareTitleLead}<EmphasisText tone="outcome">{copy.compareTitleOutcome}</EmphasisText>{copy.compareTitleEnd}</>}
+          description={copy.compareDescription}
         />
 
         <div className="mt-14 border-t border-border">
-          {Object.entries(solutions).map(([key, solution], index) => (
+          {entries.map(([key, solution], index) => (
             <FadeIn
               key={key}
               delay={index * 0.05}
@@ -39,8 +51,8 @@ export function SolutionComparisonSection() {
                 </ol>
               </div>
               <div className="lg:col-span-2 lg:col-start-11 lg:text-right">
-                <Link href={`/solutions/${key}`} className="inline-flex min-h-11 items-center text-sm font-medium underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
-                  Explore →
+                <Link href={localizedPath(locale, `/solutions/${key}`)} className="inline-flex min-h-11 items-center text-sm font-medium underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                  {copy.explore}
                 </Link>
               </div>
             </FadeIn>

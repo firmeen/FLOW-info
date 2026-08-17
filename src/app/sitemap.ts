@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 
+import { localizedPath, locales } from "@/i18n/config";
 import { absoluteSiteUrl } from "@/lib/metadata";
 
 export const dynamic = "force-static";
@@ -17,9 +18,18 @@ const routes = [
 ] as const;
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return routes.map((route) => ({
-    url: absoluteSiteUrl(route.path),
-    changeFrequency: "monthly",
-    priority: route.priority,
-  }));
+  return routes.flatMap((route) => {
+    const languages = {
+      en: absoluteSiteUrl(localizedPath("en", route.path)),
+      th: absoluteSiteUrl(localizedPath("th", route.path)),
+      "x-default": absoluteSiteUrl(localizedPath("en", route.path)),
+    };
+
+    return locales.map((locale) => ({
+      url: absoluteSiteUrl(localizedPath(locale, route.path)),
+      changeFrequency: "monthly" as const,
+      priority: route.priority,
+      alternates: { languages },
+    }));
+  });
 }

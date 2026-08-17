@@ -4,21 +4,28 @@ import { useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 
 import { Badge } from "@/components/ui/badge";
-import { productSurfaces } from "@/content/home";
+import type { SiteCopy } from "@/i18n/copy";
+import type { ProductSurface } from "@/i18n/schema";
 import { flowEase, motionDuration } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
-type SurfaceKey = (typeof productSurfaces)[number]["key"];
-
-export function ProductExperience() {
-  const [activeKey, setActiveKey] = useState<SurfaceKey>("customer");
+export function ProductExperience({
+  surfaces,
+  copy,
+}: {
+  surfaces: readonly ProductSurface[];
+  copy: SiteCopy["home"]["product"];
+}) {
+  const [activeKey, setActiveKey] = useState<ProductSurface["key"]>("customer");
   const reduceMotion = useReducedMotion();
-  const active = productSurfaces.find((surface) => surface.key === activeKey) ?? productSurfaces[0];
+  const active = surfaces.find((surface) => surface.key === activeKey) ?? surfaces[0];
+
+  if (!active) return null;
 
   return (
     <div className="mt-14 rounded-[2rem] border border-background/15 bg-background/[0.04] p-4 sm:p-6 lg:p-8">
-      <div className="grid grid-cols-3 gap-2 md:gap-3" role="group" aria-label="Product experience views">
-        {productSurfaces.map((surface) => {
+      <div className="grid grid-cols-3 gap-2 md:gap-3" role="group" aria-label={copy.viewsAria}>
+        {surfaces.map((surface) => {
           const selected = surface.key === activeKey;
           return (
             <button
@@ -49,14 +56,14 @@ export function ProductExperience() {
 
       <div className="mt-4 grid gap-4 lg:grid-cols-12">
         <div className="rounded-2xl border border-background/15 bg-[#111114] p-5 sm:p-6 lg:col-span-4">
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-background/40">ONE OPERATION / LIVE CONTEXT</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-background/40">{copy.liveContext}</p>
           <div className="mt-5 rounded-2xl border border-background/15 bg-background/[0.04] p-5">
             <div className="flex items-center justify-between gap-4">
-              <span className="text-sm font-semibold">FLOW RECORD</span>
-              <Badge variant="outline" className="border-background/15 bg-transparent text-background/65">CONNECTED</Badge>
+              <span className="text-sm font-semibold">{copy.flowRecord}</span>
+              <Badge variant="outline" className="border-background/15 bg-transparent text-background/65">{copy.connected}</Badge>
             </div>
             <div className="mt-6 space-y-4">
-              {["Customer action", "Operational status", "Completion context", "Business visibility"].map((item, index) => (
+              {copy.recordRows.map((item, index) => (
                 <div key={item} className="grid grid-cols-[1fr_auto] items-center gap-4 border-t border-background/10 pt-4 first:border-t-0 first:pt-0">
                   <span className="text-sm text-background/60">{item}</span>
                   <motion.span
@@ -68,7 +75,7 @@ export function ProductExperience() {
               ))}
             </div>
           </div>
-          <p className="mt-5 text-sm leading-6 text-background/50">The underlying work stays connected while each role sees a different priority.</p>
+          <p className="mt-5 text-sm leading-6 text-background/50">{copy.recordDescription}</p>
         </div>
 
         <div className="overflow-hidden rounded-2xl border border-background/15 bg-background text-foreground lg:col-span-8">
@@ -103,7 +110,7 @@ export function ProductExperience() {
               </div>
 
               <div className="mt-8 border-t border-border pt-6">
-                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">PRIORITY</p>
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">{copy.priority}</p>
                 <div className="mt-3 flex flex-wrap gap-2">
                   {active.priorities.map((priority) => <Badge key={priority} variant="outline">{priority}</Badge>)}
                 </div>
