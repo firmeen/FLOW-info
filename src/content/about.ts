@@ -1,7 +1,7 @@
 export const aboutStory = {
   why: {
     eyebrow: "WHY FLOW EXISTS",
-    title: "Daily operations should not become a collection of disconnected handoffs.",
+    title: "Daily operations should stay connected.",
     description:
       "FLOW starts from the idea that customer actions, staff work, payment context, and business information belong to the same operating story. The platform direction is to keep that story connected without forcing every business into the same interface.",
   },
@@ -31,7 +31,7 @@ export const aboutStory = {
   ],
   direction: {
     eyebrow: "CURRENT DIRECTION",
-    title: "Build the foundation, test the workflow, then deepen the product where real operations need it.",
+    title: "Build. Test. Deepen where operations need it.",
     description:
       "FLOW is being developed as a practical product direction rather than presented as a finished enterprise suite. The representation site explains the architecture, operating ideas, and solution direction without inventing traction, customer metrics, or product readiness claims.",
   },
