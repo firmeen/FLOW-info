@@ -54,7 +54,7 @@ export function CorePlatformExperience({
 
   return (
     <>
-      <div ref={containerRef} className="relative mt-14 hidden overflow-hidden rounded-[2rem] border border-border bg-[#09090b] p-8 text-background lg:block xl:p-10">
+      <div ref={containerRef} className="relative mt-14 hidden overflow-hidden rounded-[2rem] border border-flow-off-white/10 bg-flow-deep p-8 text-flow-off-white lg:block xl:p-10">
         <div className="relative z-10 grid min-h-[650px] grid-cols-12 gap-6">
           <div className="col-span-8 grid grid-cols-3 grid-rows-3 items-center gap-6">
             {familyByKey("capture") ? <FamilyNode family={familyByKey("capture")!} ref={captureRef} className="col-start-2 row-start-1" activeKey={activeKey} related={beamActive("capture")} onSelect={setActiveKey} /> : null}
@@ -66,11 +66,11 @@ export function CorePlatformExperience({
               whileInView={reduceMotion ? undefined : { opacity: 1, scale: 1 }}
               viewport={{ once: true, amount: 0.6 }}
               transition={{ duration: motionDuration.reveal, ease: flowEase }}
-              className="relative col-start-2 row-start-2 mx-auto flex size-48 flex-col items-center justify-center rounded-[2.5rem] border border-background/25 bg-background text-center text-foreground shadow-[0_24px_80px_rgba(0,0,0,0.35)]"
+              className="relative col-start-2 row-start-2 mx-auto flex size-48 flex-col items-center justify-center rounded-[2.5rem] border border-flow-aqua/35 bg-flow-off-white text-center text-flow-black shadow-[0_24px_80px_rgba(0,0,0,0.35)]"
             >
-              <Badge variant="outline" className="border-foreground/15 bg-transparent text-foreground/60">{copy.sharedCore}</Badge>
+              <Badge variant="outline" className="border-flow-black/15 bg-transparent text-flow-ocean-dark">{copy.sharedCore}</Badge>
               <p className="mt-4 text-5xl font-bold tracking-[-0.07em]">FLOW</p>
-              <p className="mt-3 max-w-[10rem] text-xs leading-5 text-foreground/55">{copy.sharedCoreDesktopDescription}</p>
+              <p className="mt-3 max-w-[10rem] text-xs leading-5 text-flow-black/55">{copy.sharedCoreDesktopDescription}</p>
             </motion.div>
 
             {familyByKey("complete") ? <FamilyNode family={familyByKey("complete")!} ref={completeRef} className="col-start-3 row-start-2" activeKey={activeKey} related={beamActive("complete")} onSelect={setActiveKey} /> : null}
@@ -89,17 +89,17 @@ export function CorePlatformExperience({
       </div>
 
       <div className="mt-12 lg:hidden">
-        <div className="mb-5 rounded-2xl border border-border bg-foreground p-6 text-background">
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-background/45">{copy.sharedCore}</p>
+        <div className="mb-5 rounded-2xl border border-flow-aqua/20 bg-flow-deep p-6 text-flow-off-white">
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-flow-aqua-mist/65">{copy.sharedCore}</p>
           <p className="mt-2 text-3xl font-bold tracking-[-0.05em]">FLOW</p>
-          <p className="mt-2 text-sm leading-6 text-background/60">{copy.sharedCoreMobileDescription}</p>
+          <p className="mt-2 text-sm leading-6 text-flow-off-white/62">{copy.sharedCoreMobileDescription}</p>
         </div>
         <Accordion>
           {families.map((family) => (
             <AccordionItem key={family.key} value={family.key}>
               <AccordionTrigger className="px-5 py-5">
                 <span>
-                  <span className="block text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">{family.label}</span>
+                  <span className="block text-xs font-semibold uppercase tracking-[0.16em] text-flow-ocean-dark">{family.label}</span>
                   <span className="mt-1 block text-lg font-semibold tracking-[-0.03em]">{family.description}</span>
                 </span>
               </AccordionTrigger>
@@ -112,8 +112,8 @@ export function CorePlatformExperience({
                       aria-pressed={item.key === activeKey}
                       onClick={() => setActiveKey(item.key)}
                       className={cn(
-                        "min-h-11 rounded-xl border p-3 text-left text-sm font-semibold outline-none focus-visible:ring-2 focus-visible:ring-ring sm:p-4",
-                        item.key === activeKey ? "border-foreground bg-foreground text-background" : "border-border bg-background",
+                        "min-h-11 rounded-xl border p-3 text-left text-sm font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-flow-aqua sm:p-4",
+                        item.key === activeKey ? "border-flow-ocean bg-flow-ocean text-white" : "border-border bg-background hover:border-flow-ocean/35",
                       )}
                     >
                       {item.label}
@@ -146,10 +146,10 @@ const FamilyNode = forwardRef<HTMLDivElement, {
       ref={ref}
       animate={{ opacity: related ? 1 : 0.34, scale: related ? 1 : 0.985 }}
       transition={{ duration: motionDuration.interactive, ease: flowEase }}
-      className={cn("relative z-10 mx-auto w-full max-w-[270px] rounded-2xl border border-background/15 bg-[#111114] p-5", className)}
+      className={cn("relative z-10 mx-auto w-full max-w-[270px] rounded-2xl border border-flow-off-white/12 bg-flow-black p-5", className)}
     >
-      <p className="text-xs font-semibold uppercase tracking-[0.17em] text-background/45">{family.label}</p>
-      <p className="mt-3 text-sm leading-6 text-background/65">{family.description}</p>
+      <p className="text-xs font-semibold uppercase tracking-[0.17em] text-flow-aqua-mist/55">{family.label}</p>
+      <p className="mt-3 text-sm leading-6 text-flow-off-white/65">{family.description}</p>
       <div className="mt-5 flex flex-wrap gap-2">
         {family.items.map((item) => (
           <button
@@ -158,8 +158,8 @@ const FamilyNode = forwardRef<HTMLDivElement, {
             aria-pressed={item.key === activeKey}
             onClick={() => onSelect(item.key)}
             className={cn(
-              "rounded-full border px-2.5 py-1.5 text-[0.68rem] font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-background/80",
-              item.key === activeKey ? "border-background bg-background text-foreground" : "border-background/15 text-background/80 hover:border-background/35",
+              "rounded-full border px-2.5 py-1.5 text-[0.68rem] font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-flow-aqua",
+              item.key === activeKey ? "border-flow-aqua bg-flow-ocean text-white" : "border-flow-off-white/15 text-flow-off-white/80 hover:border-flow-aqua/55",
             )}
           >
             {item.label}
@@ -177,24 +177,24 @@ function CapabilityInspector({ capability, familyLabel, copy, light = false }: {
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: motionDuration.normal, ease: flowEase }}
-      className={cn("w-full rounded-2xl border p-5 sm:p-6", light ? "border-border bg-muted/35 text-foreground" : "border-background/15 bg-background/[0.05] text-background")}
+      className={cn("w-full rounded-2xl border p-5 sm:p-6", light ? "border-border bg-flow-ivory/70 text-flow-black" : "border-flow-aqua/20 bg-flow-ocean/8 text-flow-off-white")}
     >
-      <p className={cn("text-xs font-semibold uppercase tracking-[0.16em]", light ? "text-muted-foreground" : "text-background/40")}>{copy.activeCapability} / {familyLabel}</p>
+      <p className={cn("text-xs font-semibold uppercase tracking-[0.16em]", light ? "text-flow-ocean-dark" : "text-flow-aqua-mist/60")}>{copy.activeCapability} / {familyLabel}</p>
       <h3 className="mt-4 text-3xl font-bold tracking-[-0.05em]">{capability.label}</h3>
-      <p className={cn("mt-4 text-sm leading-7", light ? "text-muted-foreground" : "text-background/60")}>{capability.description}</p>
+      <p className={cn("mt-4 text-sm leading-7", light ? "text-muted-foreground" : "text-flow-off-white/62")}>{capability.description}</p>
 
-      <div className={cn("mt-6 border-t pt-5", light ? "border-border" : "border-background/15")}>
-        <p className={cn("text-xs font-semibold uppercase tracking-[0.14em]", light ? "text-muted-foreground" : "text-background/40")}>{copy.touches}</p>
+      <div className={cn("mt-6 border-t pt-5", light ? "border-border" : "border-flow-off-white/12")}>
+        <p className={cn("text-xs font-semibold uppercase tracking-[0.14em]", light ? "text-flow-ocean-dark" : "text-flow-aqua-mist/60")}>{copy.touches}</p>
         <div className="mt-3 flex flex-wrap gap-2">
-          {capability.touches.map((item) => <Badge key={item} variant="outline" className={light ? undefined : "border-background/15 bg-transparent text-background/75"}>{item}</Badge>)}
+          {capability.touches.map((item) => <Badge key={item} variant="outline" className={light ? undefined : "border-flow-off-white/15 bg-transparent text-flow-off-white/75"}>{item}</Badge>)}
         </div>
       </div>
       <div className="mt-5">
-        <p className={cn("text-xs font-semibold uppercase tracking-[0.14em]", light ? "text-muted-foreground" : "text-background/40")}>{copy.feeds}</p>
+        <p className={cn("text-xs font-semibold uppercase tracking-[0.14em]", light ? "text-flow-ocean-dark" : "text-flow-aqua-mist/60")}>{copy.feeds}</p>
         <p className="mt-2 text-sm font-semibold">{capability.feeds}</p>
       </div>
       <div className="mt-5">
-        <p className={cn("text-xs font-semibold uppercase tracking-[0.14em]", light ? "text-muted-foreground" : "text-background/40")}>{copy.usedBy}</p>
+        <p className={cn("text-xs font-semibold uppercase tracking-[0.14em]", light ? "text-flow-ocean-dark" : "text-flow-aqua-mist/60")}>{copy.usedBy}</p>
         <div className="mt-3 flex flex-wrap gap-2">
           {capability.solutions.map((solution) => <Badge key={solution} variant="secondary">{solution}</Badge>)}
         </div>
