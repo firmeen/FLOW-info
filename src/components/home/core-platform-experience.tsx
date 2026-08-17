@@ -11,9 +11,19 @@ import { flowEase, motionDuration } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 type FamilyKey = (typeof coreCapabilityFamilies)[number]["key"];
-type Capability = (typeof coreCapabilityFamilies)[number]["items"][number];
+type Capability = {
+  key: string;
+  label: string;
+  description: string;
+  touches: readonly string[];
+  feeds: string;
+  solutions: readonly string[];
+};
 
-const allCapabilities = coreCapabilityFamilies.flatMap((family) => family.items);
+const allCapabilities = coreCapabilityFamilies.reduce<Capability[]>((items, family) => {
+  items.push(...(family.items as readonly Capability[]));
+  return items;
+}, []);
 
 export function CorePlatformExperience() {
   const containerRef = useRef<HTMLDivElement | null>(null);
