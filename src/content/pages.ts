@@ -1,25 +1,25 @@
 export const pageContent = {
   platform: {
     eyebrow: "01 / PLATFORM",
-    title: "One connected platform from customer action to business visibility.",
+    title: "From action to visibility.",
     titleHighlights: [
-      { text: "One connected platform", tone: "product" },
-      { text: "business visibility", tone: "outcome" },
+      { text: "action", tone: "product" },
+      { text: "visibility", tone: "outcome" },
     ],
     description:
       "FLOW connects customer activity, operational workflows, staff execution, payments, customer records, and owner visibility through one shared platform foundation.",
     descriptionHighlights: [
       { text: "one shared platform foundation", tone: "strong" },
     ],
-    quote: "Your business has a workflow. Make it visible.",
-    quoteHighlights: [{ text: "Make it visible.", tone: "outcome" }],
+    quote: "Make the workflow visible.",
+    quoteHighlights: [{ text: "visible", tone: "outcome" }],
   },
   solutions: {
     eyebrow: "02 / SOLUTIONS",
-    title: "One core, shaped for different business flows.",
+    title: "One core. Different flows.",
     titleHighlights: [
       { text: "One core", tone: "product" },
-      { text: "different business flows", tone: "outcome" },
+      { text: "Different flows", tone: "outcome" },
     ],
     description:
       "FoodFlow, JobFlow, and CareFlow adapt the same FLOW core around different ways a business receives, performs, completes, and understands work.",
@@ -39,10 +39,10 @@ export const pageContent = {
   },
   about: {
     eyebrow: "04 / ABOUT",
-    title: "Build from the workflow. Connect what happens next.",
+    title: "Build the workflow. Connect what follows.",
     titleHighlights: [
       { text: "workflow", tone: "product" },
-      { text: "Connect what happens next.", tone: "outcome" },
+      { text: "Connect what follows.", tone: "outcome" },
     ],
     description:
       "FIMIN FLOW is developing FLOW as a practical SME operations platform focused on connected workflows, usable data, and systems that reduce operational fragmentation.",
