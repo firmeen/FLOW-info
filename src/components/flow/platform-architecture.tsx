@@ -36,7 +36,7 @@ export function PlatformArchitecture() {
               style={reduceMotion ? undefined : { scaleY }}
             />
             <ol>
-              {platformArchitectureStages.map((stage, index) => (
+              {platformArchitectureStages.map((stage) => (
                 <motion.li
                   key={stage.label}
                   initial={reduceMotion ? false : { opacity: 0.35, x: 10 }}
