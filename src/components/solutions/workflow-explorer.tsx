@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 
 import { Badge } from "@/components/ui/badge";
@@ -20,11 +20,25 @@ export function WorkflowExplorer({
   compact?: boolean;
 }) {
   const [activeKey, setActiveKey] = useState(stages[0]?.key ?? "");
+  const stageRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const reduceMotion = useReducedMotion();
   const activeIndex = Math.max(0, stages.findIndex((stage) => stage.key === activeKey));
   const active = stages[activeIndex] ?? stages[0];
 
   if (!active) return null;
+
+  const selectStage = (index: number) => {
+    const stage = stages[index];
+    if (!stage) return;
+    setActiveKey(stage.key);
+    window.requestAnimationFrame(() => {
+      stageRefs.current[index]?.scrollIntoView({
+        behavior: reduceMotion ? "auto" : "smooth",
+        block: "nearest",
+        inline: "center",
+      });
+    });
+  };
 
   return (
     <div className={cn("overflow-hidden rounded-[1.75rem] border border-border bg-background", compact ? "" : "shadow-sm") }>
@@ -38,38 +52,46 @@ export function WorkflowExplorer({
         </div>
       </div>
 
-      <div className="overflow-x-auto border-b border-border px-4 py-4 sm:px-6">
-        <div className="relative flex min-w-max items-center gap-2">
-          <div className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-border" aria-hidden="true" />
-          <motion.div
-            aria-hidden="true"
-            className="absolute left-0 top-1/2 h-px -translate-y-1/2 bg-foreground"
-            animate={{ width: `${stages.length <= 1 ? 100 : (activeIndex / (stages.length - 1)) * 100}%` }}
-            transition={reduceMotion ? { duration: 0 } : { duration: motionDuration.interactive, ease: flowEase }}
-          />
-          {stages.map((stage, index) => {
-            const selected = stage.key === active.key;
-            const passed = index <= activeIndex;
-            return (
-              <button
-                key={stage.key}
-                type="button"
-                aria-pressed={selected}
-                onClick={() => setActiveKey(stage.key)}
-                className={cn(
-                  "relative z-10 min-w-28 rounded-full border px-4 py-2 text-xs font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring",
-                  selected
-                    ? "border-foreground bg-foreground text-background"
-                    : passed
-                      ? "border-foreground/30 bg-background text-foreground"
-                      : "border-border bg-background text-muted-foreground hover:border-foreground/30",
-                )}
-              >
-                {stage.label}
-              </button>
-            );
-          })}
+      <div className="relative border-b border-border">
+        <div
+          className="overflow-x-auto overscroll-x-contain px-4 py-4 [scrollbar-width:none] sm:px-6 [&::-webkit-scrollbar]:hidden"
+          aria-label={`${solutionName} workflow stages`}
+        >
+          <div className="relative flex min-w-max snap-x snap-mandatory items-center gap-2 scroll-px-4">
+            <div className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-border" aria-hidden="true" />
+            <motion.div
+              aria-hidden="true"
+              className="absolute left-0 top-1/2 h-px -translate-y-1/2 bg-foreground"
+              animate={{ width: `${stages.length <= 1 ? 100 : (activeIndex / (stages.length - 1)) * 100}%` }}
+              transition={reduceMotion ? { duration: 0 } : { duration: motionDuration.interactive, ease: flowEase }}
+            />
+            {stages.map((stage, index) => {
+              const selected = stage.key === active.key;
+              const passed = index <= activeIndex;
+              return (
+                <button
+                  key={stage.key}
+                  ref={(node) => { stageRefs.current[index] = node; }}
+                  type="button"
+                  aria-pressed={selected}
+                  onClick={() => selectStage(index)}
+                  className={cn(
+                    "relative z-10 min-h-11 min-w-28 shrink-0 snap-center rounded-full border px-4 py-2 text-xs font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring",
+                    selected
+                      ? "border-foreground bg-foreground text-background"
+                      : passed
+                        ? "border-foreground/30 bg-background text-foreground"
+                        : "border-border bg-background text-muted-foreground hover:border-foreground/30",
+                  )}
+                >
+                  {stage.label}
+                </button>
+              );
+            })}
+          </div>
         </div>
+        <span className="pointer-events-none absolute inset-y-0 left-0 w-6 bg-gradient-to-r from-background to-transparent sm:hidden" aria-hidden="true" />
+        <span className="pointer-events-none absolute inset-y-0 right-0 w-6 bg-gradient-to-l from-background to-transparent sm:hidden" aria-hidden="true" />
       </div>
 
       <AnimatePresence mode="wait" initial={false}>
@@ -101,6 +123,25 @@ export function WorkflowExplorer({
           </div>
         </motion.div>
       </AnimatePresence>
+
+      <div className="grid grid-cols-2 gap-2 border-t border-border p-4 sm:hidden">
+        <button
+          type="button"
+          disabled={activeIndex === 0}
+          onClick={() => selectStage(activeIndex - 1)}
+          className="min-h-11 rounded-full border border-border px-4 text-sm font-semibold disabled:opacity-35"
+        >
+          ← Previous
+        </button>
+        <button
+          type="button"
+          disabled={activeIndex === stages.length - 1}
+          onClick={() => selectStage(activeIndex + 1)}
+          className="min-h-11 rounded-full border border-border px-4 text-sm font-semibold disabled:opacity-35"
+        >
+          Next →
+        </button>
+      </div>
     </div>
   );
 }

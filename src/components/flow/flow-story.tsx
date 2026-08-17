@@ -63,13 +63,15 @@ export function FlowStory() {
       aria-labelledby="flow-story-title"
       className={cn(
         "relative bg-foreground text-background",
-        reduceMotion ? "py-24 sm:py-32" : "min-h-[180svh]",
+        reduceMotion ? "py-24 sm:py-32" : "py-24 sm:py-28 lg:min-h-[180svh] lg:py-0",
       )}
     >
       <div
         className={cn(
-          "flex items-center overflow-hidden py-10 sm:py-14",
-          reduceMotion ? "min-h-0" : "sticky top-[72px] min-h-[calc(100svh-72px)]",
+          "flex items-center overflow-hidden",
+          reduceMotion
+            ? "min-h-0"
+            : "lg:sticky lg:top-[72px] lg:min-h-[calc(100svh-72px)] lg:py-14",
         )}
       >
         <Container>
@@ -86,13 +88,11 @@ export function FlowStory() {
               </h2>
             </div>
             <p className="max-w-md text-sm leading-6 text-background/50">
-              {reduceMotion
-                ? "Follow one action from customer intent to operational visibility."
-                : "Scroll to follow one action from customer intent to operational visibility."}
+              Follow one action from customer intent to operational visibility.
             </p>
           </div>
 
-          <div className="relative mx-auto max-w-4xl px-2 sm:px-10">
+          <div className="relative mx-auto max-w-4xl px-1 sm:px-10">
             <div className="absolute bottom-8 left-1/2 top-8 w-px -translate-x-1/2 bg-background/12" aria-hidden="true">
               <motion.div
                 className="h-full w-px origin-top bg-background/65"
@@ -112,15 +112,21 @@ export function FlowStory() {
                 <p className="mt-2 text-xs text-foreground/55 sm:text-sm">Route the action into the right workflow.</p>
               </motion.div>
 
-              <motion.div style={{ opacity: visible(operation) }} className="relative z-10 grid grid-cols-3 gap-2 sm:gap-4">
+              <motion.div
+                style={{ opacity: visible(operation) }}
+                className="relative z-10 mx-auto grid w-full max-w-[430px] gap-3 sm:max-w-none sm:grid-cols-3 sm:gap-4"
+              >
                 {[
                   ["OPERATE", "Staff"],
                   ["COMPLETE", "Payment"],
                   ["RECORD", "Customer"],
-                ].map(([eyebrow, title]) => (
-                  <div key={title} className="rounded-2xl border border-background/20 bg-foreground px-2 py-4 text-center sm:px-4 sm:py-5">
-                    <p className="text-[0.55rem] font-semibold uppercase tracking-[0.12em] text-background/35 sm:text-[0.65rem]">{eyebrow}</p>
-                    <p className="mt-2 text-xs font-medium sm:text-base">{title}</p>
+                ].map(([eyebrow, title], index) => (
+                  <div key={title} className="relative rounded-2xl border border-background/20 bg-foreground px-4 py-4 text-center sm:px-4 sm:py-5">
+                    <p className="text-[0.6rem] font-semibold uppercase tracking-[0.12em] text-background/35 sm:text-[0.65rem]">{eyebrow}</p>
+                    <p className="mt-2 text-sm font-medium sm:text-base">{title}</p>
+                    {index < 2 ? (
+                      <span className="absolute left-1/2 top-full h-3 w-px -translate-x-1/2 bg-background/20 sm:hidden" aria-hidden="true" />
+                    ) : null}
                   </div>
                 ))}
               </motion.div>

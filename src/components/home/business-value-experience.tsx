@@ -20,7 +20,7 @@ export function BusinessValueExperience() {
               <span className="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-muted-foreground">FROM → TO</span>
             </div>
 
-            <div className="mt-10 grid gap-5 sm:grid-cols-[1fr_auto_1fr] sm:items-center">
+            <div className="mt-10 grid gap-4 sm:grid-cols-[1fr_auto_1fr] sm:items-center sm:gap-5">
               <div>
                 <p className="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-muted-foreground">FROM</p>
                 <motion.p
@@ -30,6 +30,9 @@ export function BusinessValueExperience() {
                 >
                   {value.from}
                 </motion.p>
+              </div>
+              <div className="mx-auto h-8 sm:hidden">
+                <ProgressLine vertical />
               </div>
               <div className="hidden h-px w-10 sm:block">
                 <ProgressLine />

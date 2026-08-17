@@ -28,7 +28,16 @@ export function SolutionsExperience() {
           </div>
         </div>
 
-        <div className="mx-auto mt-8 grid max-w-5xl grid-cols-3 gap-2" aria-hidden="true">
+        <div className="mx-auto mt-5 flex h-10 w-px items-stretch bg-background/20 lg:hidden" aria-hidden="true">
+          <motion.span
+            className="w-px origin-top bg-background"
+            animate={reduceMotion ? undefined : { scaleY: 1, opacity: 1 }}
+            initial={reduceMotion ? false : { scaleY: 0, opacity: 0.4 }}
+            transition={{ duration: motionDuration.reveal, ease: flowEase }}
+          />
+        </div>
+
+        <div className="mx-auto mt-8 hidden max-w-5xl grid-cols-3 gap-2 lg:grid" aria-hidden="true">
           {solutionEntries.map(([key]) => (
             <div key={key} className="flex flex-col items-center">
               <motion.span
@@ -55,7 +64,7 @@ export function SolutionsExperience() {
                 aria-pressed={selected}
                 onClick={() => setActiveKey(key)}
                 className={cn(
-                  "relative rounded-2xl border p-5 text-left outline-none transition-colors focus-visible:ring-2 focus-visible:ring-background/80",
+                  "relative min-h-11 rounded-2xl border p-5 text-left outline-none transition-colors focus-visible:ring-2 focus-visible:ring-background/80",
                   selected ? "border-background/45 bg-background text-foreground" : "border-background/15 bg-background/[0.04] text-background hover:border-background/30",
                 )}
               >
@@ -67,8 +76,8 @@ export function SolutionsExperience() {
                   />
                 ) : null}
                 <p className={cn("text-xs font-semibold uppercase tracking-[0.15em]", selected ? "text-foreground/50" : "text-background/45")}>{solution.audience}</p>
-                <p className="mt-4 text-2xl font-bold tracking-[-0.045em]">{solution.name}</p>
-                <p className={cn("mt-3 text-sm leading-6", selected ? "text-foreground/65" : "text-background/55")}>{solution.description}</p>
+                <p className="mt-3 text-2xl font-bold tracking-[-0.045em] lg:mt-4">{solution.name}</p>
+                <p className={cn("mt-3 text-sm leading-6 lg:block", selected ? "block text-foreground/65" : "hidden text-background/55")}>{solution.description}</p>
               </button>
             );
           })}

@@ -102,18 +102,31 @@ export function CorePlatformExperience() {
                 </span>
               </AccordionTrigger>
               <AccordionContent className="px-1 pb-5">
-                <div className="grid gap-2 sm:grid-cols-2">
+                <div className="grid grid-cols-2 gap-2">
                   {family.items.map((item) => (
-                    <button key={item.key} type="button" aria-pressed={item.key === activeKey} onClick={() => setActiveKey(item.key)} className={cn("rounded-xl border p-4 text-left text-sm font-semibold outline-none focus-visible:ring-2 focus-visible:ring-ring", item.key === activeKey ? "border-foreground bg-foreground text-background" : "border-border bg-background")}>
+                    <button
+                      key={item.key}
+                      type="button"
+                      aria-pressed={item.key === activeKey}
+                      onClick={() => setActiveKey(item.key)}
+                      className={cn(
+                        "min-h-11 rounded-xl border p-3 text-left text-sm font-semibold outline-none focus-visible:ring-2 focus-visible:ring-ring sm:p-4",
+                        item.key === activeKey ? "border-foreground bg-foreground text-background" : "border-border bg-background",
+                      )}
+                    >
                       {item.label}
                     </button>
                   ))}
                 </div>
+                {active && activeFamily?.key === family.key ? (
+                  <div className="mt-4">
+                    <CapabilityInspector capability={active} familyLabel={family.label} light />
+                  </div>
+                ) : null}
               </AccordionContent>
             </AccordionItem>
           ))}
         </Accordion>
-        {active ? <div className="mt-5"><CapabilityInspector capability={active} familyLabel={activeFamily?.label ?? "FLOW CORE"} light /></div> : null}
       </div>
     </>
   );
@@ -164,7 +177,7 @@ function CapabilityInspector({ capability, familyLabel, light = false }: { capab
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: motionDuration.normal, ease: flowEase }}
-      className={cn("w-full rounded-2xl border p-6", light ? "border-border bg-muted/35 text-foreground" : "border-background/15 bg-background/[0.05] text-background")}
+      className={cn("w-full rounded-2xl border p-5 sm:p-6", light ? "border-border bg-muted/35 text-foreground" : "border-background/15 bg-background/[0.05] text-background")}
     >
       <p className={cn("text-xs font-semibold uppercase tracking-[0.16em]", light ? "text-muted-foreground" : "text-background/40")}>ACTIVE CAPABILITY / {familyLabel}</p>
       <h3 className="mt-4 text-3xl font-bold tracking-[-0.05em]">{capability.label}</h3>

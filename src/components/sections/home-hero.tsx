@@ -9,41 +9,41 @@ import { brand } from "@/content/brand";
 export function HomeHero() {
   return (
     <section className="min-h-[calc(100svh-72px)] bg-[#050507] text-background">
-      <Container className="flex min-h-[calc(100svh-72px)] flex-col justify-between py-12 sm:py-16 lg:py-20">
-        <div className="flex flex-wrap items-center justify-between gap-5">
+      <Container className="flex min-h-[calc(100svh-72px)] flex-col justify-between py-10 sm:py-16 lg:py-20">
+        <div className="flex flex-wrap items-center justify-between gap-4 sm:gap-5">
           <FadeIn>
             <FlowBrand
               variant="reverse"
-              className="w-[8.5rem] sm:w-[9.75rem]"
+              className="w-[8.25rem] sm:w-[9.75rem]"
               alt="FLOW"
               loading="eager"
               fetchPriority="high"
             />
           </FadeIn>
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-background/45">
+          <p className="max-w-[11rem] text-right text-[0.65rem] font-semibold uppercase leading-5 tracking-[0.16em] text-background/45 sm:max-w-none sm:text-xs sm:tracking-[0.18em]">
             {brand.company} / SME operations platform
           </p>
         </div>
 
-        <div className="max-w-6xl py-20">
-          <h1 className="text-balance text-[clamp(3.5rem,9.5vw,8.6rem)] font-semibold leading-[0.88] tracking-[-0.075em]">
+        <div className="max-w-6xl py-14 sm:py-20">
+          <h1 className="text-balance text-[clamp(3rem,14vw,5.5rem)] font-semibold leading-[0.9] tracking-[-0.07em] sm:text-[clamp(4rem,9.5vw,8.6rem)] sm:leading-[0.88] sm:tracking-[-0.075em]">
             <RevealText>Systems that flow.</RevealText>
             <RevealText delay={0.08}>Businesses that grow.</RevealText>
           </h1>
-          <FadeIn delay={0.18} className="mt-10 max-w-2xl">
+          <FadeIn delay={0.18} className="mt-8 max-w-2xl sm:mt-10">
             <p className="text-base leading-7 text-background/65 sm:text-xl sm:leading-8">
               {brand.description}
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-8 grid gap-3 sm:flex sm:flex-wrap">
               <Link
                 href="/platform"
-                className="inline-flex min-h-11 items-center justify-center rounded-full bg-background px-5 text-sm font-medium text-foreground transition-opacity hover:opacity-85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-background"
+                className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-background px-5 text-sm font-medium text-foreground transition-opacity hover:opacity-85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-background sm:min-h-11 sm:w-auto"
               >
                 Explore Platform
               </Link>
               <Link
                 href="/solutions"
-                className="inline-flex min-h-11 items-center justify-center rounded-full border border-background/25 px-5 text-sm font-medium text-background transition-colors hover:border-background/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-background"
+                className="inline-flex min-h-12 w-full items-center justify-center rounded-full border border-background/25 px-5 text-sm font-medium text-background transition-colors hover:border-background/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-background sm:min-h-11 sm:w-auto"
               >
                 View Solutions →
               </Link>
@@ -51,7 +51,7 @@ export function HomeHero() {
           </FadeIn>
         </div>
 
-        <div className="flex items-center gap-3 text-xs uppercase tracking-[0.16em] text-background/40">
+        <div className="flex items-center gap-3 text-[0.65rem] uppercase tracking-[0.14em] text-background/40 sm:text-xs sm:tracking-[0.16em]">
           <span className="h-px w-8 bg-background/30" aria-hidden="true" />
           Scroll to explore
         </div>

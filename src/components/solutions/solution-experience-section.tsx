@@ -30,7 +30,7 @@ export function SolutionExperienceSection({ experiences }: { experiences: readon
         />
 
         <div className="mt-14 grid gap-4 lg:grid-cols-12">
-          <div className="grid gap-2 sm:grid-cols-3 lg:col-span-4 lg:grid-cols-1">
+          <div className="grid grid-cols-3 gap-2 lg:col-span-4 lg:grid-cols-1">
             {experiences.map((experience, index) => {
               const selected = index === activeIndex;
               return (
@@ -40,14 +40,14 @@ export function SolutionExperienceSection({ experiences }: { experiences: readon
                   aria-pressed={selected}
                   onClick={() => setActiveIndex(index)}
                   className={cn(
-                    "relative rounded-2xl border p-5 text-left outline-none transition-colors focus-visible:ring-2 focus-visible:ring-background/80",
+                    "relative min-h-11 rounded-xl border p-3 text-center outline-none transition-colors focus-visible:ring-2 focus-visible:ring-background/80 sm:rounded-2xl sm:p-5 sm:text-left",
                     selected ? "border-background/45 bg-background text-foreground" : "border-background/15 bg-background/[0.03] text-background hover:border-background/30",
                   )}
                 >
-                  <p className={cn("text-xs font-semibold uppercase tracking-[0.16em]", selected ? "text-foreground/45" : "text-background/45")}>{experience.label}</p>
-                  <p className="mt-3 text-lg font-semibold tracking-[-0.03em]">{experience.title}</p>
+                  <p className={cn("text-[0.62rem] font-semibold uppercase tracking-[0.12em] sm:text-xs sm:tracking-[0.16em]", selected ? "text-foreground/45" : "text-background/45")}>{experience.label}</p>
+                  <p className="mt-3 hidden text-lg font-semibold tracking-[-0.03em] sm:block">{experience.title}</p>
                   {selected && !reduceMotion ? (
-                    <motion.span layoutId="solution-role-line" className="absolute inset-x-5 bottom-0 h-0.5 bg-foreground" transition={{ duration: motionDuration.interactive, ease: flowEase }} />
+                    <motion.span layoutId="solution-role-line" className="absolute inset-x-3 bottom-0 h-0.5 bg-foreground sm:inset-x-5" transition={{ duration: motionDuration.interactive, ease: flowEase }} />
                   ) : null}
                 </button>
               );
@@ -62,11 +62,11 @@ export function SolutionExperienceSection({ experiences }: { experiences: readon
                 animate={{ opacity: 1, y: 0 }}
                 exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}
                 transition={{ duration: motionDuration.normal, ease: flowEase }}
-                className="p-6 sm:p-8"
+                className="p-5 sm:p-8"
               >
                 <div className="flex flex-wrap items-center justify-between gap-4">
                   <Badge variant="outline">{active.label} LENS</Badge>
-                  <span className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">SAME OPERATION / DIFFERENT PRIORITY</span>
+                  <span className="text-[0.65rem] font-semibold uppercase tracking-[0.12em] text-muted-foreground sm:text-xs sm:tracking-[0.14em]">SAME OPERATION / DIFFERENT PRIORITY</span>
                 </div>
                 <h3 className="mt-6 max-w-2xl text-3xl font-bold tracking-[-0.05em] sm:text-4xl">{active.title}</h3>
                 <p className="mt-5 max-w-2xl text-sm leading-7 text-muted-foreground sm:text-base">{active.description}</p>
