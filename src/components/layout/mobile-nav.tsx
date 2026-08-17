@@ -18,7 +18,11 @@ export function MobileNav({ locale, navigation, tagline, copy }: { locale: Local
         <SheetTrigger render={<Button variant="ghost" size="icon" aria-label={copy.openNavigation} className="size-11 rounded-full" />}>
           <RiMenuLine aria-hidden="true" />
         </SheetTrigger>
-        <SheetContent side="right" className="h-dvh max-h-dvh w-full max-w-none border-l border-border bg-[#f8f8f8] p-0 sm:max-w-[30rem]">
+        <SheetContent
+          side="right"
+          closeLabel={locale === "th" ? "ปิดเมนู" : "Close navigation"}
+          className="h-dvh max-h-dvh w-full max-w-none border-l border-border bg-[#f8f8f8] p-0 sm:max-w-[30rem]"
+        >
           <SheetHeader className="flex min-h-[72px] shrink-0 justify-center border-b border-border px-5 py-4 pr-16 text-left sm:px-6">
             <FlowBrand variant="compact" decorative loading="eager" className="w-[7.35rem]" />
             <SheetTitle className="sr-only">{copy.mobileTitle}</SheetTitle>
