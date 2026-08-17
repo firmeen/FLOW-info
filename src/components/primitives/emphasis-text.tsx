@@ -24,11 +24,12 @@ export function EmphasisText({
       className={cn(
         "inline",
         tone === "strong" && "font-bold text-foreground",
-        tone === "product" && "font-bold tracking-[-0.035em] text-foreground",
-        tone === "outcome" && "font-bold tracking-[-0.045em] text-foreground underline decoration-foreground/20 decoration-[0.08em] underline-offset-[0.16em]",
-        tone === "contrast" && "font-semibold text-foreground/75",
+        tone === "product" && "font-bold tracking-[-0.035em] text-flow-ocean",
+        tone === "outcome" &&
+          "font-bold tracking-[-0.045em] text-foreground underline decoration-flow-aqua/70 decoration-[0.08em] underline-offset-[0.16em]",
+        tone === "contrast" && "font-semibold text-flow-ocean-dark",
         tone === "muted" && "font-medium text-muted-foreground",
-        tone === "inverse" && "font-bold tracking-[-0.035em] text-background",
+        tone === "inverse" && "font-bold tracking-[-0.035em] text-flow-off-white",
         className,
       )}
     >
