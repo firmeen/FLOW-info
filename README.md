@@ -40,18 +40,45 @@ src/
 ├── app/                 Route entry points, metadata routes, and page composition
 ├── components/
 │   ├── brand/           FLOW brand system and responsive lockups
+│   ├── contact/         Interactive public contact channels
 │   ├── flow/            Workflow, architecture, and story components
+│   ├── home/            Client-island storytelling experiences for Home
 │   ├── layout/          Header, navigation, footer
 │   ├── motion/          Reusable motion behavior
-│   ├── primitives/      Layout and typography primitives
-│   ├── sections/        Shared website sections
+│   ├── primitives/      Layout and semantic typography primitives
+│   ├── sections/        Server-first shared website sections
 │   ├── solutions/       Reusable solution-page system
-│   └── ui/              shadcn / Base UI components
-├── content/             Brand, navigation, platform, company, and solution content
+│   └── ui/              shadcn / Base UI / Magic UI-derived components
+├── content/             Brand, navigation, platform, contact, and solution content
 └── lib/                 Shared utilities, metadata, motion tokens, and brand asset registry
 ```
 
-Pages and layouts remain Server Components by default. Client Components are limited to navigation interaction and Motion-driven storytelling where browser-side behavior is required.
+Pages and section shells remain Server Components by default. Client Components are limited to navigation interaction and Motion-driven storytelling where browser-side behavior is required.
+
+## Production storytelling system
+
+The Home page deliberately uses different interaction metaphors for different information types instead of repeating the same card + fade pattern:
+
+- **The Problem** — fragmented signals and interrupted context between Customer, Staff, and Owner
+- **Signature FLOW Story** — scroll-driven movement from customer intent to business visibility
+- **FLOW Core Platform** — interactive capability network with monochrome animated beams and a mobile accordion alternative
+- **Business Solutions** — one FLOW core branching into FoodFlow, JobFlow, and CareFlow with interactive workflow switching
+- **How FLOW Works** — sequential vertical progress through the operating journey
+- **Business Value** — FROM → TO transformations that emphasize operational outcomes instead of feature volume
+
+`SectionHeading` accepts semantic rich text and `EmphasisText` is used to give product, problem, and outcome language intentional visual weight without introducing random color effects.
+
+Motion respects `prefers-reduced-motion`. Magic UI-derived `AnimatedBeam`, `BlurFade`, and `TextReveal` are hardened for the FLOW monochrome system and reduced-motion fallbacks rather than being used with their default demo styling.
+
+## Official contact channels
+
+- Instagram — `@fim.flow`
+- Facebook — `FIM FLOW`
+- Email — `fimin.flowofficial@gmail.com`
+- LINE — `@614henux`
+- GitHub — `firmeen/FLOW-info`
+
+Instagram and email have direct links. Facebook and LINE are displayed by their exact supplied public identifiers without inventing canonical URLs.
 
 ## Brand assets
 
@@ -69,7 +96,7 @@ The original FLOW source asset set is preserved under `public/assets/`:
 
 The uploaded logo files are JPEG-encoded images even though their source filenames end in `.png`. To preserve the artwork byte-for-byte while serving the correct MIME type, `public/assets/web/` contains `.jpg` delivery aliases that point to the exact same Git blobs. The production brand components use those aliases; the original uploads remain untouched.
 
-`src/lib/brand-assets.ts` is the single registry for logo roles, native dimensions, audited outer-canvas crop values, and GitHub Pages-safe public asset paths. The crop values remove only the large source canvas whitespace at render time; the FLOW symbol and wordmark geometry are not redrawn, distorted, recolored, or filtered.
+`src/lib/brand-assets.ts` is the single registry for logo roles, native dimensions, audited outer-canvas crop values, and GitHub Pages-safe public asset paths.
 
 Production placement rules:
 
@@ -78,43 +105,8 @@ Production placement rules:
 - Dark Home hero and footer: reverse `flow-dark`
 - Browser icon: official `flow-favicon` source through the App Router icon convention
 - Open Graph / Twitter preview: official `flow-og` artwork
-- `flow-icon`, `flow-wordmark`, and `flow-icon-dark` remain available for contexts that actually require those variants; they are not shown merely to use every asset
 
 The large FoodFlow sprite remains a retained source asset and is not loaded by the representation website until a verified product presentation requires it.
-
-The representation site does not invent product screenshots, customer metrics, testimonials, or product readiness claims. Product captures should only be presented after a verified asset has been selected for that surface.
-
-## Implementation phases
-
-### Phase 1 — Foundation & System
-
-Completed foundation includes the design tokens, global layout, navigation, route shells, metadata helpers, static export, GitHub Pages CI, content separation, and reusable motion primitives.
-
-### Phase 2 — Core Story & Product Experience
-
-Completed core experience includes:
-
-- complete Home storytelling flow
-- signature scroll-driven FLOW story
-- core capability presentation
-- FoodFlow / JobFlow / CareFlow overview
-- product-surface presentation without fake screenshots
-- animated workflow timeline with reduced-motion fallback
-- detailed Platform architecture and layers
-- deeper How FLOW Works journey
-- shared solution-core and operational comparison views
-
-### Phase 3 — Solution Ecosystem & Production Polish
-
-Phase 3 completes the public representation structure with:
-
-- one reusable deep-page system shared by FoodFlow, JobFlow, and CareFlow
-- audience, workflow, customer/staff/owner experience, capability, and shared-core sections
-- complete About and Contact pages without invented contact channels
-- custom not-found experience
-- canonical metadata, Open Graph, Twitter metadata, sitemap, and robots output
-- stronger reduced-motion behavior for the signature FLOW story
-- final static-export and production validation through GitHub Actions
 
 ## Development
 
@@ -141,7 +133,7 @@ npm run check
 
 ## Deployment
 
-`.github/workflows/nextjs.yml` validates pull requests and deploys `main` to GitHub Pages.
+`.github/workflows/nextjs.yml` is the single Next.js validation/deployment workflow. It validates pull requests and deploys `main` to GitHub Pages.
 
 The workflow runs:
 
@@ -149,7 +141,7 @@ The workflow runs:
 2. `npm run lint`
 3. `npm run typecheck`
 4. `npm run build`
-5. verifies the production logo paths and App Router icon in `out/`
+5. verifies production brand asset paths and App Router icon output
 6. uploads `out/`
 7. deploys the Pages artifact when the event is not a pull request
 
@@ -162,6 +154,7 @@ The public website follows the FLOW identity:
 - monochrome / near-black / zinc / off-white
 - minimal geometric composition
 - large typography and whitespace
+- semantic emphasis instead of decorative color
 - business-first product communication
-- controlled motion that explains flow rather than decorating every element
+- controlled motion that explains fragmentation, connection, flow, transformation, and outcome
 - official FLOW lockups selected by surface contrast and available space

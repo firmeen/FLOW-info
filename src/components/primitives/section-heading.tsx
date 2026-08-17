@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+
 import { cn } from "@/lib/utils";
 
 export function SectionHeading({
@@ -8,8 +10,8 @@ export function SectionHeading({
   inverse = false,
 }: {
   eyebrow?: string;
-  title: string;
-  description?: string;
+  title: ReactNode;
+  description?: ReactNode;
   className?: string;
   inverse?: boolean;
 }) {
@@ -29,14 +31,14 @@ export function SectionHeading({
         {title}
       </h2>
       {description ? (
-        <p
+        <div
           className={cn(
             "mt-6 max-w-2xl text-base leading-7 sm:text-lg sm:leading-8",
             inverse ? "text-background/60" : "text-muted-foreground",
           )}
         >
           {description}
-        </p>
+        </div>
       ) : null}
     </div>
   );
