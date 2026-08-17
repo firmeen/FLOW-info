@@ -10,10 +10,10 @@ export function BrandStatement({ copy }: { copy: SiteCopy["home"]["brandStatemen
     <Section>
       <Container className="grid gap-12 lg:grid-cols-12 lg:items-end">
         <div className="lg:col-span-7">
-          <p className="mb-6 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+          <p className="mb-6 text-xs font-semibold uppercase tracking-[0.18em] text-flow-ocean-dark">
             {copy.eyebrow}
           </p>
-          <h2 className="text-balance text-[clamp(3rem,7vw,7rem)] font-semibold leading-[0.9] tracking-[-0.07em]">
+          <h2 className="flow-display text-[clamp(3rem,7vw,7rem)] font-semibold leading-[0.9] tracking-[-0.07em]">
             <RevealText>{copy.line1}</RevealText>
             <RevealText delay={0.06}>
               {copy.line2Lead}<EmphasisText tone="outcome">{copy.line2Emphasis}</EmphasisText>
