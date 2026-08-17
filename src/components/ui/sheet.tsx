@@ -65,13 +65,12 @@ function SheetContent({
             render={
               <Button
                 variant="ghost"
-                className="absolute top-4 right-4"
-                size="icon-sm"
+                className="absolute right-3 top-3 size-11 sm:right-4 sm:top-4"
+                size="icon"
               />
             }
           >
-            <RiCloseLine
-            />
+            <RiCloseLine />
             <span className="sr-only">Close</span>
           </SheetPrimitive.Close>
         )}

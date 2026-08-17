@@ -12,8 +12,8 @@ export function ProblemExperience() {
 
   return (
     <div className="relative mt-14 overflow-hidden rounded-[2rem] border border-border bg-background p-5 sm:p-8 lg:p-10">
-      <StaggerGroup className="relative z-10 grid gap-5 lg:grid-cols-3" stagger={0.1}>
-        {problemGroups.map((group) => (
+      <StaggerGroup className="relative z-10 grid gap-0 lg:grid-cols-3 lg:gap-5" stagger={0.1}>
+        {problemGroups.map((group, groupIndex) => (
           <StaggerItem key={group.label}>
             <div className="h-full rounded-2xl border border-border bg-background/95 p-6 sm:p-7">
               <div className="flex items-center justify-between gap-4">
@@ -38,15 +38,23 @@ export function ProblemExperience() {
                 ))}
               </ul>
             </div>
+            {groupIndex < problemGroups.length - 1 ? (
+              <div className="flex h-16 flex-col items-center justify-center lg:hidden" aria-hidden="true">
+                <BrokenSignalVertical delay={0.08 + groupIndex * 0.14} />
+                <span className="mt-1 text-[0.6rem] font-semibold uppercase tracking-[0.15em] text-muted-foreground">
+                  context stops
+                </span>
+              </div>
+            ) : null}
           </StaggerItem>
         ))}
       </StaggerGroup>
 
-      <div className="relative z-10 mt-8 grid items-center gap-5 lg:grid-cols-[1fr_auto_1fr_auto_1fr]" aria-hidden="true">
+      <div className="relative z-10 mt-8 hidden items-center gap-5 lg:grid lg:grid-cols-[1fr_auto_1fr_auto_1fr]" aria-hidden="true">
         <BrokenSignal delay={0.05} />
-        <span className="hidden text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground lg:block">context stops</span>
+        <span className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">context stops</span>
         <BrokenSignal delay={0.18} />
-        <span className="hidden text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground lg:block">context stops</span>
+        <span className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">context stops</span>
         <BrokenSignal delay={0.31} />
       </div>
 
@@ -55,7 +63,7 @@ export function ProblemExperience() {
         whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.75 }}
         transition={{ duration: motionDuration.reveal, delay: 0.24, ease: flowEase }}
-        className="relative z-10 mt-10 flex flex-col gap-4 border-t border-border pt-6 sm:flex-row sm:items-center sm:justify-between"
+        className="relative z-10 mt-8 flex flex-col gap-4 border-t border-border pt-6 sm:mt-10 sm:flex-row sm:items-center sm:justify-between"
       >
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">THE GAP</p>
         <p className="max-w-2xl text-balance text-xl font-semibold tracking-[-0.035em] sm:text-2xl">
@@ -78,6 +86,24 @@ function BrokenSignal({ delay }: { delay: number }) {
           whileInView={{ left: "68%", opacity: [0, 1, 1, 0] }}
           viewport={{ once: true, amount: 0.7 }}
           transition={{ duration: 1.15, delay, ease: flowEase }}
+        />
+      ) : null}
+    </div>
+  );
+}
+
+function BrokenSignalVertical({ delay }: { delay: number }) {
+  const reduceMotion = useReducedMotion();
+
+  return (
+    <div className="relative h-10 w-px overflow-hidden bg-[repeating-linear-gradient(to_bottom,var(--border)_0,var(--border)_8px,transparent_8px,transparent_14px)]">
+      {!reduceMotion ? (
+        <motion.span
+          className="absolute -left-[2px] size-[5px] rounded-full bg-foreground"
+          initial={{ top: "0%", opacity: 0 }}
+          whileInView={{ top: "68%", opacity: [0, 1, 1, 0] }}
+          viewport={{ once: true, amount: 0.7 }}
+          transition={{ duration: 1.05, delay, ease: flowEase }}
         />
       ) : null}
     </div>

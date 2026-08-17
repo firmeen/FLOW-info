@@ -63,15 +63,20 @@ export function ContactChannels({ channels }: { channels: readonly ContactChanne
                 <p className="break-words text-xl font-bold tracking-[-0.035em] sm:text-2xl">{channel.value}</p>
                 <p className="mt-3 text-sm leading-6 text-muted-foreground">{channel.description}</p>
               </CardContent>
-              <CardFooter className="gap-2 border-t border-border py-4">
+              <CardFooter className="flex-wrap gap-2 border-t border-border py-4">
                 {channel.href ? (
-                  <Button render={<a href={channel.href} target={channel.type === "email" ? undefined : "_blank"} rel={channel.type === "email" ? undefined : "noreferrer"} />} variant="outline" size="sm">
+                  <Button
+                    render={<a href={channel.href} target={channel.type === "email" ? undefined : "_blank"} rel={channel.type === "email" ? undefined : "noreferrer"} />}
+                    variant="outline"
+                    size="sm"
+                    className="min-h-11 px-4"
+                  >
                     {channel.action}
                     {channel.type !== "email" ? <RiExternalLinkLine data-icon="inline-end" /> : null}
                   </Button>
                 ) : null}
                 {channel.copyValue ? (
-                  <Button type="button" variant="ghost" size="sm" onClick={() => copy(channel)} aria-live="polite">
+                  <Button type="button" variant="ghost" size="sm" className="min-h-11 px-4" onClick={() => copy(channel)} aria-live="polite">
                     <AnimatePresence mode="wait" initial={false}>
                       <motion.span
                         key={isCopied ? "copied" : "copy"}

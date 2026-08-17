@@ -17,7 +17,7 @@ export function ProductExperience() {
 
   return (
     <div className="mt-14 rounded-[2rem] border border-background/15 bg-background/[0.04] p-4 sm:p-6 lg:p-8">
-      <div className="grid gap-3 md:grid-cols-3" role="group" aria-label="Product experience views">
+      <div className="grid grid-cols-3 gap-2 md:gap-3" role="group" aria-label="Product experience views">
         {productSurfaces.map((surface) => {
           const selected = surface.key === activeKey;
           return (
@@ -27,7 +27,7 @@ export function ProductExperience() {
               aria-pressed={selected}
               onClick={() => setActiveKey(surface.key)}
               className={cn(
-                "relative overflow-hidden rounded-2xl border px-5 py-5 text-left outline-none transition-colors focus-visible:ring-2 focus-visible:ring-background/80",
+                "relative min-h-11 overflow-hidden rounded-xl border px-3 py-3 text-center outline-none transition-colors focus-visible:ring-2 focus-visible:ring-background/80 md:rounded-2xl md:px-5 md:py-5 md:text-left",
                 selected
                   ? "border-background/45 bg-background text-foreground"
                   : "border-background/15 bg-background/[0.03] text-background hover:border-background/30",
@@ -36,19 +36,19 @@ export function ProductExperience() {
               {selected && !reduceMotion ? (
                 <motion.span
                   layoutId="product-role-active"
-                  className="absolute inset-x-5 bottom-0 h-0.5 bg-foreground"
+                  className="absolute inset-x-3 bottom-0 h-0.5 bg-foreground md:inset-x-5"
                   transition={{ duration: motionDuration.interactive, ease: flowEase }}
                 />
               ) : null}
-              <span className={cn("text-xs font-semibold uppercase tracking-[0.16em]", selected ? "text-foreground/45" : "text-background/45")}>{surface.label}</span>
-              <span className="mt-3 block text-lg font-semibold tracking-[-0.03em]">{surface.question}</span>
+              <span className={cn("text-[0.62rem] font-semibold uppercase tracking-[0.12em] sm:text-xs sm:tracking-[0.16em]", selected ? "text-foreground/45" : "text-background/45")}>{surface.label}</span>
+              <span className="mt-3 hidden text-lg font-semibold tracking-[-0.03em] md:block">{surface.question}</span>
             </button>
           );
         })}
       </div>
 
       <div className="mt-4 grid gap-4 lg:grid-cols-12">
-        <div className="rounded-2xl border border-background/15 bg-[#111114] p-6 lg:col-span-4">
+        <div className="rounded-2xl border border-background/15 bg-[#111114] p-5 sm:p-6 lg:col-span-4">
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-background/40">ONE OPERATION / LIVE CONTEXT</p>
           <div className="mt-5 rounded-2xl border border-background/15 bg-background/[0.04] p-5">
             <div className="flex items-center justify-between gap-4">
@@ -79,13 +79,14 @@ export function ProductExperience() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={reduceMotion ? undefined : { opacity: 0, y: -8, scale: 0.995 }}
               transition={{ duration: motionDuration.normal, ease: flowEase }}
-              className="p-6 sm:p-8"
+              className="p-5 sm:p-8"
             >
               <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">{active.label}</p>
+              <p className="mt-3 text-sm font-semibold text-muted-foreground md:hidden">{active.question}</p>
               <h3 className="mt-4 max-w-2xl text-3xl font-bold tracking-[-0.05em] sm:text-4xl">{active.statement}</h3>
               <p className="mt-5 max-w-2xl text-sm leading-7 text-muted-foreground sm:text-base">{active.description}</p>
 
-              <div className="mt-8 grid gap-3 sm:grid-cols-4">
+              <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
                 {active.stages.map((stage, index) => (
                   <motion.div
                     key={stage}

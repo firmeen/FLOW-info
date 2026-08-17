@@ -23,14 +23,14 @@ export function SiteFooter() {
             <p className="mt-6 max-w-xs text-sm leading-6 text-background/60">{brand.tagline}</p>
           </div>
 
-          <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
+          <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-4 sm:gap-8">
             {footerGroups.map((group) => (
               <div key={group.label}>
                 <p className="text-xs font-semibold uppercase tracking-[0.16em] text-background/45">{group.label}</p>
-                <ul className="mt-4 grid gap-3 text-sm">
+                <ul className="mt-4 grid gap-1 text-sm sm:gap-3">
                   {group.links.map((link) => (
                     <li key={link.href}>
-                      <Link href={link.href} className="text-background/70 transition-colors hover:text-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-background">
+                      <Link href={link.href} className="inline-flex min-h-9 items-center py-1.5 text-background/70 transition-colors hover:text-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-background">
                         {link.label}
                       </Link>
                     </li>
@@ -41,7 +41,7 @@ export function SiteFooter() {
 
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.16em] text-background/45">Connect</p>
-              <ul className="mt-4 grid gap-3 text-sm">
+              <ul className="mt-4 grid gap-1 text-sm sm:gap-3">
                 {contactContent.channels.map((channel) => (
                   <li key={channel.type}>
                     {channel.href ? (
@@ -49,13 +49,13 @@ export function SiteFooter() {
                         href={channel.href}
                         target={channel.type === "email" ? undefined : "_blank"}
                         rel={channel.type === "email" ? undefined : "noreferrer"}
-                        className="inline-flex items-center gap-1.5 text-background/70 transition-colors hover:text-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-background"
+                        className="inline-flex min-h-9 items-center gap-1.5 py-1.5 text-background/70 transition-colors hover:text-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-background"
                       >
                         {channel.label}
                         {channel.type !== "email" ? <RiExternalLinkLine aria-hidden="true" className="size-3" /> : null}
                       </a>
                     ) : (
-                      <span className="text-background/55" title={channel.value}>{channel.label}</span>
+                      <span className="inline-flex min-h-9 items-center py-1.5 text-background/55" title={channel.value}>{channel.label}</span>
                     )}
                   </li>
                 ))}
@@ -64,7 +64,7 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <div className="mt-16 flex flex-col gap-2 border-t border-white/10 pt-6 text-xs text-background/45 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-16 flex flex-col gap-2 border-t border-white/10 pt-6 text-xs leading-5 text-background/45 sm:flex-row sm:items-center sm:justify-between">
           <span>© {new Date().getFullYear()} {brand.company}. FLOW representation website.</span>
           <span>Instagram @fim.flow · LINE @614henux</span>
         </div>

@@ -64,10 +64,17 @@ export function AnimatedBeam({
       if (!containerRef.current || !fromRef.current || !toRef.current) return;
 
       const containerRect = containerRef.current.getBoundingClientRect();
-      const rectA = fromRef.current.getBoundingClientRect();
-      const rectB = toRef.current.getBoundingClientRect();
       const width = containerRect.width;
       const height = containerRect.height;
+
+      if (width === 0 || height === 0) {
+        setPathD("");
+        setSvgDimensions({ width: 0, height: 0 });
+        return;
+      }
+
+      const rectA = fromRef.current.getBoundingClientRect();
+      const rectB = toRef.current.getBoundingClientRect();
       setSvgDimensions({ width, height });
 
       const startX = rectA.left - containerRect.left + rectA.width / 2 + startXOffset;
@@ -84,6 +91,8 @@ export function AnimatedBeam({
 
     return () => resizeObserver.disconnect();
   }, [containerRef, fromRef, toRef, curvature, startXOffset, startYOffset, endXOffset, endYOffset]);
+
+  if (!pathD || svgDimensions.width === 0 || svgDimensions.height === 0) return null;
 
   return (
     <svg

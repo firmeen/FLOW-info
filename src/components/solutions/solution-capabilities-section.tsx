@@ -33,7 +33,7 @@ export function SolutionCapabilitiesSection({ solution }: { solution: SolutionDe
         <div className="mt-14 grid gap-5 lg:grid-cols-12">
           <div className="rounded-[1.75rem] border border-border bg-muted/35 p-5 lg:col-span-4">
             <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">SELECT WORKFLOW STAGE</p>
-            <div className="mt-5 grid gap-2 sm:grid-cols-2 lg:grid-cols-1">
+            <div className="-mx-1 mt-5 flex gap-2 overflow-x-auto overscroll-x-contain px-1 pb-2 [scrollbar-width:none] lg:mx-0 lg:grid lg:overflow-visible lg:px-0 lg:pb-0 [&::-webkit-scrollbar]:hidden">
               {solution.workflowStages.map((stage, index) => {
                 const selected = stage.key === activeStageKey;
                 return (
@@ -43,7 +43,7 @@ export function SolutionCapabilitiesSection({ solution }: { solution: SolutionDe
                     aria-pressed={selected}
                     onClick={() => setActiveStageKey(stage.key)}
                     className={cn(
-                      "flex items-center justify-between gap-4 rounded-xl border px-4 py-3 text-left text-sm font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring",
+                      "flex min-h-11 min-w-max shrink-0 items-center justify-between gap-4 rounded-xl border px-4 py-3 text-left text-sm font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring lg:min-w-0",
                       selected ? "border-foreground bg-foreground text-background" : "border-border bg-background hover:border-foreground/30",
                     )}
                   >
@@ -57,7 +57,7 @@ export function SolutionCapabilitiesSection({ solution }: { solution: SolutionDe
 
           <div className="lg:col-span-8">
             {activeStage ? (
-              <div className="rounded-[1.75rem] border border-border p-6 sm:p-7">
+              <div className="rounded-[1.75rem] border border-border p-5 sm:p-7">
                 <div className="flex flex-wrap items-start justify-between gap-5 border-b border-border pb-6">
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">ACTIVE STAGE / {activeStage.actor}</p>

@@ -27,7 +27,7 @@ export function MobileNav() {
               variant="ghost"
               size="icon"
               aria-label="Open navigation"
-              className="rounded-full"
+              className="size-11 rounded-full"
             />
           }
         >
@@ -35,9 +35,9 @@ export function MobileNav() {
         </SheetTrigger>
         <SheetContent
           side="right"
-          className="w-full max-w-none border-l border-border bg-[#f8f8f8] p-0 sm:max-w-[30rem]"
+          className="h-dvh max-h-dvh w-full max-w-none border-l border-border bg-[#f8f8f8] p-0 sm:max-w-[30rem]"
         >
-          <SheetHeader className="flex min-h-[72px] justify-center border-b border-border px-6 py-4 pr-16 text-left">
+          <SheetHeader className="flex min-h-[72px] shrink-0 justify-center border-b border-border px-5 py-4 pr-16 text-left sm:px-6">
             <FlowBrand
               variant="compact"
               decorative
@@ -50,7 +50,10 @@ export function MobileNav() {
             </SheetDescription>
           </SheetHeader>
 
-          <nav aria-label="Mobile navigation" className="flex flex-1 flex-col px-6 py-8">
+          <nav
+            aria-label="Mobile navigation"
+            className="flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain px-5 py-6 pb-[max(2rem,env(safe-area-inset-bottom))] sm:px-6 sm:py-8"
+          >
             <div className="grid gap-1">
               {primaryNavigation.map((item) => {
                 if ("children" in item) {
@@ -73,7 +76,7 @@ export function MobileNav() {
                             render={
                               <Link
                                 href={solution.href}
-                                className="grid gap-0.5 rounded-lg px-3 py-3 hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                                className="grid min-h-11 gap-0.5 rounded-lg px-3 py-3 hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                               />
                             }
                           >
