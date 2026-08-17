@@ -2,22 +2,22 @@ import type { Locale } from "@/i18n/config";
 
 const compactTitles = {
   en: {
-    FoodFlow: "From order to insight.",
-    JobFlow: "From request to completion.",
-    CareFlow: "Booking to service, connected.",
+    FoodFlow: { title: "From order to insight.", highlight: "insight" },
+    JobFlow: { title: "From request to completion.", highlight: "completion" },
+    CareFlow: { title: "Booking to service, connected.", highlight: "connected" },
   },
   th: {
-    FoodFlow: "จากคำสั่งซื้อสู่ภาพรวมร้าน",
-    JobFlow: "จากรับคำขอจนจบงาน",
-    CareFlow: "เชื่อมการจองสู่การบริการ",
+    FoodFlow: { title: "จากคำสั่งซื้อสู่ภาพรวมร้าน", highlight: "ภาพรวมร้าน" },
+    JobFlow: { title: "จากรับคำขอจนจบงาน", highlight: "จบงาน" },
+    CareFlow: { title: "เชื่อมการจองสู่การบริการ", highlight: "การบริการ" },
   },
 } as const;
 
-export function getSolutionDisplayTitle(locale: Locale, solutionName: string) {
+export function getSolutionDisplay(locale: Locale, solutionName: string) {
   const titles = compactTitles[locale];
   if (solutionName in titles) {
     return titles[solutionName as keyof typeof titles];
   }
 
-  return solutionName;
+  return { title: solutionName, highlight: solutionName };
 }
