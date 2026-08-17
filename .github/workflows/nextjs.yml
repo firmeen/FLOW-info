@@ -53,33 +53,71 @@ jobs:
         env:
           PAGES_BASE_PATH: ${{ steps.pages.outputs.base_path }}
         run: |
-          test -f out/assets/web/flow-logo.jpg
-          test -f out/assets/web/flow-compact.jpg
-          test -f out/assets/web/flow-dark.jpg
-          test -f out/assets/web/flow-og.jpg
-          test -f out/icon.jpg
-          grep -Fq "${PAGES_BASE_PATH}/assets/web/flow-logo.jpg" out/index.html
-          grep -Fq "${PAGES_BASE_PATH}/assets/web/flow-compact.jpg" out/index.html
-          grep -Fq "${PAGES_BASE_PATH}/assets/web/flow-dark.jpg" out/index.html
-          grep -Fq "https://firmeen.github.io/FLOW-info/assets/web/flow-og.jpg" out/index.html
+          set -euo pipefail
 
-          test -f out/th/index.html
-          test -f out/th/platform/index.html
-          test -f out/th/solutions/index.html
-          test -f out/th/solutions/foodflow/index.html
-          test -f out/th/solutions/jobflow/index.html
-          test -f out/th/solutions/careflow/index.html
-          test -f out/th/how-it-works/index.html
-          test -f out/th/about/index.html
-          test -f out/th/contact/index.html
+          check_file() {
+            if [ ! -f "$2" ]; then
+              echo "::error::$1 missing: $2"
+              exit 1
+            fi
+          }
 
-          grep -Fq 'lang="en"' out/index.html
-          grep -Fq 'lang="th"' out/th/index.html
-          grep -Fq 'rel="alternate"' out/index.html
-          grep -Fq 'https://firmeen.github.io/FLOW-info/th' out/index.html
-          grep -Fq 'rel="alternate"' out/th/index.html
-          grep -Fq 'https://firmeen.github.io/FLOW-info/' out/th/index.html
-          grep -Fq 'https://firmeen.github.io/FLOW-info/th' out/sitemap.xml
+          check_route() {
+            local route="$1"
+            if [ -f "out/${route}/index.html" ] || [ -f "out/${route}.html" ]; then
+              return 0
+            fi
+            echo "::error::Static route missing for /${route}"
+            exit 1
+          }
+
+          route_file() {
+            local route="$1"
+            if [ -f "out/${route}/index.html" ]; then
+              printf '%s' "out/${route}/index.html"
+            else
+              printf '%s' "out/${route}.html"
+            fi
+          }
+
+          check_contains() {
+            if ! grep -Fq "$2" "$3"; then
+              echo "::error::$1 not found in $3"
+              exit 1
+            fi
+          }
+
+          check_file "FLOW logo" out/assets/web/flow-logo.jpg
+          check_file "FLOW compact logo" out/assets/web/flow-compact.jpg
+          check_file "FLOW dark logo" out/assets/web/flow-dark.jpg
+          check_file "FLOW OG image" out/assets/web/flow-og.jpg
+          check_file "FLOW app icon" out/icon.jpg
+          check_contains "FLOW logo base path" "${PAGES_BASE_PATH}/assets/web/flow-logo.jpg" out/index.html
+          check_contains "FLOW compact base path" "${PAGES_BASE_PATH}/assets/web/flow-compact.jpg" out/index.html
+          check_contains "FLOW dark base path" "${PAGES_BASE_PATH}/assets/web/flow-dark.jpg" out/index.html
+          check_contains "FLOW OG absolute URL" "https://firmeen.github.io/FLOW-info/assets/web/flow-og.jpg" out/index.html
+
+          for route in \
+            th \
+            th/platform \
+            th/solutions \
+            th/solutions/foodflow \
+            th/solutions/jobflow \
+            th/solutions/careflow \
+            th/how-it-works \
+            th/about \
+            th/contact
+          do
+            check_route "$route"
+          done
+
+          TH_ROOT="$(route_file th)"
+          check_contains "English document language" 'lang="en"' out/index.html
+          check_contains "Thai document language" 'lang="th"' "$TH_ROOT"
+          check_contains "Thai sitemap routes" '/th' out/sitemap.xml
+          check_contains "metadata language alternates" 'languages: languageAlternates(path)' src/lib/metadata.ts
+          check_contains "sitemap language alternates" 'alternates: { languages }' src/app/sitemap.ts
+          check_contains "Open Graph locale mapping" 'locale === "th" ? "th_TH" : "en_US"' src/lib/metadata.ts
 
       - name: Upload Pages artifact
         if: github.event_name != 'pull_request'
