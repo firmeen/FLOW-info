@@ -1,35 +1,35 @@
-"use client"
+"use client";
 
-import { useRef } from "react"
+import { useRef } from "react";
 import {
   AnimatePresence,
   motion,
   useInView,
+  useReducedMotion,
   type MotionProps,
   type UseInViewOptions,
   type Variants,
-} from "motion/react"
+} from "motion/react";
 
-type MarginType = UseInViewOptions["margin"]
+type MarginType = UseInViewOptions["margin"];
 
 interface BlurFadeProps extends MotionProps {
-  children: React.ReactNode
-  className?: string
+  children: React.ReactNode;
+  className?: string;
   variant?: {
-    hidden: { y: number }
-    visible: { y: number }
-  }
-  duration?: number
-  delay?: number
-  offset?: number
-  direction?: "up" | "down" | "left" | "right"
-  inView?: boolean
-  inViewMargin?: MarginType
-  blur?: string
+    hidden: { y?: number; x?: number; opacity?: number; filter?: string };
+    visible: { y?: number; x?: number; opacity?: number; filter?: string };
+  };
+  duration?: number;
+  delay?: number;
+  offset?: number;
+  direction?: "up" | "down" | "left" | "right";
+  inView?: boolean;
+  inViewMargin?: MarginType;
+  blur?: string;
 }
 
-const getFilter = (v: Variants[string]) =>
-  typeof v === "function" ? undefined : v.filter
+const getFilter = (v: Variants[string]) => (typeof v === "function" ? undefined : v.filter);
 
 export function BlurFade({
   children,
@@ -44,9 +44,19 @@ export function BlurFade({
   blur = "6px",
   ...props
 }: BlurFadeProps) {
-  const ref = useRef(null)
-  const inViewResult = useInView(ref, { once: true, margin: inViewMargin })
-  const isInView = !inView || inViewResult
+  const ref = useRef(null);
+  const reduceMotion = useReducedMotion();
+  const inViewResult = useInView(ref, { once: true, margin: inViewMargin });
+  const isInView = !inView || inViewResult;
+
+  if (reduceMotion) {
+    return (
+      <div ref={ref} className={className}>
+        {children}
+      </div>
+    );
+  }
+
   const defaultVariants: Variants = {
     hidden: {
       [direction === "left" || direction === "right" ? "x" : "y"]:
@@ -57,18 +67,13 @@ export function BlurFade({
     visible: {
       [direction === "left" || direction === "right" ? "x" : "y"]: 0,
       opacity: 1,
-      filter: `blur(0px)`,
+      filter: "blur(0px)",
     },
-  }
-  const combinedVariants = variant ?? defaultVariants
-
-  const hiddenFilter = getFilter(combinedVariants.hidden)
-  const visibleFilter = getFilter(combinedVariants.visible)
-
-  const shouldTransitionFilter =
-    hiddenFilter != null &&
-    visibleFilter != null &&
-    hiddenFilter !== visibleFilter
+  };
+  const combinedVariants = variant ?? defaultVariants;
+  const hiddenFilter = getFilter(combinedVariants.hidden);
+  const visibleFilter = getFilter(combinedVariants.visible);
+  const shouldTransitionFilter = hiddenFilter != null && visibleFilter != null && hiddenFilter !== visibleFilter;
 
   return (
     <AnimatePresence>
@@ -81,7 +86,7 @@ export function BlurFade({
         transition={{
           delay: 0.04 + delay,
           duration,
-          ease: "easeOut",
+          ease: [0.22, 1, 0.36, 1],
           ...(shouldTransitionFilter ? { filter: { duration } } : {}),
         }}
         className={className}
@@ -90,5 +95,5 @@ export function BlurFade({
         {children}
       </motion.div>
     </AnimatePresence>
-  )
+  );
 }

@@ -1,8 +1,8 @@
-import { FadeIn } from "@/components/motion/fade-in";
+import { BusinessValueExperience } from "@/components/home/business-value-experience";
+import { EmphasisText } from "@/components/primitives/emphasis-text";
 import { Container } from "@/components/primitives/container";
 import { Section } from "@/components/primitives/section";
 import { SectionHeading } from "@/components/primitives/section-heading";
-import { businessValues } from "@/content/home";
 
 export function BusinessValueSection() {
   return (
@@ -10,20 +10,18 @@ export function BusinessValueSection() {
       <Container>
         <SectionHeading
           eyebrow="BUSINESS VALUE"
-          title="The point is not more software. It is a clearer operation."
-          description="Features matter when they reduce uncertainty, keep work connected, and make operational information useful to the people running the business."
+          title={
+            <>
+              The point is not <EmphasisText tone="muted">more software.</EmphasisText> It is a <EmphasisText>clearer operation.</EmphasisText>
+            </>
+          }
+          description={
+            <p>
+              Features matter when they reduce uncertainty, keep work connected, and turn daily activity into <EmphasisText className="font-semibold">useful business context.</EmphasisText>
+            </p>
+          }
         />
-
-        <div className="mt-14 grid gap-x-10 gap-y-12 sm:grid-cols-2">
-          {businessValues.map((value, index) => (
-            <FadeIn key={value.title} delay={(index % 2) * 0.06} className="border-t border-border pt-6">
-              <h3 className="text-sm font-semibold tracking-[0.08em]">{value.title}</h3>
-              <p className="mt-4 max-w-xl text-lg leading-8 text-muted-foreground">
-                {value.description}
-              </p>
-            </FadeIn>
-          ))}
-        </div>
+        <BusinessValueExperience />
       </Container>
     </Section>
   );

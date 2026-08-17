@@ -1,75 +1,67 @@
-"use client"
+"use client";
 
-import {
-  useRef,
-  type ComponentPropsWithoutRef,
-  type FC,
-  type ReactNode,
-} from "react"
-import { motion, MotionValue, useScroll, useTransform } from "motion/react"
+import { useRef, type ComponentPropsWithoutRef, type FC, type ReactNode } from "react";
+import { motion, type MotionValue, useReducedMotion, useScroll, useTransform } from "motion/react";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 export interface TextRevealProps extends ComponentPropsWithoutRef<"div"> {
-  children: string
+  children: string;
+  heightClassName?: string;
+  stickyTopClassName?: string;
+  textClassName?: string;
 }
 
-export const TextReveal: FC<TextRevealProps> = ({ children, className }) => {
-  const sectionRef = useRef<HTMLDivElement | null>(null)
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-  })
+export const TextReveal: FC<TextRevealProps> = ({
+  children,
+  className,
+  heightClassName = "h-[180vh]",
+  stickyTopClassName = "top-[72px]",
+  textClassName,
+  ...props
+}) => {
+  const sectionRef = useRef<HTMLDivElement | null>(null);
+  const reduceMotion = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start 80%", "end 45%"] });
+  const words = children.split(" ");
 
-  if (typeof children !== "string") {
-    throw new Error("TextReveal: children must be a string")
+  if (reduceMotion) {
+    return (
+      <div className={cn("py-16", className)} {...props}>
+        <p className={cn("text-balance text-4xl font-semibold tracking-[-0.05em] sm:text-5xl lg:text-6xl", textClassName)}>
+          {children}
+        </p>
+      </div>
+    );
   }
 
-  const words = children.split(" ")
-
   return (
-    <div ref={sectionRef} className={cn("relative z-0 h-[200vh]", className)}>
-      <div
-        className={
-          "sticky top-0 mx-auto flex h-[50%] max-w-4xl items-center bg-transparent px-4 py-20"
-        }
-      >
-        <span
-          className={
-            "flex flex-wrap p-5 text-2xl font-bold text-black/20 md:p-8 md:text-3xl lg:p-10 lg:text-4xl xl:text-5xl dark:text-white/20"
-          }
-        >
-          {words.map((word, i) => {
-            const start = i / words.length
-            const end = start + 1 / words.length
+    <div ref={sectionRef} className={cn("relative z-0", heightClassName, className)} {...props}>
+      <div className={cn("sticky mx-auto flex h-[calc(100svh-72px)] max-w-5xl items-center", stickyTopClassName)}>
+        <span className={cn("flex flex-wrap text-balance text-4xl font-semibold tracking-[-0.05em] text-foreground/18 sm:text-5xl lg:text-6xl", textClassName)}>
+          {words.map((word, index) => {
+            const start = index / words.length;
+            const end = start + 1 / words.length;
             return (
-              <Word key={i} progress={scrollYProgress} range={[start, end]}>
+              <Word key={`${word}-${index}`} progress={scrollYProgress} range={[start, end]}>
                 {word}
               </Word>
-            )
+            );
           })}
         </span>
       </div>
     </div>
-  )
-}
+  );
+};
 
-interface WordProps {
-  children: ReactNode
-  progress: MotionValue<number>
-  range: [number, number]
-}
-
-const Word: FC<WordProps> = ({ children, progress, range }) => {
-  const opacity = useTransform(progress, range, [0, 1])
+function Word({ children, progress, range }: { children: ReactNode; progress: MotionValue<number>; range: [number, number] }) {
+  const opacity = useTransform(progress, range, [0.16, 1]);
   return (
-    <span className="xl:lg-3 relative mx-1 lg:mx-1.5">
-      <span className="absolute opacity-30">{children}</span>
-      <motion.span
-        style={{ opacity: opacity }}
-        className={"text-black dark:text-white"}
-      >
+    <span className="relative mr-[0.22em]">
+      <span className="absolute opacity-20">{children}</span>
+      <motion.span style={{ opacity }} className="text-foreground">
         {children}
       </motion.span>
     </span>
-  )
+  );
 }

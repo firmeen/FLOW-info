@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { RiGithubLine } from "@remixicon/react";
 
+import { ContactChannels } from "@/components/contact/contact-channels";
+import { EmphasisText } from "@/components/primitives/emphasis-text";
 import { Container } from "@/components/primitives/container";
 import { Section } from "@/components/primitives/section";
 import { SectionHeading } from "@/components/primitives/section-heading";
@@ -27,12 +28,16 @@ export default function ContactPage() {
           <div className="lg:col-span-7">
             <SectionHeading
               eyebrow={contactContent.intro.eyebrow}
-              title={contactContent.intro.title}
+              title={
+                <>
+                  Start with <EmphasisText>how the work moves.</EmphasisText>
+                </>
+              }
               description={contactContent.intro.description}
             />
             <ol className="mt-10 divide-y divide-border border-y border-border">
               {contactContent.prompts.map((prompt, index) => (
-                <li key={prompt} className="grid grid-cols-[2.5rem_1fr] gap-3 py-4 text-sm font-medium sm:text-base">
+                <li key={prompt} className="grid grid-cols-[2.5rem_1fr] gap-3 py-5 text-sm font-medium sm:text-base">
                   <span className="tabular-nums text-muted-foreground">{String(index + 1).padStart(2, "0")}</span>
                   <span>{prompt}</span>
                 </li>
@@ -41,32 +46,34 @@ export default function ContactPage() {
           </div>
 
           <div className="lg:col-span-4 lg:col-start-9">
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-              Verified channel
-            </p>
-            <div className="mt-5 space-y-4">
-              {contactContent.channels.map((channel) => (
-                <a
-                  key={channel.href}
-                  href={channel.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="group block rounded-2xl border border-border p-6 transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                >
-                  <div className="flex items-center gap-2 text-sm font-medium">
-                    <RiGithubLine aria-hidden="true" className="size-4" />
-                    {channel.label}
-                  </div>
-                  <p className="mt-3 text-lg font-semibold tracking-[-0.03em]">{channel.value}</p>
-                  <p className="mt-3 text-sm leading-6 text-muted-foreground">{channel.description}</p>
-                  <span className="mt-5 inline-block text-sm font-medium transition-transform duration-200 group-hover:translate-x-1">
-                    Open channel →
-                  </span>
-                </a>
-              ))}
+            <div className="rounded-[1.75rem] border border-border bg-muted/40 p-6 sm:p-7">
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">GOOD FIRST MESSAGE</p>
+              <p className="mt-4 text-lg font-semibold tracking-[-0.03em]">
+                Business type → customer action → current friction.
+              </p>
+              <p className="mt-3 text-sm leading-6 text-muted-foreground">
+                That is enough context to begin a useful FLOW conversation without preparing a formal specification first.
+              </p>
             </div>
-            <p className="mt-5 text-xs leading-5 text-muted-foreground">{contactContent.note}</p>
           </div>
+        </Container>
+      </Section>
+
+      <Section tone="muted">
+        <Container>
+          <SectionHeading
+            eyebrow="CONNECT WITH FLOW"
+            title={
+              <>
+                Choose the <EmphasisText>channel that fits the conversation.</EmphasisText>
+              </>
+            }
+            description="Business, product, partnership, collaboration, or public development — use the channel that makes the next step easiest."
+          />
+          <div className="mt-12">
+            <ContactChannels channels={contactContent.channels} />
+          </div>
+          <p className="mt-6 max-w-3xl text-xs leading-5 text-muted-foreground">{contactContent.note}</p>
         </Container>
       </Section>
     </>
