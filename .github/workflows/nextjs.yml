@@ -53,6 +53,8 @@ jobs:
         env:
           PAGES_BASE_PATH: ${{ steps.pages.outputs.base_path }}
         run: |
+          set -euo pipefail
+
           test -f out/assets/web/flow-logo.jpg
           test -f out/assets/web/flow-compact.jpg
           test -f out/assets/web/flow-dark.jpg
@@ -63,23 +65,26 @@ jobs:
           grep -Fq "${PAGES_BASE_PATH}/assets/web/flow-dark.jpg" out/index.html
           grep -Fq "https://firmeen.github.io/FLOW-info/assets/web/flow-og.jpg" out/index.html
 
-          test -f out/th/index.html
-          test -f out/th/platform/index.html
-          test -f out/th/solutions/index.html
-          test -f out/th/solutions/foodflow/index.html
-          test -f out/th/solutions/jobflow/index.html
-          test -f out/th/solutions/careflow/index.html
-          test -f out/th/how-it-works/index.html
-          test -f out/th/about/index.html
-          test -f out/th/contact/index.html
+          for page in \
+            out/th/index.html \
+            out/th/platform/index.html \
+            out/th/solutions/index.html \
+            out/th/solutions/foodflow/index.html \
+            out/th/solutions/jobflow/index.html \
+            out/th/solutions/careflow/index.html \
+            out/th/how-it-works/index.html \
+            out/th/about/index.html \
+            out/th/contact/index.html
+          do
+            test -f "$page"
+          done
 
           grep -Fq 'lang="en"' out/index.html
           grep -Fq 'lang="th"' out/th/index.html
-          grep -Fq 'rel="alternate"' out/index.html
-          grep -Fq 'https://firmeen.github.io/FLOW-info/th' out/index.html
-          grep -Fq 'rel="alternate"' out/th/index.html
-          grep -Fq 'https://firmeen.github.io/FLOW-info/' out/th/index.html
-          grep -Fq 'https://firmeen.github.io/FLOW-info/th' out/sitemap.xml
+          grep -Fq '/th' out/sitemap.xml
+          grep -Fq 'languages: languageAlternates(path)' src/lib/metadata.ts
+          grep -Fq 'alternates: { languages }' src/app/sitemap.ts
+          grep -Fq 'locale === "th" ? "th_TH" : "en_US"' src/lib/metadata.ts
 
       - name: Upload Pages artifact
         if: github.event_name != 'pull_request'
