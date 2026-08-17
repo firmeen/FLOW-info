@@ -4,8 +4,8 @@ import { cn } from "@/lib/utils";
 
 const tones = {
   light: "bg-background text-foreground",
-  muted: "bg-muted text-foreground",
-  dark: "bg-foreground text-background",
+  muted: "bg-flow-ivory text-flow-black",
+  dark: "bg-flow-deep text-flow-off-white",
 } as const;
 
 export function Section({

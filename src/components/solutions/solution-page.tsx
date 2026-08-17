@@ -6,6 +6,7 @@ import { BuiltOnFlowSection } from "@/components/solutions/built-on-flow-section
 import { SolutionAudienceSection } from "@/components/solutions/solution-audience-section";
 import { SolutionCapabilitiesSection } from "@/components/solutions/solution-capabilities-section";
 import { SolutionExperienceSection } from "@/components/solutions/solution-experience-section";
+import { getSolutionDisplay } from "@/i18n/solution-display";
 import type { Locale } from "@/i18n/config";
 import type { SiteCopy } from "@/i18n/copy";
 import type { SolutionDefinition } from "@/i18n/schema";
@@ -19,12 +20,14 @@ export function SolutionPage({
   solution: SolutionDefinition;
   copy: SiteCopy;
 }) {
+  const display = getSolutionDisplay(locale, solution.name);
+
   return (
     <>
       <PageHero
         eyebrow={solution.eyebrow}
-        title={solution.title}
-        titleHighlights={[{ text: solution.name, tone: "product" }]}
+        title={display.title}
+        titleHighlights={[{ text: display.highlight, tone: "outcome" }]}
         description={solution.description}
         descriptionHighlights={[{ text: "FLOW", tone: "strong" }]}
         quote={solution.quote}

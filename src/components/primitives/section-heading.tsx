@@ -21,20 +21,20 @@ export function SectionHeading({
         <p
           className={cn(
             "mb-5 text-xs font-semibold uppercase tracking-[0.18em]",
-            inverse ? "text-background/45" : "text-muted-foreground",
+            inverse ? "text-flow-aqua-mist/70" : "text-flow-ocean-dark",
           )}
         >
           {eyebrow}
         </p>
       ) : null}
-      <h2 className="text-balance text-4xl font-semibold tracking-[-0.045em] sm:text-5xl lg:text-6xl">
+      <h2 className="flow-display text-4xl font-semibold tracking-[-0.045em] sm:text-5xl lg:text-6xl">
         {title}
       </h2>
       {description ? (
         <div
           className={cn(
             "mt-6 max-w-2xl text-base leading-7 sm:text-lg sm:leading-8",
-            inverse ? "text-background/60" : "text-muted-foreground",
+            inverse ? "text-flow-off-white/65" : "text-muted-foreground",
           )}
         >
           {description}
