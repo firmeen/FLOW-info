@@ -62,6 +62,24 @@ jobs:
             fi
           }
 
+          check_route() {
+            local route="$1"
+            if [ -f "out/${route}/index.html" ] || [ -f "out/${route}.html" ]; then
+              return 0
+            fi
+            echo "::error::Static route missing for /${route}"
+            exit 1
+          }
+
+          route_file() {
+            local route="$1"
+            if [ -f "out/${route}/index.html" ]; then
+              printf '%s' "out/${route}/index.html"
+            else
+              printf '%s' "out/${route}.html"
+            fi
+          }
+
           check_contains() {
             if ! grep -Fq "$2" "$3"; then
               echo "::error::$1 not found in $3"
@@ -79,22 +97,23 @@ jobs:
           check_contains "FLOW dark base path" "${PAGES_BASE_PATH}/assets/web/flow-dark.jpg" out/index.html
           check_contains "FLOW OG absolute URL" "https://firmeen.github.io/FLOW-info/assets/web/flow-og.jpg" out/index.html
 
-          for page in \
-            out/th/index.html \
-            out/th/platform/index.html \
-            out/th/solutions/index.html \
-            out/th/solutions/foodflow/index.html \
-            out/th/solutions/jobflow/index.html \
-            out/th/solutions/careflow/index.html \
-            out/th/how-it-works/index.html \
-            out/th/about/index.html \
-            out/th/contact/index.html
+          for route in \
+            th \
+            th/platform \
+            th/solutions \
+            th/solutions/foodflow \
+            th/solutions/jobflow \
+            th/solutions/careflow \
+            th/how-it-works \
+            th/about \
+            th/contact
           do
-            check_file "Thai static route" "$page"
+            check_route "$route"
           done
 
+          TH_ROOT="$(route_file th)"
           check_contains "English document language" 'lang="en"' out/index.html
-          check_contains "Thai document language" 'lang="th"' out/th/index.html
+          check_contains "Thai document language" 'lang="th"' "$TH_ROOT"
           check_contains "Thai sitemap routes" '/th' out/sitemap.xml
           check_contains "metadata language alternates" 'languages: languageAlternates(path)' src/lib/metadata.ts
           check_contains "sitemap language alternates" 'alternates: { languages }' src/app/sitemap.ts
