@@ -27,7 +27,7 @@ export function ProgressLine({
     >
       <motion.span
         className={cn(
-          "absolute bg-foreground",
+          "absolute bg-flow-aqua",
           vertical ? "inset-x-0 top-0 h-full origin-top" : "inset-y-0 left-0 w-full origin-left",
         )}
         initial={reduceMotion ? false : vertical ? { scaleY: 0 } : { scaleX: 0 }}
