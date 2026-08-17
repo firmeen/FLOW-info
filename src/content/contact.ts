@@ -13,7 +13,7 @@ export type ContactChannel = {
 export const contactContent = {
   intro: {
     eyebrow: "START WITH THE WORKFLOW",
-    title: "The most useful first conversation is about how the work currently moves.",
+    title: "Start with how the work moves.",
     description:
       "A useful discussion does not need a polished specification. Start with the business type, the customer action that begins the work, the people involved, and the point where the current process becomes unclear or unnecessarily difficult.",
   },
