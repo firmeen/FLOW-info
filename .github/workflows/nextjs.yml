@@ -75,8 +75,10 @@ jobs:
 
           grep -Fq 'lang="en"' out/index.html
           grep -Fq 'lang="th"' out/th/index.html
-          grep -Fq 'hreflang="th"' out/index.html
-          grep -Fq 'hreflang="en"' out/th/index.html
+          grep -Fq 'rel="alternate"' out/index.html
+          grep -Fq 'https://firmeen.github.io/FLOW-info/th' out/index.html
+          grep -Fq 'rel="alternate"' out/th/index.html
+          grep -Fq 'https://firmeen.github.io/FLOW-info/' out/th/index.html
           grep -Fq 'https://firmeen.github.io/FLOW-info/th' out/sitemap.xml
 
       - name: Upload Pages artifact
