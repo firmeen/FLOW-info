@@ -48,7 +48,7 @@ export function WorkflowExplorer({
       <div className="border-b border-border px-5 py-5 sm:px-7">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">{solutionName} / {copy.operatingPattern}</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-flow-ocean-dark">{solutionName} / {copy.operatingPattern}</p>
             {audience ? <p className="mt-2 text-sm text-muted-foreground">{audience}</p> : null}
           </div>
           <Badge variant="outline">{activeIndex + 1} / {stages.length}</Badge>
@@ -64,7 +64,7 @@ export function WorkflowExplorer({
             <div className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-border" aria-hidden="true" />
             <motion.div
               aria-hidden="true"
-              className="absolute left-0 top-1/2 h-px -translate-y-1/2 bg-foreground"
+              className="absolute left-0 top-1/2 h-px -translate-y-1/2 bg-flow-aqua"
               animate={{ width: `${stages.length <= 1 ? 100 : (activeIndex / (stages.length - 1)) * 100}%` }}
               transition={reduceMotion ? { duration: 0 } : { duration: motionDuration.interactive, ease: flowEase }}
             />
@@ -79,12 +79,12 @@ export function WorkflowExplorer({
                   aria-pressed={selected}
                   onClick={() => selectStage(index)}
                   className={cn(
-                    "relative z-10 min-h-11 min-w-28 shrink-0 snap-center rounded-full border px-4 py-2 text-xs font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring",
+                    "relative z-10 min-h-11 min-w-28 shrink-0 snap-center rounded-full border px-4 py-2 text-xs font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-flow-aqua",
                     selected
-                      ? "border-foreground bg-foreground text-background"
+                      ? "border-flow-ocean bg-flow-ocean text-white"
                       : passed
-                        ? "border-foreground/30 bg-background text-foreground"
-                        : "border-border bg-background text-muted-foreground hover:border-foreground/30",
+                        ? "border-flow-ocean/35 bg-background text-foreground"
+                        : "border-border bg-background text-muted-foreground hover:border-flow-ocean/35",
                   )}
                 >
                   {stage.label}
@@ -107,18 +107,18 @@ export function WorkflowExplorer({
           className="grid gap-7 p-5 sm:p-7 lg:grid-cols-12"
         >
           <div className="lg:col-span-7">
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">{copy.activeStep} / {active.actor}</p>
-            <h3 className="mt-4 text-2xl font-bold tracking-[-0.045em] sm:text-3xl">{active.label}</h3>
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-flow-ocean-dark">{copy.activeStep} / {active.actor}</p>
+            <h3 className="flow-display mt-4 text-2xl font-bold tracking-[-0.045em] sm:text-3xl">{active.label}</h3>
             <p className="mt-4 text-lg font-semibold tracking-[-0.025em]">{active.purpose}</p>
             <p className="mt-4 max-w-2xl text-sm leading-7 text-muted-foreground sm:text-base">{active.operation}</p>
           </div>
           <div className="lg:col-span-4 lg:col-start-9">
-            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">{copy.coreInStep}</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-flow-ocean-dark">{copy.coreInStep}</p>
             <div className="mt-4 flex flex-wrap gap-2">
               {active.sharedCore.map((item) => <Badge key={item} variant="outline">{item}</Badge>)}
             </div>
-            <div className="mt-6 rounded-xl bg-muted/50 p-4">
-              <p className="text-xs uppercase tracking-[0.14em] text-muted-foreground">{copy.next}</p>
+            <div className="mt-6 rounded-xl bg-flow-ivory p-4">
+              <p className="text-xs uppercase tracking-[0.14em] text-flow-ocean-dark">{copy.next}</p>
               <p className="mt-2 text-sm font-semibold">
                 {stages[activeIndex + 1]?.label ?? copy.fallbackNext}
               </p>
@@ -132,7 +132,7 @@ export function WorkflowExplorer({
           type="button"
           disabled={activeIndex === 0}
           onClick={() => selectStage(activeIndex - 1)}
-          className="min-h-11 rounded-full border border-border px-4 text-sm font-semibold disabled:opacity-35"
+          className="min-h-11 rounded-full border border-border px-4 text-sm font-semibold transition-colors hover:border-flow-ocean/40 disabled:opacity-35"
         >
           {copy.previous}
         </button>
@@ -140,7 +140,7 @@ export function WorkflowExplorer({
           type="button"
           disabled={activeIndex === stages.length - 1}
           onClick={() => selectStage(activeIndex + 1)}
-          className="min-h-11 rounded-full border border-border px-4 text-sm font-semibold disabled:opacity-35"
+          className="min-h-11 rounded-full border border-flow-ocean px-4 text-sm font-semibold text-flow-ocean transition-colors hover:bg-flow-aqua-mist/20 disabled:opacity-35"
         >
           {copy.nextButton}
         </button>
