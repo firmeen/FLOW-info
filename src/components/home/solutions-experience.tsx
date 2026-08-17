@@ -4,8 +4,8 @@ import Link from "next/link";
 import { useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 
+import { WorkflowExplorer } from "@/components/solutions/workflow-explorer";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { solutions, type SolutionKey } from "@/content/solutions";
 import { flowEase, motionDuration } from "@/lib/motion";
 import { cn } from "@/lib/utils";
@@ -21,10 +21,10 @@ export function SolutionsExperience() {
     <div className="mt-14">
       <div className="relative overflow-hidden rounded-[2rem] border border-border bg-[#09090b] p-5 text-background sm:p-8 lg:p-10">
         <div className="mx-auto flex max-w-md flex-col items-center text-center">
-          <Badge variant="outline" className="border-background/20 bg-transparent text-background/65">BUILT ON FLOW</Badge>
+          <Badge variant="outline" className="border-background/20 bg-transparent text-background/65">SHARED PLATFORM</Badge>
           <div className="mt-4 rounded-[1.75rem] border border-background/20 bg-background px-8 py-5 text-foreground">
             <p className="text-3xl font-bold tracking-[-0.06em]">FLOW</p>
-            <p className="mt-1 text-xs text-foreground/55">Shared operational core</p>
+            <p className="mt-1 text-xs text-foreground/55">One operational core</p>
           </div>
         </div>
 
@@ -33,19 +33,19 @@ export function SolutionsExperience() {
             <div key={key} className="flex flex-col items-center">
               <motion.span
                 className="h-10 w-px origin-top bg-background/65"
-                animate={reduceMotion ? undefined : { scaleY: activeKey === key ? 1 : 0.45, opacity: activeKey === key ? 1 : 0.28 }}
+                animate={reduceMotion ? undefined : { scaleY: activeKey === key ? 1 : 0.4, opacity: activeKey === key ? 1 : 0.24 }}
                 transition={{ duration: motionDuration.interactive, ease: flowEase }}
               />
               <motion.span
                 className="size-2 rounded-full bg-background"
-                animate={reduceMotion ? undefined : { scale: activeKey === key ? 1.4 : 0.8, opacity: activeKey === key ? 1 : 0.35 }}
+                animate={reduceMotion ? undefined : { scale: activeKey === key ? 1.45 : 0.75, opacity: activeKey === key ? 1 : 0.3 }}
                 transition={{ duration: motionDuration.interactive, ease: flowEase }}
               />
             </div>
           ))}
         </div>
 
-        <div className="mt-2 grid gap-3 lg:grid-cols-3" role="list" aria-label="FLOW business solutions">
+        <div className="mt-2 grid gap-3 lg:grid-cols-3" role="group" aria-label="FLOW business solutions">
           {solutionEntries.map(([key, solution]) => {
             const selected = key === activeKey;
             return (
@@ -60,7 +60,11 @@ export function SolutionsExperience() {
                 )}
               >
                 {selected && !reduceMotion ? (
-                  <motion.span layoutId="solution-active" className="absolute inset-0 -z-10 rounded-2xl" transition={{ duration: motionDuration.interactive, ease: flowEase }} />
+                  <motion.span
+                    layoutId="solution-active-outline"
+                    className="absolute inset-x-5 bottom-0 h-0.5 bg-foreground"
+                    transition={{ duration: motionDuration.interactive, ease: flowEase }}
+                  />
                 ) : null}
                 <p className={cn("text-xs font-semibold uppercase tracking-[0.15em]", selected ? "text-foreground/50" : "text-background/45")}>{solution.audience}</p>
                 <p className="mt-4 text-2xl font-bold tracking-[-0.045em]">{solution.name}</p>
@@ -80,30 +84,12 @@ export function SolutionsExperience() {
           transition={{ duration: motionDuration.normal, ease: flowEase }}
           className="mt-5"
         >
-          <Card className="py-0">
-            <CardHeader className="border-b border-border py-6 sm:px-8">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">{active.name} WORKFLOW</p>
-                <h3 className="mt-2 text-2xl font-bold tracking-[-0.04em] sm:text-3xl">One platform, shaped around this operation.</h3>
-              </div>
-            </CardHeader>
-            <CardContent className="py-7 sm:px-8">
-              <div className="flex flex-wrap items-center gap-2">
-                {active.workflow.map((step, index) => (
-                  <div key={step} className="flex items-center gap-2">
-                    <Badge variant={index === 0 ? "secondary" : "outline"}>{step}</Badge>
-                    {index < active.workflow.length - 1 ? <span className="text-muted-foreground" aria-hidden="true">→</span> : null}
-                  </div>
-                ))}
-              </div>
-              <p className="mt-6 max-w-3xl text-sm leading-7 text-muted-foreground">{active.problem.description}</p>
-            </CardContent>
-            <CardFooter className="border-t border-border py-5 sm:px-8">
-              <Link href={`/solutions/${activeKey}`} className="text-sm font-semibold underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
-                Explore {active.name} →
-              </Link>
-            </CardFooter>
-          </Card>
+          <WorkflowExplorer stages={active.workflowStages} solutionName={active.name} audience={active.audience} compact />
+          <div className="mt-4 flex justify-end">
+            <Link href={`/solutions/${activeKey}`} className="inline-flex min-h-11 items-center text-sm font-semibold underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+              Explore {active.name} in depth →
+            </Link>
+          </div>
         </motion.div>
       </AnimatePresence>
     </div>

@@ -1,8 +1,8 @@
 import Link from "next/link";
 
 import { CorePlatformExperience } from "@/components/home/core-platform-experience";
-import { EmphasisText } from "@/components/primitives/emphasis-text";
 import { Container } from "@/components/primitives/container";
+import { EmphasisText } from "@/components/primitives/emphasis-text";
 import { Section } from "@/components/primitives/section";
 import { SectionHeading } from "@/components/primitives/section-heading";
 
@@ -15,12 +15,12 @@ export function CorePlatformSection() {
             eyebrow="FLOW CORE PLATFORM"
             title={
               <>
-                One <EmphasisText>shared operational core</EmphasisText>, built to support different business flows.
+                <EmphasisText tone="product">One operational core.</EmphasisText> Every workflow stays <EmphasisText tone="outcome">connected.</EmphasisText>
               </>
             }
             description={
               <p>
-                FLOW is not a pile of isolated features. It connects the capabilities that <EmphasisText className="font-semibold">capture, coordinate, complete, and explain the work.</EmphasisText>
+                Capture intent. Coordinate work. Complete the operation. Turn activity into visibility. The value of FLOW is not feature volume — it is the way <EmphasisText>capabilities work together around the same context.</EmphasisText>
               </p>
             }
           />

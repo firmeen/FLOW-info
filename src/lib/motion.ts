@@ -25,3 +25,29 @@ export const motionViewport = {
   once: true,
   amount: 0.2,
 } as const;
+
+export const motionPreset = {
+  enter: {
+    initial: { opacity: 0, y: motionDistance.normal },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: motionDuration.reveal, ease: flowEase },
+  },
+  select: {
+    transition: { duration: motionDuration.interactive, ease: flowEase },
+  },
+  switch: {
+    initial: { opacity: 0, y: motionDistance.small, scale: 0.99 },
+    animate: { opacity: 1, y: 0, scale: 1 },
+    exit: { opacity: 0, y: -motionDistance.small, scale: 0.995 },
+    transition: { duration: motionDuration.normal, ease: flowEase },
+  },
+  route: {
+    transition: { duration: motionDuration.story, ease: flowEase },
+  },
+  merge: {
+    transition: { duration: motionDuration.reveal, ease: flowEase },
+  },
+  settle: {
+    transition: { duration: motionDuration.normal, ease: flowEase },
+  },
+} as const;

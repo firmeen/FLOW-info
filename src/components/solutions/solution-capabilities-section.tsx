@@ -1,31 +1,95 @@
+"use client";
+
+import { useMemo, useState } from "react";
+import { motion, useReducedMotion } from "motion/react";
+
 import { Container } from "@/components/primitives/container";
+import { EmphasisText } from "@/components/primitives/emphasis-text";
 import { Section } from "@/components/primitives/section";
 import { SectionHeading } from "@/components/primitives/section-heading";
-import type { SolutionCapability } from "@/content/solutions";
+import { Badge } from "@/components/ui/badge";
+import type { SolutionDefinition } from "@/content/solutions";
+import { flowEase, motionDuration } from "@/lib/motion";
+import { cn } from "@/lib/utils";
 
-export function SolutionCapabilitiesSection({ capabilities }: { capabilities: readonly SolutionCapability[] }) {
+export function SolutionCapabilitiesSection({ solution }: { solution: SolutionDefinition }) {
+  const [activeStageKey, setActiveStageKey] = useState(solution.workflowStages[0]?.key ?? "");
+  const reduceMotion = useReducedMotion();
+  const visibleCapabilities = useMemo(
+    () => solution.capabilities.filter((capability) => capability.stageKeys.includes(activeStageKey)),
+    [activeStageKey, solution.capabilities],
+  );
+  const activeStage = solution.workflowStages.find((stage) => stage.key === activeStageKey) ?? solution.workflowStages[0];
+
   return (
     <Section>
       <Container>
         <SectionHeading
           eyebrow="CORE CAPABILITIES"
-          title="Capabilities organized around the workflow, not around disconnected tools."
-          description="Each capability has a specific place in the operating journey. The goal is to keep context attached as the work moves forward."
+          title={<>Capabilities mapped to <EmphasisText tone="outcome">where the work happens.</EmphasisText></>}
+          description="Instead of presenting a disconnected feature wall, this view shows which FLOW capabilities support each stage of the operating journey."
         />
-        <div className="mt-14 grid gap-px overflow-hidden rounded-2xl border border-border bg-border md:grid-cols-2 lg:grid-cols-3">
-          {capabilities.map((capability, index) => (
-            <article key={capability.name} className="min-h-56 bg-background p-7 sm:p-8">
-              <p className="text-xs tabular-nums text-muted-foreground">
-                {String(index + 1).padStart(2, "0")}
-              </p>
-              <h3 className="mt-5 text-xl font-semibold tracking-[-0.035em]">
-                {capability.name}
-              </h3>
-              <p className="mt-4 text-sm leading-7 text-muted-foreground">
-                {capability.description}
-              </p>
-            </article>
-          ))}
+
+        <div className="mt-14 grid gap-5 lg:grid-cols-12">
+          <div className="rounded-[1.75rem] border border-border bg-muted/35 p-5 lg:col-span-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">SELECT WORKFLOW STAGE</p>
+            <div className="mt-5 grid gap-2 sm:grid-cols-2 lg:grid-cols-1">
+              {solution.workflowStages.map((stage, index) => {
+                const selected = stage.key === activeStageKey;
+                return (
+                  <button
+                    key={stage.key}
+                    type="button"
+                    aria-pressed={selected}
+                    onClick={() => setActiveStageKey(stage.key)}
+                    className={cn(
+                      "flex items-center justify-between gap-4 rounded-xl border px-4 py-3 text-left text-sm font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring",
+                      selected ? "border-foreground bg-foreground text-background" : "border-border bg-background hover:border-foreground/30",
+                    )}
+                  >
+                    <span>{stage.label}</span>
+                    <span className={cn("text-xs tabular-nums", selected ? "text-background/50" : "text-muted-foreground")}>{String(index + 1).padStart(2, "0")}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="lg:col-span-8">
+            {activeStage ? (
+              <div className="rounded-[1.75rem] border border-border p-6 sm:p-7">
+                <div className="flex flex-wrap items-start justify-between gap-5 border-b border-border pb-6">
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">ACTIVE STAGE / {activeStage.actor}</p>
+                    <h3 className="mt-3 text-3xl font-bold tracking-[-0.05em]">{activeStage.label}</h3>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {activeStage.sharedCore.map((item) => <Badge key={item} variant="outline">{item}</Badge>)}
+                  </div>
+                </div>
+
+                <div className="mt-6 grid gap-3 sm:grid-cols-2">
+                  {visibleCapabilities.length > 0 ? visibleCapabilities.map((capability, index) => (
+                    <motion.article
+                      key={`${activeStageKey}-${capability.name}`}
+                      initial={reduceMotion ? false : { opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: motionDuration.reveal, delay: reduceMotion ? 0 : index * 0.05, ease: flowEase }}
+                      className="rounded-xl border border-border bg-muted/30 p-5"
+                    >
+                      <p className="text-xs tabular-nums text-muted-foreground">{String(index + 1).padStart(2, "0")}</p>
+                      <h4 className="mt-3 text-lg font-semibold tracking-[-0.03em]">{capability.name}</h4>
+                      <p className="mt-3 text-sm leading-6 text-muted-foreground">{capability.description}</p>
+                    </motion.article>
+                  )) : (
+                    <div className="rounded-xl border border-dashed border-border p-5 text-sm leading-6 text-muted-foreground sm:col-span-2">
+                      This stage relies primarily on shared FLOW core context rather than a solution-specific capability block.
+                    </div>
+                  )}
+                </div>
+              </div>
+            ) : null}
+          </div>
         </div>
       </Container>
     </Section>

@@ -1,52 +1,73 @@
 export const platformLayers = [
   {
     index: "01",
+    key: "entry",
     label: "CUSTOMER ENTRY",
     title: "Start where the customer already is.",
-    description:
-      "FLOW can begin from practical entry points such as QR, NFC, direct links, websites, or storefront surfaces.",
+    statement: "Many entry points. One business context.",
+    description: "FLOW can begin from practical entry points such as QR, NFC, direct links, websites, or storefront surfaces.",
     capabilities: ["QR", "NFC", "Link", "Website", "Storefront"],
+    motionVerb: "CONVERGE",
   },
   {
     index: "02",
+    key: "action",
     label: "CUSTOMER ACTION",
-    title: "Turn intent into a structured action.",
-    description:
-      "Ordering, booking, queueing, and service requests enter the system as explicit actions instead of disconnected messages.",
+    title: "Turn intent into structured work.",
+    statement: "Loose intent becomes a clear operating record.",
+    description: "Ordering, booking, queueing, and service requests enter the system as explicit actions instead of disconnected messages.",
     capabilities: ["Order", "Book", "Queue", "Request", "Track"],
+    motionVerb: "STRUCTURE",
   },
   {
     index: "03",
+    key: "core",
     label: "CORE WORKFLOW ENGINE",
     title: "Route work through the right operational model.",
-    description:
-      "The shared FLOW core supports reusable workflow patterns instead of rebuilding the same operational logic for each business type.",
+    statement: "The shared core decides how the work should move.",
+    description: "The FLOW core supports reusable workflow patterns instead of rebuilding the same operating logic for every business type.",
     capabilities: ["Order", "Queue", "Appointment", "Job / Ticket", "Resource"],
+    motionVerb: "ROUTE",
   },
   {
     index: "04",
+    key: "operation",
     label: "STAFF OPERATIONS",
-    title: "Give the team a clear next step.",
-    description:
-      "Staff views support receiving, assigning, progressing, updating, and completing work while keeping operational state visible.",
+    title: "Give the team a clear next responsibility.",
+    statement: "Responsibility stays visible as status changes.",
+    description: "Staff views support receiving, assigning, progressing, updating, and completing work while keeping operational state visible.",
     capabilities: ["Receive", "Assign", "Prepare", "Update", "Complete"],
+    motionVerb: "PROGRESS",
   },
   {
     index: "05",
+    key: "completion",
     label: "COMPLETION & CUSTOMER RECORD",
     title: "Keep completion connected to the customer.",
-    description:
-      "Payment confirmation, status, notification, and customer history remain connected to the operational workflow that produced them.",
+    statement: "Payment, status, and history should close the same loop.",
+    description: "Payment confirmation, status, notification, and customer history remain connected to the operational workflow that produced them.",
     capabilities: ["POS", "Payment", "Status", "Customer", "Notification"],
+    motionVerb: "MERGE",
   },
   {
     index: "06",
+    key: "visibility",
     label: "BUSINESS VISIBILITY",
-    title: "Make operational activity understandable.",
-    description:
-      "Dashboard, reporting, and business views turn day-to-day activity into a clearer picture of what is happening across the business.",
+    title: "Turn activity into an operating picture.",
+    statement: "Daily activity becomes context an owner can use.",
+    description: "Dashboard, reporting, and business views turn day-to-day activity into a clearer picture of what is happening across the business.",
     capabilities: ["Dashboard", "Sales", "Operations", "Reports", "Insights"],
+    motionVerb: "AGGREGATE",
   },
+] as const;
+
+export const platformArchitectureStages = [
+  { index: "01", label: "ENTRY", detail: "QR · NFC · Link · Website", statement: "Customer reaches the business." },
+  { index: "02", label: "ACTION", detail: "Order · Book · Queue · Request", statement: "Intent becomes structured work." },
+  { index: "03", label: "FLOW CORE", detail: "Order · Queue · Appointment · Job · Resource", statement: "Work enters the right operating model." },
+  { index: "04", label: "OPERATION", detail: "Staff · Assignment · Status · Completion", statement: "Responsibility and progress stay visible." },
+  { index: "05", label: "RECORD", detail: "Payment · Customer · Notification", statement: "Completion keeps its context." },
+  { index: "06", label: "VISIBILITY", detail: "Dashboard · Reports · Insights", statement: "Activity becomes business understanding." },
 ] as const;
 
 export const platformCore = [

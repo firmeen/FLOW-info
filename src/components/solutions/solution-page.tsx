@@ -14,14 +14,16 @@ export function SolutionPage({ solution }: { solution: SolutionDefinition }) {
       <PageHero
         eyebrow={solution.eyebrow}
         title={solution.title}
+        titleHighlights={[{ text: solution.name, tone: "product" }]}
         description={solution.description}
+        descriptionHighlights={[{ text: "FLOW platform", tone: "strong" }]}
         quote={solution.quote}
       />
       <SolutionAudienceSection solution={solution} />
-      <SolutionWorkflowStrip audience={solution.audience} workflow={solution.workflow} />
+      <SolutionWorkflowStrip solution={solution} />
       <SolutionExperienceSection experiences={solution.experiences} />
-      <SolutionCapabilitiesSection capabilities={solution.capabilities} />
-      <BuiltOnFlowSection sharedCore={solution.sharedCore} />
+      <SolutionCapabilitiesSection solution={solution} />
+      <BuiltOnFlowSection solution={solution} />
       <QuoteSection lines={[solution.quote]} />
       <CtaSection />
     </>
