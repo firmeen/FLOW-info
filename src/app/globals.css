@@ -23,6 +23,15 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-flow-off-white: var(--flow-off-white);
+  --color-flow-ivory: var(--flow-ivory);
+  --color-flow-black: var(--flow-black);
+  --color-flow-deep: var(--flow-deep);
+  --color-flow-ocean: var(--flow-ocean);
+  --color-flow-ocean-dark: var(--flow-ocean-dark);
+  --color-flow-aqua: var(--flow-aqua);
+  --color-flow-aqua-mist: var(--flow-aqua-mist);
+  --color-flow-gold: var(--flow-gold);
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
   --font-heading: var(--font-sans);
@@ -36,47 +45,57 @@
 }
 
 :root {
-  --background: oklch(0.982 0.002 90);
-  --foreground: oklch(0.145 0.004 285.823);
-  --card: oklch(0.982 0.002 90);
-  --card-foreground: oklch(0.145 0.004 285.823);
-  --popover: oklch(0.992 0.001 90);
-  --popover-foreground: oklch(0.145 0.004 285.823);
-  --primary: oklch(0.145 0.004 285.823);
-  --primary-foreground: oklch(0.982 0.002 90);
-  --secondary: oklch(0.945 0.003 286);
-  --secondary-foreground: oklch(0.2 0.005 286);
-  --muted: oklch(0.95 0.003 286);
-  --muted-foreground: oklch(0.48 0.01 286);
-  --accent: oklch(0.925 0.004 286);
-  --accent-foreground: oklch(0.17 0.005 286);
+  --flow-off-white: #f7f6f1;
+  --flow-ivory: #efeee8;
+  --flow-black: #171918;
+  --flow-deep: #0d0f0f;
+  --flow-ocean: #087f83;
+  --flow-ocean-dark: #064e60;
+  --flow-aqua: #27b8b0;
+  --flow-aqua-mist: #9addd7;
+  --flow-gold: #e8c15a;
+
+  --background: var(--flow-off-white);
+  --foreground: var(--flow-black);
+  --card: var(--flow-ivory);
+  --card-foreground: var(--flow-black);
+  --popover: var(--flow-off-white);
+  --popover-foreground: var(--flow-black);
+  --primary: var(--flow-ocean);
+  --primary-foreground: #ffffff;
+  --secondary: var(--flow-ivory);
+  --secondary-foreground: var(--flow-black);
+  --muted: color-mix(in srgb, var(--flow-ivory) 86%, var(--flow-off-white));
+  --muted-foreground: color-mix(in srgb, var(--flow-black) 62%, var(--flow-off-white));
+  --accent: color-mix(in srgb, var(--flow-aqua-mist) 22%, var(--flow-off-white));
+  --accent-foreground: var(--flow-ocean-dark);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.88 0.005 286);
-  --input: oklch(0.9 0.005 286);
-  --ring: oklch(0.42 0.01 286);
+  --border: color-mix(in srgb, var(--flow-black) 14%, var(--flow-off-white));
+  --input: color-mix(in srgb, var(--flow-black) 18%, var(--flow-off-white));
+  --ring: var(--flow-ocean);
   --radius: 0.75rem;
   --section-space: 4.5rem;
   --section-space-lg: 8rem;
 }
 
 .dark {
-  --background: oklch(0.145 0.004 285.823);
-  --foreground: oklch(0.97 0.002 90);
-  --card: oklch(0.18 0.005 286);
-  --card-foreground: oklch(0.97 0.002 90);
-  --popover: oklch(0.18 0.005 286);
-  --popover-foreground: oklch(0.97 0.002 90);
-  --primary: oklch(0.97 0.002 90);
-  --primary-foreground: oklch(0.145 0.004 285.823);
-  --secondary: oklch(0.24 0.006 286);
-  --secondary-foreground: oklch(0.97 0.002 90);
-  --muted: oklch(0.23 0.006 286);
-  --muted-foreground: oklch(0.7 0.01 286);
-  --accent: oklch(0.28 0.006 286);
-  --accent-foreground: oklch(0.97 0.002 90);
-  --border: oklch(1 0 0 / 12%);
-  --input: oklch(1 0 0 / 16%);
-  --ring: oklch(0.72 0.01 286);
+  --background: var(--flow-deep);
+  --foreground: var(--flow-off-white);
+  --card: var(--flow-black);
+  --card-foreground: var(--flow-off-white);
+  --popover: var(--flow-black);
+  --popover-foreground: var(--flow-off-white);
+  --primary: var(--flow-ocean);
+  --primary-foreground: #ffffff;
+  --secondary: color-mix(in srgb, var(--flow-black) 88%, var(--flow-off-white));
+  --secondary-foreground: var(--flow-off-white);
+  --muted: color-mix(in srgb, var(--flow-black) 92%, var(--flow-off-white));
+  --muted-foreground: color-mix(in srgb, var(--flow-off-white) 68%, var(--flow-deep));
+  --accent: color-mix(in srgb, var(--flow-ocean) 18%, var(--flow-deep));
+  --accent-foreground: var(--flow-aqua-mist);
+  --border: color-mix(in srgb, var(--flow-off-white) 12%, transparent);
+  --input: color-mix(in srgb, var(--flow-off-white) 16%, transparent);
+  --ring: var(--flow-aqua);
 }
 
 @layer base {
@@ -95,6 +114,10 @@
     text-rendering: optimizeLegibility;
   }
 
+  .flow-display {
+    text-wrap: balance;
+  }
+
   html[lang="th"] {
     line-break: loose;
   }
@@ -102,6 +125,11 @@
   html[lang="th"] body {
     word-break: normal;
     overflow-wrap: break-word;
+  }
+
+  html[lang="th"] .flow-display {
+    line-height: 1.08 !important;
+    letter-spacing: -0.015em !important;
   }
 
   html[lang="th"] .uppercase {
@@ -113,8 +141,8 @@
   }
 
   ::selection {
-    background: var(--foreground);
-    color: var(--background);
+    background: var(--flow-ocean);
+    color: #ffffff;
   }
 }
 
