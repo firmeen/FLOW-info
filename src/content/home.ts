@@ -4,45 +4,130 @@ export const problemGroups = [
   { label: "OWNER", items: ["Sales", "Operations", "Customers", "Performance"] },
 ] as const;
 
-export const coreCapabilities = [
-  "Order",
-  "Queue",
-  "Appointment",
-  "Job / Ticket",
-  "Resource",
-  "Staff",
-  "Payment",
-  "Customer",
-  "Notification",
-  "Dashboard",
-  "Reports",
-  "Insights",
-] as const;
-
 export const coreCapabilityFamilies = [
   {
     key: "capture",
     label: "CAPTURE",
     description: "Turn customer intent into structured operational work.",
-    items: ["Order", "Queue", "Appointment", "Job / Ticket"],
+    items: [
+      {
+        key: "order",
+        label: "Order",
+        description: "Convert customer selections into a structured operating record.",
+        touches: ["Staff", "Payment", "Customer", "Dashboard"],
+        feeds: "Service execution and owner visibility",
+        solutions: ["FoodFlow"],
+      },
+      {
+        key: "queue",
+        label: "Queue",
+        description: "Represent live demand and what should be handled next.",
+        touches: ["Staff", "Customer", "Dashboard"],
+        feeds: "Operational priority and customer status",
+        solutions: ["FoodFlow", "CareFlow", "JobFlow"],
+      },
+      {
+        key: "appointment",
+        label: "Appointment",
+        description: "Structure scheduled customer intent around time, staff, and resources.",
+        touches: ["Staff", "Resource", "Customer", "Dashboard"],
+        feeds: "Queue, service delivery, and customer history",
+        solutions: ["CareFlow"],
+      },
+      {
+        key: "job",
+        label: "Job / Ticket",
+        description: "Turn a service request into traceable work with ownership and status.",
+        touches: ["Staff", "Notification", "Payment", "Customer", "Reports"],
+        feeds: "Execution, completion, and service history",
+        solutions: ["JobFlow"],
+      },
+    ],
   },
   {
     key: "coordinate",
     label: "COORDINATE",
     description: "Keep people, resources, and status connected while work moves.",
-    items: ["Resource", "Staff", "Notification"],
+    items: [
+      {
+        key: "resource",
+        label: "Resource",
+        description: "Attach rooms, tables, bays, equipment, or capacity to the work that needs them.",
+        touches: ["Appointment", "Staff", "Dashboard"],
+        feeds: "Capacity-aware execution",
+        solutions: ["CareFlow", "FoodFlow", "JobFlow"],
+      },
+      {
+        key: "staff",
+        label: "Staff",
+        description: "Keep responsibility attached to the operating record as work changes hands.",
+        touches: ["Order", "Appointment", "Job / Ticket", "Notification", "Dashboard"],
+        feeds: "Assignment, progress, and completion",
+        solutions: ["FoodFlow", "JobFlow", "CareFlow"],
+      },
+      {
+        key: "notification",
+        label: "Notification",
+        description: "Move meaningful status back to the people who need it without separating it from the workflow.",
+        touches: ["Staff", "Customer", "Job / Ticket"],
+        feeds: "Customer and team awareness",
+        solutions: ["FoodFlow", "JobFlow", "CareFlow"],
+      },
+    ],
   },
   {
     key: "complete",
     label: "COMPLETE",
     description: "Close the loop without separating payment and customer context.",
-    items: ["Payment", "Customer"],
+    items: [
+      {
+        key: "payment",
+        label: "Payment",
+        description: "Keep payment state attached to the work that produced it.",
+        touches: ["Order", "Job / Ticket", "Customer", "Dashboard"],
+        feeds: "Completion and business records",
+        solutions: ["FoodFlow", "JobFlow", "CareFlow"],
+      },
+      {
+        key: "customer",
+        label: "Customer",
+        description: "Preserve customer context across action, status, completion, and history.",
+        touches: ["Order", "Appointment", "Job / Ticket", "Payment", "Dashboard"],
+        feeds: "CRM context and repeat service history",
+        solutions: ["FoodFlow", "JobFlow", "CareFlow"],
+      },
+    ],
   },
   {
     key: "understand",
     label: "UNDERSTAND",
     description: "Turn operational activity into useful business visibility.",
-    items: ["Dashboard", "Reports", "Insights"],
+    items: [
+      {
+        key: "dashboard",
+        label: "Dashboard",
+        description: "Bring the operating picture together without disconnecting it from the underlying records.",
+        touches: ["Order", "Queue", "Appointment", "Job / Ticket", "Staff", "Payment", "Customer"],
+        feeds: "Owner visibility and operational attention",
+        solutions: ["FoodFlow", "JobFlow", "CareFlow"],
+      },
+      {
+        key: "reports",
+        label: "Reports",
+        description: "Organize completed operational history into reviewable business information.",
+        touches: ["Dashboard", "Payment", "Customer"],
+        feeds: "Review and planning",
+        solutions: ["FoodFlow", "JobFlow", "CareFlow"],
+      },
+      {
+        key: "insights",
+        label: "Insights",
+        description: "Use connected operational context as the basis for better business questions and decisions.",
+        touches: ["Dashboard", "Reports"],
+        feeds: "Business decisions",
+        solutions: ["FoodFlow", "JobFlow", "CareFlow"],
+      },
+    ],
   },
 ] as const;
 
@@ -56,16 +141,33 @@ export const homeWorkflowSteps = [
 ] as const;
 
 export const productSurfaces = [
-  { label: "CUSTOMER EXPERIENCE", title: "Make the next action obvious.", description: "Customer-facing surfaces are designed around the action the customer needs to take — order, book, queue, request, pay, or follow status." },
-  { label: "STAFF OPERATION", title: "Keep work visible while it moves.", description: "Operational views focus on receiving work, assigning responsibility, updating status, and keeping the next step clear for the team." },
-  { label: "OWNER VISIBILITY", title: "Turn activity into useful context.", description: "Owner-facing views connect sales, workload, customer activity, and operational status without pretending every metric is equally important." },
-] as const;
-
-export const businessValues = [
-  { title: "CLEARER OPERATIONS", description: "Know what is happening, what is waiting, and what needs attention." },
-  { title: "BETTER CUSTOMER EXPERIENCE", description: "Keep the customer journey connected from entry through completion." },
-  { title: "CONNECTED DATA", description: "Keep operational and customer information tied to the work that created it." },
-  { title: "BETTER DECISIONS", description: "Use real operational activity as the basis for clearer business decisions." },
+  {
+    key: "customer",
+    label: "CUSTOMER EXPERIENCE",
+    question: "What do I do next?",
+    statement: "Make the next action obvious.",
+    description: "The customer lens removes internal complexity and keeps attention on the next useful action.",
+    stages: ["Entry", "Action", "Confirmation", "Status"],
+    priorities: ["Clear choice", "Fast feedback", "Visible progress"],
+  },
+  {
+    key: "staff",
+    label: "STAFF OPERATION",
+    question: "What needs attention next?",
+    statement: "Keep responsibility visible while work moves.",
+    description: "The staff lens keeps incoming work, ownership, status, and the next responsibility in one operational context.",
+    stages: ["Receive", "Assign", "Progress", "Complete"],
+    priorities: ["Priority", "Ownership", "Next step"],
+  },
+  {
+    key: "owner",
+    label: "OWNER VISIBILITY",
+    question: "What is happening across the operation?",
+    statement: "Turn activity into an operating picture.",
+    description: "The owner lens organizes activity, workload, customer context, and completion into information that supports better decisions.",
+    stages: ["Activity", "Context", "Pattern", "Decision"],
+    priorities: ["Visibility", "Connection", "Useful context"],
+  },
 ] as const;
 
 export const businessValueTransformations = [
